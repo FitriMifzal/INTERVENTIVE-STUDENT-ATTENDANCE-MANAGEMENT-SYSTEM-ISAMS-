@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | KV Student Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside id="sidebar">
+        <div class="logo">
+            <img src="WhatsApp Image 2026-01-11 at 12.37.08.jpeg" alt="Logo">
+        </div>
+        <div class="role-badge" id="display-role">STATUS</div>
+        <nav>
+            <a href="Dashboard.html" class="nav-item active">Dashboard</a>
+            <a href="viewTeacherAcc.html" id="nav-teacher-account" class="nav-item" style="display:none;">Teacher Account</a>
+            <a href="main.html" class="nav-item">Student Class</a>
+            <a href="student-list.html" class="nav-item">Student Profile</a>
+            <a href="testsubject.html" class="nav-item">Subject</a>
+            <a href="absent_record.html" class="nav-item">Absent Records</a>
+        </nav>
+        <div class="logout-section">
+            <a onclick="logout()" class="nav-item">Logout</a>
+        </div>
+    </aside>
+
+    <div id="main-wrapper">
+        <header id="header">
+            <div style="font-weight: bold; font-size: 18px;">Intervention System</div>
+            <div class="user-profile" onclick="toggleProfile()">
+                <span id="user-fullname">User Name</span>
+                <div id="user-initial" class="user-initial-icon">?</div>
+            </div>
+        </header>
+
+        <main id="content">
+            <div class="card" id="welcome-card">
+                <h1 id="welcome-msg">Welcome!</h1>
+                <p>Status: <strong id="status-text">Teacher</strong></p>
+            </div>
+
+            <div class="card" id="profile-section">
+                <h2 id="profile-title" style="color: var(--kv-primary);">My Profile Information</h2>
+                <hr>
+                <div class="profile-grid">
+                    <div class="input-group">
+                        <label>Teacher ID</label>
+                        <input type="text" id="profID" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>IC Number</label>
+                        <input type="text" id="profIC" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" id="profName" class="profile-input" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" id="profEmail" class="profile-input" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="profPhone" class="profile-input" disabled>
+                    </div>
+                </div>
+                <div class="button-group" style="margin-top:20px; display:flex; gap:10px;">
+                    <button id="btn-edit" class="btn btn-edit" onclick="enableEdit()">EDIT PROFILE</button>
+                    <button id="btn-back" class="btn btn-back" onclick="toggleProfile()">BACK</button>
+                    <button id="btn-save" class="btn btn-save" onclick="updateProfile()">SAVE CHANGES</button>
+                    <button id="id-cancel" class="btn btn-cancel" onclick="disableEdit()">CANCEL</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
