@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student List | KV Datuk Seri Mohd Zin</title>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="studentList.css">
+</head>
+
+<body>
+
+<aside id="sidebar">
+    <div class="logo">
+        <img src="WhatsApp Image 2026-01-11 at 12.37.08.jpeg">
+    </div>
+
+    <div class="role-badge" id="sidebar-role">Penyelaras Intervensi</div>
+
+    <nav id="sidebar-nav">
+    <a href="Dashboard.html" class="nav-item">Dashboard</a>
+    <a href="deleteaccount.html" class="nav-item" id="nav-account">Account</a>
+    <a href="main.html" class="nav-item">Student Class</a>
+    <a href="studentList.html" class="nav-item active">Student Profile</a>
+    <a href="testsubject.html" class="nav-item">Subject</a>
+    <a href="absent_record.html" class="nav-item">Absent Records</a>
+</nav>
+
+    <div class="logout-section">
+            <a href="#" onclick="logoutUser()" class="nav-item logout">
+                <svg viewBox="0 0 24 24"><path d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z"/></svg>
+                Logout
+            </a>
+        </div>
+</aside>
+
+<div id="main-wrapper">
+
+<header id="header">
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <button onclick="toggleSidebar()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer; padding: 10px;">&#9776;</button>
+                <div class="fw-bold fs-5" style="white-space: nowrap;">Intervention: Student Management System</div>
+            </div>
+            <div class="user-profile" onclick="window.location.href='profile.html'" title="View Profile">
+                <span id="user-fullname" style="font-weight: 600;">muhammad</span>
+                <div class="user-icon" id="user-initial">M</div>
+            </div>
+        </header>
+
+<div class="container">
+<div class="table-card">
+<h2>Student Profile</h2>
+
+<div class="top-actions">
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search name, IC or class..." onkeyup="searchTable()">
+    </div>
+
+    <div>
+        <a href="createStudent.html" class="btn-action" style="background:var(--kv-header-orange)">Create</a>
+    </div>
+</div>
+
+<table>
+<thead>
+<tr>
+    <th>No</th>
+    <th>Name</th>
+    <th>IC</th>
+    <th>Class</th>
+    <th>Action</th>
+</tr>
+</thead>
+<tbody id="studentTableBody"></tbody>
+</table>
+
+</div>
+</div>
+</div>
+<script src="studentList.js"></script>
+</body>
+</html>
