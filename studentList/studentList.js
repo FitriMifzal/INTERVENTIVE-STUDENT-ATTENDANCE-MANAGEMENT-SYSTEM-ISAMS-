@@ -73,7 +73,7 @@ function toggleSidebar() {
 function logoutUser() {
     if(confirm("Are you sure you want to logout?")) {
         localStorage.removeItem('isLoggedIn');
-        window.location.href = "login.html";
+        window.location.href = "../create-account/CreateAccount.html";
     }
 }
 

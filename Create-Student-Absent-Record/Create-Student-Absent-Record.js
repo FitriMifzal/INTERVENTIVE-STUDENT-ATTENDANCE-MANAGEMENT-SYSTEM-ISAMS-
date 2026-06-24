@@ -337,4 +337,4 @@ function toggleSidebar() {
 
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
-function logoutUser() { if (confirm("Logout?")) window.location.href = "login.html"; }
+function logoutUser() { if (confirm("Logout?")) window.location.href = "../create-account/CreateAccount.html"; }

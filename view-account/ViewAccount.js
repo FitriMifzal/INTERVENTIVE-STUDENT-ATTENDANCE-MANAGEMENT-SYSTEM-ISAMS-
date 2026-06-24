@@ -21,4 +21,4 @@ function loadProfileData() {
     document.getElementById('profPhone').value = localStorage.getItem('reg_phone') || "";
 }
 
-function logout() { localStorage.clear(); window.location.href = "login.html"; }
+function logout() { localStorage.clear(); window.location.href = "../create-account/CreateAccount.html"; }
