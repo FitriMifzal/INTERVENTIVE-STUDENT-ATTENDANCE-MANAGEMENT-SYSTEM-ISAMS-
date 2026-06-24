@@ -67,8 +67,8 @@ function saveUpdate() {
     // 1. Tunjukkan mesej berjaya
     alert("Success! Student profile has been updated.");
 
-    // 2. Kembali ke student-list.html selepas user tekan 'OK'
-    window.location.href = "studentList.html";
+    // 2. Kembali ke StudentList.html selepas user tekan 'OK'
+    window.location.href = "../Student-List/StudentList.html";
 }
 
 function logoutUser() {

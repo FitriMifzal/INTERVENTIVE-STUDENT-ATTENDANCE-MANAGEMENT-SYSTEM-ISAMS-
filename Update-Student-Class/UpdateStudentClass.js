@@ -10,7 +10,7 @@
   // 3. Masukkan data ke dalam form jika class dijumpai
   if (classIdFromURL && !selectedClass) {
     alert("Class not found!");
-    window.location.href = "main.html";
+    window.location.href = "../Student-Class/StudentClass.html";
   } else if (selectedClass) {
     document.getElementById("classId").value = selectedClass.classId;
     document.getElementById("className").value = selectedClass.className;
@@ -31,7 +31,7 @@
         // Penukaran nilai creditHour telah dibuang dari sini
         localStorage.setItem("classes", JSON.stringify(classes));
         alert("Class updated successfully!");
-        window.location.href = "StudentClass.html";
+        window.location.href = "../Student-Class/StudentClass.html";
   }
 
   // 5. Setup Profil & Sidebar semasa Page Load

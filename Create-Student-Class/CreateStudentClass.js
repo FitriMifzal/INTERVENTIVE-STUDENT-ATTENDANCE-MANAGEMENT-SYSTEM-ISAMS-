@@ -45,8 +45,8 @@
 
         alert("Class successfully registered!");
         
-        // Redirect to main.html
-        window.location.href = "main.html";
+        // Redirect to the student class list page
+        window.location.href = "../Student-Class/StudentClass.html";
     }
 
     function toggleSidebar() {

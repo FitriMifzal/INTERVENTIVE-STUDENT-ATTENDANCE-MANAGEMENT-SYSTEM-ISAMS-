@@ -41,7 +41,7 @@ function saveStudent() {
     students.push({ name, ic, cls, address: addr, No});
     localStorage.setItem("students", JSON.stringify(students));
     alert("Student profile created successfully!");
-    window.location.href = "studentList.html";
+    window.location.href = "../Student-List/StudentList.html";
 }
 
 function logoutUser() {
