@@ -53,7 +53,7 @@ function searchTable() {
 }
 
 function goToCreate() {
-    window.location.href = 'CreateStudentClass.html';
+    window.location.href = '../Create-Student-Class/CreateStudentClass.html';
 }
 
 function goToUpdate(classId) {

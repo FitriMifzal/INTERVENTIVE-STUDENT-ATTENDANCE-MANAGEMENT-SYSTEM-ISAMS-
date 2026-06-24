@@ -271,6 +271,7 @@ nav {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    padding-top: 70px;
 }
 
 #main-wrapper.expanded {
@@ -280,15 +281,19 @@ nav {
 
 #header,
 header {
-    background: var(--kv-header-orange);
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-width);
     height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 30px;
+    background: var(--kv-header-orange);
     color: white;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    width: 100%;
+    width: calc(100% - var(--sidebar-width));
+    z-index: 900;
 }
 
 #header button,

@@ -1,5 +1,5 @@
 :root { --kv-primary: #003366; --kv-header-orange: #F55729; --sidebar-width: 280px; }
-body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; background-color: #f4f7f6; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; display: flex; background-color: #f4f7f6; }
 
 #sidebar .logo { text-align: center; background: white; border-radius: 8px; padding: 10px; margin-bottom: 20px; }
 #sidebar .logo img { max-width: 210px; height: auto; }

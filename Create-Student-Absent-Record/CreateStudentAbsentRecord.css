@@ -165,7 +165,7 @@ tr.selected { background-color: #edf2f7; }
     margin: 15px auto;
     box-sizing: border-box;
     white-space: pre-wrap;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 14px;
     line-height: 1.5;
     color: #000;
