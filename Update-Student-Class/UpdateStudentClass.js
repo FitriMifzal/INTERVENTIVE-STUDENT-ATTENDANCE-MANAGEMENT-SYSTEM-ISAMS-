@@ -59,4 +59,4 @@
       window.location.href = "../create-account/CreateAccount.html";
     }
   }
-
+}
