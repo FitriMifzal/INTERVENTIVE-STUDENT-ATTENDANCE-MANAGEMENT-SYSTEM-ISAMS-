@@ -52,7 +52,7 @@ function checkLogin() {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('active_role', "Penyelaras Intervensi");
             localStorage.setItem('active_name', "Admin Penyelaras");
-            window.location.href = "Dashboard.html";
+            window.location.href = "../Dashboard/Dashboard.html";
         } else { 
             alert("Invalid Admin Credentials!"); 
         }
