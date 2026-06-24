@@ -1,63 +1,57 @@
+// Data pelajar simulasi mengikut sistem asal
 const students = [
-    { name: "AUMAN BIN ABIDEN",              id: "2023122119", baseAttended: 42 },
-    { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805", baseAttended: 44 },
-    { name: "ILYA SYAHIRAH BT HAIDI",         id: "2023112709", baseAttended: 34 }, // Lebih 20% tidak hadir jika total 45 Jam
-    { name: "MUHAMMAD SYAZANI BIN AHMAD",     id: "2023126582", baseAttended: 45 },
-    { name: "NUR AINA INSYIRAH BT ROSLAN",    id: "2023118834", baseAttended: 41 },
-    { name: "NUR ALIYAH BINTI RAZALI",        id: "2023117621", baseAttended: 43 },
-    { name: "NUR FARHANA BINTI ZULKIFLI",     id: "2023119045", baseAttended: 32 }, // Lebih 20% tidak hadir
-    { name: "NURUL AIN BINTI HAMID",          id: "2023115503", baseAttended: 44 },
-    { name: "SITI HAJAR BINTI MOHD NOOR",     id: "2023120167", baseAttended: 40 },
-    { name: "WAN HAZIQ BIN WAN AZMAN",        id: "2023123412", baseAttended: 45 }
+    { name: "AUMAN BIN ABIDEN",              id: "2023122119", baseAbsent: 1 },
+    { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805", baseAbsent: 0 },
+    { name: "ILYA SYAHIRAH BT HAIDI",         id: "2023112709", baseAbsent: 5 },
+    { name: "MUHAMMAD SYAZANI BIN AHMAD",     id: "2023126582", baseAbsent: 0 },
+    { name: "NUR AINA INSYIRAH BT ROSLAN",    id: "2023118834", baseAbsent: 2 },
+    { name: "NUR ALIYAH BINTI RAZALI",        id: "2023117621", baseAbsent: 1 },
+    { name: "NUR FARHANA BINTI ZULKIFLI",     id: "2023119045", baseAbsent: 6 },
+    { name: "NURUL AIN BINTI HAMID",          id: "2023115503", baseAbsent: 1 },
+    { name: "SITI HAJAR BINTI MOHD NOOR",     id: "2023120167", baseAbsent: 3 },
+    { name: "WAN HAZIQ BIN WAN AZMAN",        id: "2023123412", baseAbsent: 0 }
 ];
 
+// Dipanggil HANYA apabila butang "Calculate Analytics" diklik
 function triggerCalculation() {
-    const contactHoursInput = document.getElementById("contactHours").value;
-    const totalHours = parseInt(contactHoursInput);
+    const totalHoursInput = document.getElementById("contactHours").value;
+    const totalHours = parseInt(totalHoursInput);
 
     if (totalHours && totalHours > 0) {
         calculatePercentages(totalHours);
     } else {
-        document.getElementById("calcBody").innerHTML = `
-            <tr>
-                <td colspan="7" style="color: #64748b; padding: 20px; text-align: center;">
-                    Sila masukkan "Total Contact Hours Required" di atas untuk memulakan pengiraan.
-                </td>
-            </tr>`;
+        alert("Sila masukkan 'Jumlah Keseluruhan Jam Kuliah' yang sah terlebih dahulu.");
     }
 }
 
 function calculatePercentages(totalHours) {
     const tbody = document.getElementById("calcBody");
     tbody.innerHTML = "";
-    const courseCode = document.getElementById("courseCode").value.trim() || "KURSUS MOCK";
+    const courseCode = document.getElementById("courseCode").value.trim() || "TRC501";
     
     students.forEach(s => {
-        let hoursAttended = s.baseAttended;
-        if (hoursAttended > totalHours) {
-            hoursAttended = Math.round(totalHours * (s.baseAttended / 45));
-        }
-        hoursAttended = Math.min(hoursAttended, totalHours);
+        const absentHours = Math.min(s.baseAbsent, totalHours);
+        const attendedHours = totalHours - absentHours;
         
-        const absentHours = totalHours - hoursAttended;
-        const percentage = ((hoursAttended / totalHours) * 100).toFixed(1);
-        const absentPercentage = (100 - percentage).toFixed(1);
+        // Mengikut imej paparan sebenar user: Peratus dipaparkan sebagai kadar KEHADIRAN (Contoh: 19/20 = 95%)
+        const attendancePercentage = ((attendedHours / totalHours) * 100).toFixed(1);
         
-        // Aturan: Jika peratusan tidak hadir >= 20% (Peratus kehadiran < 80%)
-        const isBarred = percentage < 80;
-        const statusClass = isBarred ? "status-danger" : "status-safe";
+        // Kira peratus ketidakhadiran tulen untuk semakan sekatan bar (Ketidakhadiran >= 20% bermakna Kehadiran <= 80%)
+        const absentRate = (absentHours / totalHours) * 100;
+        const isBarred = absentRate >= 20.0;
+        
+        const statusClass = isBarred ? "badge-absent" : "badge-present";
         const statusText = isBarred ? "BARRED (Gagal Kehadiran)" : "ELIGIBLE (Layak Exam)";
         
-        // Bina butang surat sekiranya absent mencapai 20% atau lebih
-        let actionColumnHTML = "";
+        let actionHTML = "";
         if (isBarred) {
-            actionColumnHTML = `
-                <div class="letter-actions-container">
-                    <button class="btn-letter btn-warning" onclick="downloadWarningLetter('${s.name}', '${s.id}', '${courseCode}', ${hoursAttended}, ${absentHours}, ${percentage}, ${absentPercentage})">⚠️ Amaran</button>
-                    <button class="btn-letter btn-intervention" onclick="downloadInterventionLetter('${s.name}', '${s.id}', '${courseCode}', ${hoursAttended}, ${absentHours}, ${percentage}, ${absentPercentage})">📩 Intervensi</button>
+            actionHTML = `
+                <div class="letter-actions">
+                    <button class="btn-letter btn-warning" onclick="generateLetterPDF('amaran', '${s.name}', '${s.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">⚠️ Amaran</button>
+                    <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervensi', '${s.name}', '${s.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">📩 Intervensi</button>
                 </div>`;
         } else {
-            actionColumnHTML = `<span class="txt-disabled">No Action Needed</span>`;
+            actionHTML = `<span class="txt-disabled">No Action Needed</span>`;
         }
 
         const tr = document.createElement("tr");
@@ -67,107 +61,88 @@ function calculatePercentages(totalHours) {
         tr.innerHTML = `
             <td style="font-weight: 600;">${s.name}</td>
             <td>${s.id}</td>
-            <td>${hoursAttended} Jam</td>
+            <td>${attendedHours} Jam</td>
             <td>${absentHours} Jam</td>
-            <td class="percentage-text" style="color: ${isBarred ? 'var(--kv-danger)' : 'var(--kv-green)'}">${percentage}%</td>
+            <td style="font-weight: 700; color: ${isBarred ? 'var(--kv-danger)' : 'var(--kv-green)'}">${attendancePercentage}%</td>
             <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-            <td style="text-align: center;">${actionColumnHTML}</td>
+            <td>${actionHTML}</td>
         `;
         tbody.appendChild(tr);
     });
 }
 
-// ── FUNGSI DOWNLOAD SURAT AMARAN (WARNING LETTER) ──
-function downloadWarningLetter(name, id, course, attended, absent, percent, absentPercent) {
-    const text = `KOLEJ VOKASIONAL DATUK SERI MOHD ZIN
-JALAN GETAH, 78000 ALOR GAJAH, MELAKA
-----------------------------------------------------------------------
-Ruj. Kami: KVDSMZ/AMS/2026/AMR
-Tarikh: ${new Date().toLocaleDateString('ms-MY')}
+// Penjanaan Fail Cetakan PDF Berformat A4 Rasmi
+function generateLetterPDF(type, name, id, course, attended, absent, displayPercent) {
+    const todayDate = new Date().toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
+    let letterTitle = "";
+    let letterBody = "";
+    
+    if (type === "amaran") {
+        letterTitle = `SURAT AMARAN KETIDAKHADIRAN KURSUS: ${course}`;
+        letterBody = `
+            <p>Dengan segala hormatnya, perkara di atas adalah dirujuk.</p>
+            <p>2.&nbsp;&nbsp;Dukacita dimaklumkan bahawa anak/jagaan tuan/puan, <strong>${name}</strong> (No. Pelajar: <strong>${id}</strong>) yang mengikuti kursus <strong>${course}</strong> didapati gagal memenuhi syarat kehadiran minimum 80%.</p>
+            <p>3.&nbsp;&nbsp;Berikut merupakan rekod analisis sistem kehadiran semasa:</p>
+            <ul>
+                <li>Jumlah Keseluruhan Kuliah: <strong>${attended + absent} Jam</strong></li>
+                <li>Jumlah Jam Hadir: <strong>${attended} Jam</strong></li>
+                <li>Jumlah Jam Tidak Hadir: <strong style="color:red;">${absent} Jam</strong></li>
+                <li>Peratusan Kehadiran Semasa: <strong>${displayPercent}%</strong></li>
+            </ul>
+            <p>4.&nbsp;&nbsp;Sehubungan dengan itu, status anak jagaan tuan/puan kini bertukar kepada <strong>BARRED</strong>. Sila hadir ke kolej bersama pelajar untuk memberikan surat tunjuk sebab rasmi bagi mengelakkan tindakan lanjut.</p>
+        `;
+    } else {
+        letterTitle = `SURAT JEMPUTAN PROGRAM INTERVENSI AKADEMIK`;
+        letterBody = `
+            <p>Merujuk kepada ketidakhadiran kritikal bagi kursus <strong>${course}</strong>, anak jagaan tuan/puan <strong>${name}</strong> (${id}) diwajibkan untuk melalui proses intervensi.</p>
+            <p>2.&nbsp;&nbsp;Tuan/puan dengan ini diminta hadir ke kolej bagi membincangkan pemulihan prestasi kehadiran anak jagaan tuan/puan:</p>
+            <table style="width:100%; border:none; margin: 15px 0;">
+                <tr><td style="width:140px; border:none; padding:4px 0;"><strong>Tempat Sesi</strong></td><td style="border:none; padding:4px 0;">: Bilik Intervensi Kaunseling, KVDSMZ</td></tr>
+                <tr><td style="border:none; padding:4px 0;"><strong>Tindakan</strong></td><td style="border:none; padding:4px 0;">: Sila bawa bersama dokumen sokongan (MC / Surat Rasmi)</td></tr>
+            </table>
+        `;
+    }
 
-Kepada,
-Ibu bapa / Penjaga kepada Pelajar: ${name}
-
-Tuan/Puan,
-
-SURAT AMARAN KETIDAKHADIRAN KURSUS: ${course}
-
-Dengan segala hormatnya, perkara di atas adalah dirujuk.
-
-2.  Dukacita dimaklumkan bahawa anak/jagaan tuan/puan, ${name} (No. Pelajar: ${id}) yang mengikuti kursus ${course} didapati telah gagal memenuhi syarat kehadiran minimum kolej.
-
-3.  Berikut adalah rekod analisis semasa ketidakhadiran anak/jagaan tuan/puan:
-    - Jumlah Jam Kuliah yang Diikuti: ${attended} Jam
-    - Jumlah Jam Tidak Hadir (Ponteng): ${absent} Jam
-    - Peratusan Kehadiran Semasa: ${percent}%
-    - Peratusan Ketidakhadiran (Absent): ${absentPercent}%
-
-4.  Pihak pengurusan kolej ingin menegaskan bahawa kegagalan mengekalkan peratusan kehadiran di atas 80% boleh menyebabkan anak/jagaan tuan/puan DI-BARRED (Dihalang) daripada menduduki Peperiksaan Akhir/Penilaian Akhir bagi semester ini.
-
-Sila hubungi pensyarah kursus dengan kadar segera untuk mengemukakan surat doktor (MC) atau alasan yang munasabah.
-
-Sekian, terima kasih.
-
-"MALAYSIA MADANI"
-
-Yang menjalankan amanah,
-
-.....................................
-(PENSYARAH KURSUS ${course})
-Kolej Vokasional Datuk Seri Mohd Zin`;
-
-    saveFileBlob(`Surat_Amaran_${id}.txt`, text);
-}
-
-// ── FUNGSI DOWNLOAD SURAT INTERVENSI (INTERVENTION LETTER) ──
-function downloadInterventionLetter(name, id, course, attended, absent, percent, absentPercent) {
-    const text = `KOLEJ VOKASIONAL DATUK SERI MOHD ZIN
-JALAN GETAH, 78000 ALOR GAJAH, MELAKA
-----------------------------------------------------------------------
-Ruj. Kami: KVDSMZ/AMS/2026/INT
-Tarikh: ${new Date().toLocaleDateString('ms-MY')}
-
-Kepada,
-Ibu bapa / Penjaga kepada Pelajar: ${name}
-
-Tuan/Puan,
-
-JEMPUTAN MENGHADIRI SESI INTERVENSI KEHADIRAN PELAJAR
-
-Merujuk kepada rekod sistem kehadiran, anak/jagaan tuan/puan, ${name} (No. Pelajar: ${id}) kini berisiko tinggi gagal dalam kursus ${course} disebabkan masalah kehadiran.
-
-2.  Sehingga tarikh hari ini, rekod rasmi menunjukkan:
-    - Ketidakhadiran: ${absent} Jam kuliah (Bersamaan ${absentPercent}% Absent)
-    - Kehadiran Semasa: Hanya ${percent}% (Di bawah syarat wajib kementerian 80%)
-
-3.  Sehubungan dengan itu, tuan/puan dengan segala hormatnya DIJEMPUT HADIR ke kolej bagi sesi Program Intervensi Akademik & Sahsiah untuk membincangkan jalan penyelesaian terbaik demi masa depan pelajar.
-
-    Tarikh / Hari : (Sila rujuk Ketua Program)
-    Masa          : 9:00 Pagi - 11:00 Pagi
-    Tempat        : Bilik Intervensi / Bilik Pensyarah KVDSMZ
-
-Kerjasama dan kehadiran pihak tuan/puan amat kami hargai bagi mengelakkan anak tuan/puan menerima status "BARRED PEPERIKSAAN".
-
-Sekian, terima kasih.
-
-Yang benar,
-
-.....................................
-(UNIT INTERVENSI & PENGURUSAN SMS)
-Kolej Vokasional Datuk Seri Mohd Zin`;
-
-    saveFileBlob(`Surat_Intervensi_${id}.txt`, text);
-}
-
-// Pembantu muat turun fail .txt
-function saveFileBlob(filename, text) {
-    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const printWindow = window.open('', '_blank', 'width=850,height=1100');
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Cetak_Surat_${id}</title>
+            <style>
+                @page { size: A4; margin: 2.5cm; }
+                body { font-family: 'Arial', sans-serif; font-size: 11pt; line-height: 1.6; color: #000; }
+                .letter-head { text-align: center; font-weight: bold; border-bottom: 3px double #000; padding-bottom: 10px; margin-bottom: 25px; }
+                .meta-table { width: 100%; margin-bottom: 20px; }
+                .meta-table td { vertical-align: top; }
+                .title { font-weight: bold; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #000; padding-bottom: 2px; }
+                .footer { margin-top: 50px; }
+            </style>
+        </head>
+        <body>
+            <div class="letter-head">
+                KOLEJ VOKASIONAL DATUK SERI MOHD ZIN<br>
+                <span style="font-size:10pt; font-weight:normal;">JALAN GETAH, 78000 ALOR GAJAH, MELAKA</span>
+            </div>
+            <table class="meta-table">
+                <tr>
+                    <td><strong>Kepada:</strong><br>Ibu bapa / Penjaga<br>Pelajar: ${name} (${id})</td>
+                    <td style="text-align: right;"><strong>Ruj:</strong> KVDSMZ/INT/${id}<br><strong>Tarikh:</strong> ${todayDate}</td>
+                </tr>
+            </table>
+            <div class="title">${letterTitle}</div>
+            <div>${letterBody}</div>
+            <div class="footer">
+                <p>Yang menjalankan amanah,</p><br><br>
+                <strong>.....................................</strong><br>
+                b.p. Pengarah Kolej Vokasional Datuk Seri Mohd Zin
+            </div>
+            <script>
+                window.onload = function() { window.print(); setTimeout(function() { window.close(); }, 500); };
+            <\/script>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
 }
 
 function filterCalcGrid() {
@@ -182,21 +157,12 @@ function filterCalcGrid() {
 
 function exportAnalysisCSV() {
     const code = document.getElementById("courseCode").value.trim() || "Course";
-    let csv = 'Student Name,Student ID,Hours Attended,Absent Hours,Percentage,Exam Status\n';
-    
+    let csv = 'Student Name,Student ID,Hours Attended,Absent Hours,Percentage (%),Status\n';
     document.querySelectorAll('#calcBody tr').forEach(tr => {
         if (tr.style.display === 'none' || tr.cells.length < 6) return;
         const cells = tr.querySelectorAll('td');
-        const name = cells[0].textContent.trim();
-        const id = cells[1].textContent.trim();
-        const attended = cells[2].textContent.trim();
-        const absent = cells[3].textContent.trim();
-        const percent = cells[4].textContent.trim();
-        const status = tr.querySelector('.status-badge').textContent.trim();
-        
-        csv += `"${name}","${id}","${attended}","${absent}","${percent}","${status}"\n`;
+        csv += `"${cells[0].textContent.trim()}","${cells[1].textContent.trim()}","${cells[2].textContent.trim()}","${cells[3].textContent.trim()}","${cells[4].textContent.trim()}","${cells[5].textContent.trim()}"\n`;
     });
-    
     const uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
     const a = document.createElement('a');
     a.href = uri;
