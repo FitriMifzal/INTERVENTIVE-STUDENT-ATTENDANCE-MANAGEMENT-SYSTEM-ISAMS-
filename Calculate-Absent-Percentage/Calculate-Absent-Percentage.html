@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Attendance Percentage | KVDSMZ</title>
+    <link rel="stylesheet" href="Calculate-Attendance.css">
+</head>
+<body>
+
+    <div id="sidebar">
+        <div class="logo-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Logo_Kolej_Vokasional.png/640px-Logo_Kolej_Vokasional.png" alt="KV Logo">
+        </div>
+
+        <div class="role-badge">Subject Teacher</div>
+
+        <div class="nav-menu">
+            <a href="../Dashboard/Dashboard.html" class="nav-item">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </a>
+            <a href="../Create-Student/createStudent.html" class="nav-item">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Student Class
+            </a>
+            <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Student Attendance
+            </a>
+            <a href="#" class="nav-item active">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+                Calculate Percentage
+            </a>
+            <a href="../Create-Student-Absent-Record/Create-Student-Absent-Record.html" class="nav-item">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Absent Records
+            </a>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <div id="header">
+            <div class="header-left">
+                <span>Intervention: Student Management System</span>
+            </div>
+            <div class="header-right">
+                <span>Subject Teacher</span>
+                <div class="user-avatar-circle">T</div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <div class="card-title">Course Attendance Configuration</div>
+                <p class="card-sub">Sila masukkan kod kursus dan jam pertemuan secara manual untuk mengira peratusan.</p>
+                
+                <div class="config-grid">
+                    <div class="form-group">
+                        <label for="courseCode">Course Code</label>
+                        <input type="text" id="courseCode" placeholder="e.g., TRC501" oninput="triggerCalculation()">
+                    </div>
+                    <div class="form-group">
+                        <label for="creditHours">Credit Hours</label>
+                        <input type="number" id="creditHours" placeholder="e.g., 3" min="1" oninput="triggerCalculation()">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactHours">Total Contact Hours Required</label>
+                        <input type="number" id="contactHours" placeholder="e.g., 45" min="1" oninput="triggerCalculation()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Automated Attendance Analytics & Percentage</div>
+                <p class="card-sub">Pelajar dengan ketidakhadiran mencapai atau melebihi 20% (< 80% kehadiran) boleh menjana surat amaran.</p>
+
+                <div class="toolbar-panel">
+                    <input type="text" id="calcSearch" class="search-input" oninput="filterCalcGrid()" placeholder="Search student name or ID...">
+                    <div class="btn-group-actions">
+                        <button class="btn btn-export" onclick="exportAnalysisCSV()">Export Report</button>
+                    </div>
+                </div>
+
+                <div class="sheet-table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Student ID</th>
+                                <th>Hours Attended</th>
+                                <th>Absent Hours</th>
+                                <th>Current %</th>
+                                <th>Barred Status</th>
+                                <th style="text-align: center;">Generate Letters</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calcBody">
+                            <tr>
+                                <td colspan="7" style="color: #64748b; padding: 20px; text-align: center;">Sila masukkan "Total Contact Hours Required" di atas untuk memulakan pengiraan.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Calculate-Attendance.js"></script>
+</body>
+</html>
