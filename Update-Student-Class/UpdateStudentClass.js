@@ -31,8 +31,7 @@
         // Penukaran nilai creditHour telah dibuang dari sini
         localStorage.setItem("classes", JSON.stringify(classes));
         alert("Class updated successfully!");
-        window.location.href = "main.html";
-    }
+        window.location.href = "StudentClass.html";
   }
 
   // 5. Setup Profil & Sidebar semasa Page Load

@@ -33,7 +33,7 @@ function loadStudentData() {
         document.getElementById("v_No").innerText = s.No || "N/A";
     } else {
         alert("Student record not found!");
-        window.location.href = "studentList.html";
+        window.location.href = "../studentList/studentList.html";
     }
 }
 
