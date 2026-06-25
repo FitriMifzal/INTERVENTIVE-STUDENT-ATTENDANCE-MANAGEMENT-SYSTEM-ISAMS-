@@ -33,7 +33,7 @@ function loadStudentData() {
         document.getElementById("v_No").innerText = s.No || "N/A";
     } else {
         alert("Student record not found!");
-        window.location.href = "studentList.html";
+        window.location.href = "../Student-List/StudentList.html";
     }
 }
 
@@ -45,7 +45,7 @@ function toggleSidebar() {
 function logoutUser() {
     if(confirm("Are you sure you want to logout?")) {
         localStorage.removeItem('isLoggedIn');
-        window.location.href = "login.html";
+        window.location.href = "../create-account/CreateAccount.html";
     }
 }
 

@@ -4,14 +4,15 @@ const classIdFromURL = params.get("id");
 let classes = JSON.parse(localStorage.getItem("classes")) || [];
 let selectedClass = classes.find(c => c.classId === classIdFromURL);
 
-// Pengesahan data kelas daripada parameter URL
-if (classIdFromURL && !selectedClass) {
-  alert("Class not found!");
-  window.location.href = "main.html";
-} else if (selectedClass) {
-  document.getElementById("classId").value = selectedClass.classId;
-  document.getElementById("className").value = selectedClass.className;
-}
+  // 3. Masukkan data ke dalam form jika class dijumpai
+  if (classIdFromURL && !selectedClass) {
+    alert("Class not found!");
+    window.location.href = "../Student-Class/StudentClass.html";
+  } else if (selectedClass) {
+    document.getElementById("classId").value = selectedClass.classId;
+    document.getElementById("className").value = selectedClass.className;
+    // Bahagian Credit Hour telah dibuang dari sini
+  }
 
 // Fungsi mengemas kini maklumat kelas
 function updateClass() {
@@ -22,13 +23,13 @@ function updateClass() {
     return;
   }
 
-  if (selectedClass) {
-      selectedClass.className = updatedName;
-      localStorage.setItem("classes", JSON.stringify(classes));
-      alert("Class updated successfully!");
-      window.location.href = "main.html";
+    if (selectedClass) {
+        selectedClass.className = updatedName;
+        // Penukaran nilai creditHour telah dibuang dari sini
+        localStorage.setItem("classes", JSON.stringify(classes));
+        alert("Class updated successfully!");
+        window.location.href = "../Student-Class/StudentClass.html";
   }
-}
 
 // Fungsi kawalan semasa halaman dimuatkan (Urusan sesi & profil maklumat)
 window.onload = function () {
@@ -56,10 +57,9 @@ function toggleSidebar() {
   document.getElementById('main-wrapper').classList.toggle('expanded');
 }
 
-// Fungsi log keluar sistem
-function logoutUser() {
-  if(confirm("Are you sure you want to logout?")) {
-    localStorage.removeItem('isLoggedIn');
-    window.location.href = "login.html";
+  function logoutUser() {
+    if(confirm("Are you sure you want to logout?")) {
+      window.location.href = "../create-account/CreateAccount.html";
+    }
   }
 }

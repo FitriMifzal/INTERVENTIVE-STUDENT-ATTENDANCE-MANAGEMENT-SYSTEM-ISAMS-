@@ -52,7 +52,7 @@ body {
     letter-spacing: 1px;
 }
 
-nav { flex-grow: 1; }
+
 .nav-item {
     padding: 12px 15px;
     color: rgba(255,255,255,0.8);
@@ -153,12 +153,7 @@ nav { flex-grow: 1; }
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-#user-initial {
-    color: white;
-    font-weight: bold;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-}
+
 
 .header-title {
     background: transparent;

@@ -33,4 +33,4 @@ function updateProfile() {
     window.location.href = "viewaccount.html";
 }
 
-function logout() { localStorage.clear(); window.location.href = "login.html"; }
+function logout() { localStorage.clear(); window.location.href = "../create-account/CreateAccount.html"; }

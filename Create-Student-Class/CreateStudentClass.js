@@ -46,9 +46,11 @@ function handleForm(event) {
     classes.push(newClass);
     localStorage.setItem("classes", JSON.stringify(classes));
 
-    alert("Class successfully registered!");
-    window.location.href = "main.html";
-}
+        alert("Class successfully registered!");
+        
+        // Redirect to the student class list page
+        window.location.href = "../Student-Class/StudentClass.html";
+    }
 
 // Fungsi interaksi sidebar toggle
 function toggleSidebar() {
@@ -56,10 +58,10 @@ function toggleSidebar() {
     document.getElementById('main-wrapper').classList.toggle('expanded');
 }
 
-// Fungsi log keluar sistem
-function logoutUser() {
-    if(confirm("Are you sure you want to log out?")) {
-        localStorage.removeItem('isLoggedIn');
-        window.location.href = "login.html";
+    function logoutUser() {
+        if(confirm("Are you sure you want to log out?")) {
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = "../create-account/CreateAccount.html";
+        }
     }
-}
+

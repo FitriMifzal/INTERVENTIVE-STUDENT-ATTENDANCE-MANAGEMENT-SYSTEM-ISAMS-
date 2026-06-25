@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | KV Student Management</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Dashboard.css">
 </head>
 <body>
     <aside id="sidebar">
@@ -13,12 +13,12 @@
         </div>
         <div class="role-badge" id="display-role">STATUS</div>
         <nav>
-            <a href="Dashboard.html" class="nav-item active">Dashboard</a>
-            <a href="viewTeacherAcc.html" id="nav-teacher-account" class="nav-item" style="display:none;">Teacher Account</a>
-            <a href="main.html" class="nav-item">Student Class</a>
-            <a href="student-list.html" class="nav-item">Student Profile</a>
-            <a href="testsubject.html" class="nav-item">Subject</a>
-            <a href="absent_record.html" class="nav-item">Absent Records</a>
+            <a href="../Dashboard/Dashboard.html"    class="nav-item active">Dashboard</a>
+            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
+            <a href="../Student-Class/StudentClass.html"         class="nav-item">Student Class</a>
+            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
+            <a href="../Subject/Subject.html"  class="nav-item">Subject</a>
+            <a href="../Create-Student-Absent-Record/Create-Student-Absent-Record.html" class="nav-item">Absent Records</a>
         </nav>
         <div class="logout-section">
             <a onclick="logout()" class="nav-item">Logout</a>
@@ -75,6 +75,6 @@
         </main>
     </div>
 
-    <script src="script.js"></script>
+    <script src="Dashboard.js"></script>
 </body>
 </html>
