@@ -57,20 +57,17 @@ function handleRoleChange() {
     }
 }
 
-// ── FUNGSI DIKEMAS KINI: KLIK BUTANG UNTUK TUKAR IKON MATA SVG ──
+// ── BERUBAH: LOGIK IKON MATA IKUT KELIHATAN PASSWORD ──
 function togglePasswordVisibility(inputId, buttonEl) {
     const passInput = document.getElementById(inputId);
-    const eyeOpenIcon = buttonEl.querySelector('.eye-open');
-    const eyeClosedIcon = buttonEl.querySelector('.eye-closed');
-
     if (passInput.type === "password") {
         passInput.type = "text";
-        eyeOpenIcon.style.display = "none";
-        eyeClosedIcon.style.display = "block"; // Tunjuk ikon mata bergaris/tutup
+        // Bila password kelihatan (user nak tengok), paparkan ikon mata TERBUKA luas
+        buttonEl.innerHTML = "&#128065;"; 
     } else {
         passInput.type = "password";
-        eyeOpenIcon.style.display = "block";  // Tunjuk ikon mata biasa
-        eyeClosedIcon.style.display = "none";
+        // Bila password disembunyikan (taknak orang tengok/kembali ****), paparkan mata DIHALANG/TUTUP
+        buttonEl.innerHTML = "👁️‍🗨️"; 
     }
 }
 
@@ -89,7 +86,6 @@ function checkLogin() {
             alert("Invalid Admin Credentials!"); 
         }
     } else {
-        // Teacher memerlukan padanan rekod IC Number
         const storedIC = localStorage.getItem('reg_ic');
         const storedPass = localStorage.getItem('reg_pass');
         const storedName = localStorage.getItem('reg_name');
