@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Enrollment | KV Student Management</title>
+    <link rel="stylesheet" href="Enroll-subject.css">
+</head>
+<body>
+
+<aside id="sidebar">
+    <div class="logo">
+        <div class="logo-fallback">KV Student Mgmt</div>
+    </div>
+    <div class="role-badge" id="display-role">TEACHER</div>
+    <nav>
+        <a href="Dashboard.html" class="nav-item">Dashboard</a>
+        <a href="viewTeacherAcc.html" id="nav-teacher-account" class="nav-item" style="display:none;">Teacher Account</a>
+        <a href="main.html" class="nav-item">Student Class</a>
+        <a href="student-list.html" class="nav-item">Student Profile</a>
+        
+        <div class="nav-item">Subject</div>
+        <div class="submenu">
+            <a href="subject-details.html" class="sub-nav-item">Details Subject</a>
+            <a href="subject-enrollment.html" class="sub-nav-item active">Enroll Students</a>
+        </div>
+        
+        <a href="absent_record.html" class="nav-item">Absent Records</a>
+    </nav>
+    <div class="logout-section">
+        <a onclick="logout()" class="nav-item">Logout</a>
+    </div>
+</aside>
+
+<div id="main-wrapper">
+    <header id="header">
+        <div class="sys-title">Intervention System</div>
+        <div class="user-profile" onclick="window.location.href='viewaccount.html'">
+            <span id="user-fullname">Teacher Aminah</span>
+            <div id="user-initial" class="user-initial-icon">TA</div>
+        </div>
+    </header>
+
+    <main id="content">
+        <div class="page-title">Subject Enrollment</div>
+        <div class="page-subtitle">Enroll students into the subjects taught by you.</div>
+
+        <div class="summary-card">
+            <h3>Saved Enrollment Summary</h3>
+            <div class="summary-grid" id="summary-grid">
+                <div style="color:var(--text-secondary);font-size:13px;">No saved data available.</div>
+            </div>
+        </div>
+
+        <div class="enrollment-layout">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Available Students List</h2>
+                </div>
+                <div class="card-body">
+                    <div class="subject-selector">
+                        <label>Select Subject</label>
+                        <select id="subject-select" onchange="onSubjectChange()">
+                            <option value="">-- Select Subject --</option>
+                            <option value="BM">Malay Language (BM)</option>
+                            <option value="BI">English Language (BI)</option>
+                            <option value="MT">Mathematics (MT)</option>
+                            <option value="SC">Science (SC)</option>
+                            <option value="SEJ">History (SEJ)</option>
+                        </select>
+                    </div>
+                    <div class="student-pool" id="student-pool"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Enrolled Students</h2>
+                    <span id="enrolled-subject-label" style="font-size:12px;color:var(--text-secondary);">—</span>
+                </div>
+                <div class="card-body">
+                    <div class="enrolled-list" id="enrolled-list"></div>
+                    <button class="btn-save" id="btn-save" onclick="saveEnrollment()" disabled>
+                        Save &amp; Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="toast"></div>
+
+<script src="Enroll-subject.js"></script>
+</body>
+</html>
