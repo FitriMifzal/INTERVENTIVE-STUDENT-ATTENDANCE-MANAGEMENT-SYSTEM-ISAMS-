@@ -4,8 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KV Student Attendance System</title>
-    <!-- Sambungkan fail CSS -->
     <link rel="stylesheet" href="CreateAccount.css">
+    <style>
+        /* Gaya tambahan untuk menempatkan butang mata (eyes) di dalam input group */
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .password-container input {
+            width: 100%;
+            padding-right: 40px; /* Beri ruang untuk butang mata */
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 16px;
+            user-select: none;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <div class="login-container">
@@ -18,19 +39,22 @@
             <h2>Login</h2>
             <div class="role-selection">
                 <label class="role-option">
-                    <input type="radio" name="loginRole" value="Teacher" checked> Teacher
+                    <input type="radio" name="loginRole" value="Teacher" checked onchange="handleRoleChange()"> Teacher
                 </label>
                 <label class="role-option">
-                    <input type="radio" name="loginRole" value="Penyelaras Intervensi"> Penyelaras Intervensi
+                    <input type="radio" name="loginRole" value="Penyelaras Intervensi" onchange="handleRoleChange()"> Penyelaras Intervensi
                 </label>
             </div>
             <div class="input-group">
-                <label>ID Number</label>
-                <input type="text" id="loginID" placeholder="Enter your ID">
+                <label id="loginIDLabel">IC Number</label>
+                <input type="text" id="loginID" placeholder="Enter your IC Number">
             </div>
             <div class="input-group">
                 <label>Password</label>
-                <input type="password" id="loginPass" placeholder="Enter password">
+                <div class="password-container">
+                    <input type="password" id="loginPass" placeholder="Enter password">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPass', this)">👁️</button>
+                </div>
             </div>
             <button class="btn-kv" onclick="checkLogin()">LOGIN</button>
             <div class="link-reg">Don't have an account? <a href="javascript:void(0);" onclick="showRegistration()">Register here</a></div>
@@ -61,7 +85,10 @@
                 </div>
                 <div class="input-group full-width">
                     <label>Password</label>
-                    <input type="password" id="regPass" placeholder="Create Password">
+                    <div class="password-container">
+                        <input type="password" id="regPass" placeholder="Create Password">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('regPass', this)">👁️</button>
+                    </div>
                 </div>
                 <div class="full-width">
                     <button class="btn-kv" onclick="askConfirmation()">CREATE ACCOUNT</button>
@@ -81,7 +108,6 @@
         </div>
     </div>
 
-    <!-- Sambungkan fail JavaScript -->
     <script src="CreateAccount.js"></script>
 </body>
 </html>

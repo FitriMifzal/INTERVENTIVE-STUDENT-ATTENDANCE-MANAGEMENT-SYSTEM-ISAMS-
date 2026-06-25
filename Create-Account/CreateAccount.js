@@ -42,32 +42,62 @@ function processConfirm() {
     showLogin();
 }
 
+// ── FUNGSI BAHARU: MENUKAR LABEL ID / IC MENGIKUT ROLE ──
+function handleRoleChange() {
+    const selectedRole = document.querySelector('input[name="loginRole"]:checked').value;
+    const loginIDLabel = document.getElementById('loginIDLabel');
+    const loginIDInput = document.getElementById('loginID');
+
+    if (selectedRole === "Penyelaras Intervensi") {
+        loginIDLabel.textContent = "ID Number";
+        loginIDInput.placeholder = "Enter your ID Number";
+    } else {
+        loginIDLabel.textContent = "IC Number";
+        loginIDInput.placeholder = "Enter your IC Number";
+    }
+}
+
+// ── FUNGSI BAHARU: TUNJUK / SEMBUNYI PASSWORD (FEATURES EYES) ──
+function togglePasswordVisibility(inputId, buttonEl) {
+    const passInput = document.getElementById(inputId);
+    if (passInput.type === "password") {
+        passInput.type = "text";
+        buttonEl.textContent = "🙈"; // Tukar ikon mata kepada tutup mata apabila password kelihatan
+    } else {
+        passInput.type = "password";
+        buttonEl.textContent = "👁️"; // Kembali kepada ikon asal (tersembunyi sebagai ****)
+    }
+}
+
+// ── FUNGSI CHECK LOGIN YANG TELAH DIUBAH SUAI KREDENSIALNYA ──
 function checkLogin() {
     const inputID = document.getElementById('loginID').value.trim();
     const inputPass = document.getElementById('loginPass').value;
     const selectedRole = document.querySelector('input[name="loginRole"]:checked').value;
 
     if (selectedRole === "Penyelaras Intervensi") {
+        // Penyelaras Intervensi menggunakan: ID Number (ADMIN123) & Password
         if (inputID.toUpperCase() === "ADMIN123" && inputPass === "PASSWORD123") {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('active_role', "Penyelaras Intervensi");
             localStorage.setItem('active_name', "Admin Penyelaras");
             window.location.href = "../Dashboard/Dashboard.html";
         } else { 
-            alert("Invalid Admin Credentials!"); 
+            alert("Invalid Admin Credentials! (Please check your ID Number and Password)"); 
         }
     } else {
-        const storedID = localStorage.getItem('reg_id');
+        // Teacher menggunakan: IC Number & Password semasa log masuk
+        const storedIC = localStorage.getItem('reg_ic');
         const storedPass = localStorage.getItem('reg_pass');
         const storedName = localStorage.getItem('reg_name');
 
-        if (storedID && inputID === storedID && inputPass === storedPass) {
+        if (storedIC && inputID === storedIC && inputPass === storedPass) {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('active_role', "Teacher");
             localStorage.setItem('active_name', storedName);
             window.location.href = "Dashboard.html"; 
         } else { 
-            alert("Invalid Teacher Credentials!"); 
+            alert("Invalid Teacher Credentials! (Please check your IC Number and Password)"); 
         }
     }
 }
