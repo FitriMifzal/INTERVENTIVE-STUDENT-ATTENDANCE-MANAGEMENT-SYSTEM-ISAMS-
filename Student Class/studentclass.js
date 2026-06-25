@@ -25,35 +25,37 @@ function loadClasses() {
 }
 
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('collapsed');
-  document.getElementById('main-wrapper').classList.toggle('expanded');
+  document.getElementById("sidebar").classList.toggle("collapsed");
+  document.getElementById("main-wrapper").classList.toggle("expanded");
 }
 
 function logoutUser() {
-  if(confirm("Are you sure you want to logout?")) {
-    localStorage.removeItem('isLoggedIn');
+  if (confirm("Are you sure you want to logout?")) {
+    localStorage.removeItem("isLoggedIn");
     window.location.href = "login.html";
   }
 }
 
-window.onload = function() {
-  if (localStorage.getItem('isLoggedIn') !== 'true') {
+window.onload = function () {
+  if (localStorage.getItem("isLoggedIn") !== "true") {
     window.location.href = "login.html";
     return;
   }
 
   loadClasses();
 
-  const name = localStorage.getItem('active_name') || "Guest User";
-  const role = localStorage.getItem('active_role') || "Subject Teacher";
+  const name = localStorage.getItem("active_name") || "Guest User";
+  const role = localStorage.getItem("active_role") || "Subject Teacher";
 
-  document.getElementById('user-fullname').innerText = name;
-  document.getElementById('display-role').innerText = role;
-  document.getElementById('user-initial').innerText = name.charAt(0).toUpperCase();
+  document.getElementById("user-fullname").innerText = name;
+  document.getElementById("display-role").innerText = role;
+  document.getElementById("user-initial").innerText = name
+    .charAt(0)
+    .toUpperCase();
 
   if (role === "Penyelaras Intervensi") {
-    const navAccount = document.getElementById('nav-account');
-    if(navAccount) navAccount.style.display = 'flex';
+    const navAccount = document.getElementById("nav-account");
+    if (navAccount) navAccount.style.display = "flex";
   }
 
   if (role === "Subject Teacher") {
