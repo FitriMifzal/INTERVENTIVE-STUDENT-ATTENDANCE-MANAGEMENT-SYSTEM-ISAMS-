@@ -161,7 +161,7 @@ function saveBKTS() {
         localStorage.setItem("absent_records", JSON.stringify(absentRecords));
         document.getElementById('success-msg').innerText = "Record saved and updated successfully!";
         document.getElementById('successModal').classList.add('show');
-        setTimeout(() => { window.location.href = "student-list.html"; }, 1200);
+        setTimeout(() => { window.location.href = "../Student-List/StudentList.html"; }, 1200);
     }
 }
 
@@ -337,4 +337,4 @@ function toggleSidebar() {
 
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
-function logoutUser() { if (confirm("Logout?")) window.location.href = "login.html"; }
+function logoutUser() { if (confirm("Logout?")) window.location.href = "../create-account/CreateAccount.html"; }
