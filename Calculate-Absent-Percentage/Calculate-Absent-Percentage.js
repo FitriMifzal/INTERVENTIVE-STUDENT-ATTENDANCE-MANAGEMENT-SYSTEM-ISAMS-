@@ -1,77 +1,107 @@
-// Data pelajar simulasi mengikut sistem asal
-const students = [
-    { name: "AUMAN BIN ABIDEN",              id: "2023122119", baseAbsent: 1 },
-    { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805", baseAbsent: 0 },
-    { name: "ILYA SYAHIRAH BT HAIDI",         id: "2023112709", baseAbsent: 5 },
-    { name: "MUHAMMAD SYAZANI BIN AHMAD",     id: "2023126582", baseAbsent: 0 },
-    { name: "NUR AINA INSYIRAH BT ROSLAN",    id: "2023118834", baseAbsent: 2 },
-    { name: "NUR ALIYAH BINTI RAZALI",        id: "2023117621", baseAbsent: 1 },
-    { name: "NUR FARHANA BINTI ZULKIFLI",     id: "2023119045", baseAbsent: 6 },
-    { name: "NURUL AIN BINTI HAMID",          id: "2023115503", baseAbsent: 1 },
-    { name: "SITI HAJAR BINTI MOHD NOOR",     id: "2023120167", baseAbsent: 3 },
-    { name: "WAN HAZIQ BIN WAN AZMAN",        id: "2023123412", baseAbsent: 0 }
+// Database Induk Pelajar KVDSMZ
+const studentDatabase = [
+    { name: "AUMAN BIN ABIDEN",              id: "2023122119" },
+    { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805" },
+    { name: "ILYA SYAHIRAH BT HAIDI",         id: "2023112709" },
+    { name: "MUHAMMAD SYAZANI BIN AHMAD",     id: "2023126582" },
+    { name: "NUR AINA INSYIRAH BT ROSLAN",    id: "2023118834" },
+    { name: "NUR ALIYAH BINTI RAZALI",        id: "2023117621" },
+    { name: "NUR FARHANA BINTI ZULKIFLI",     id: "2023119045" },
+    { name: "NURUL AIN BINTI HAMID",          id: "2023115503" },
+    { name: "SITI HAJAR BINTI MOHD NOOR",     id: "2023120167" },
+    { name: "WAN HAZIQ BIN WAN AZMAN",        id: "2023123412" }
 ];
 
-// Dipanggil HANYA apabila butang "Calculate Analytics" diklik
-function triggerCalculation() {
-    const totalHoursInput = document.getElementById("contactHours").value;
-    const totalHours = parseInt(totalHoursInput);
+let selectedStudent = null; // Menyimpan data pelajar yang berjaya dicari
 
-    if (totalHours && totalHours > 0) {
-        calculatePercentages(totalHours);
+// ── FUNGSI 1: CARI STUDENT BERDASARKAN ID ──
+function searchStudent() {
+    const inputID = document.getElementById("searchStudentID").value.trim();
+    const msgElement = document.getElementById("searchMessage");
+    const inputSection = document.getElementById("inputSection");
+    
+    // Cari matching ID dalam pangkalan data
+    selectedStudent = studentDatabase.find(s => s.id === inputID);
+
+    if (selectedStudent) {
+        msgElement.style.color = "var(--kv-green)";
+        msgElement.innerHTML = `✅ Pelajar Ditemui: ${selectedStudent.name}`;
+        
+        // Paparkan ruangan input borang data
+        document.getElementById("targetStudentName").textContent = selectedStudent.name;
+        inputSection.style.display = "block";
+        
+        // Reset input borang sebelum ini untuk kemudahan
+        document.getElementById("hoursAbsent").value = "";
+        document.getElementById("totalContactHours").value = "";
     } else {
-        alert("Sila masukkan 'Jumlah Keseluruhan Jam Kuliah' yang sah terlebih dahulu.");
+        msgElement.style.color = "var(--kv-danger)";
+        msgElement.innerHTML = "❌ Ralat: No. Pelajar tidak wujud dalam sistem. Sila cuba lagi.";
+        inputSection.style.display = "none";
     }
 }
 
-function calculatePercentages(totalHours) {
-    const tbody = document.getElementById("calcBody");
-    tbody.innerHTML = "";
-    const courseCode = document.getElementById("courseCode").value.trim() || "TRC501";
-    
-    students.forEach(s => {
-        const absentHours = Math.min(s.baseAbsent, totalHours);
-        const attendedHours = totalHours - absentHours;
-        
-        // Mengikut imej paparan sebenar user: Peratus dipaparkan sebagai kadar KEHADIRAN (Contoh: 19/20 = 95%)
-        const attendancePercentage = ((attendedHours / totalHours) * 100).toFixed(1);
-        
-        // Kira peratus ketidakhadiran tulen untuk semakan sekatan bar (Ketidakhadiran >= 20% bermakna Kehadiran <= 80%)
-        const absentRate = (absentHours / totalHours) * 100;
-        const isBarred = absentRate >= 20.0;
-        
-        const statusClass = isBarred ? "badge-absent" : "badge-present";
-        const statusText = isBarred ? "BARRED (Gagal Kehadiran)" : "ELIGIBLE (Layak Exam)";
-        
-        let actionHTML = "";
-        if (isBarred) {
-            actionHTML = `
-                <div class="letter-actions">
-                    <button class="btn-letter btn-warning" onclick="generateLetterPDF('amaran', '${s.name}', '${s.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">⚠️ Amaran</button>
-                    <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervensi', '${s.name}', '${s.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">📩 Intervensi</button>
-                </div>`;
-        } else {
-            actionHTML = `<span class="txt-disabled">No Action Needed</span>`;
-        }
+// ── FUNGSI 2: KIRA PERATUS & CETAK DI JADUAL BAWAH ──
+function processSelectedCalculation() {
+    if (!selectedStudent) return;
 
-        const tr = document.createElement("tr");
-        tr.dataset.name = s.name.toLowerCase();
-        tr.dataset.id = s.id;
-        
-        tr.innerHTML = `
-            <td style="font-weight: 600;">${s.name}</td>
-            <td>${s.id}</td>
+    const courseCode = document.getElementById("courseCode").value.trim() || "TRC501";
+    const hoursAbsentInput = document.getElementById("hoursAbsent").value;
+    const totalContactInput = document.getElementById("totalContactHours").value;
+
+    const absentHours = parseInt(hoursAbsentInput);
+    const totalHours = parseInt(totalContactInput);
+
+    // Validasi data input angka
+    if (isNaN(absentHours) || isNaN(totalHours) || totalHours <= 0 || absentHours < 0) {
+        alert("Sila pastikan nilai 'Hours Absent' dan 'Total Contact Hours' diisi dengan angka yang betul.");
+        return;
+    }
+
+    if (absentHours > totalHours) {
+        alert("Ralat: Jam tidak hadir tidak boleh melebihi jumlah keseluruhan jam kuliah!");
+        return;
+    }
+
+    const attendedHours = totalHours - absentHours;
+    
+    // Mengira peratus kadar kehadiran (E.g., 15/20 = 75.0%)
+    const attendancePercentage = ((attendedHours / totalHours) * 100).toFixed(1);
+    
+    // Status sekatan rasmi KVDSMZ (Sekatan Barred teraktif jika ketidakhadiran >= 20%, bermakna kehadiran < 80%)
+    const absentRate = (absentHours / totalHours) * 100;
+    const isBarred = absentRate >= 20.0;
+
+    const statusClass = isBarred ? "badge-absent" : "badge-present";
+    const statusText = isBarred ? "BARRED (Gagal Kehadiran)" : "ELIGIBLE (Layak Exam)";
+
+    let actionHTML = "";
+    if (isBarred) {
+        actionHTML = `
+            <div class="letter-actions">
+                <button class="btn-letter btn-warning" onclick="generateLetterPDF('amaran', '${selectedStudent.name}', '${selectedStudent.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">⚠️ Amaran</button>
+                <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervensi', '${selectedStudent.name}', '${selectedStudent.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">📩 Intervensi</button>
+            </div>`;
+    } else {
+        actionHTML = `<span class="txt-disabled">No Action Needed</span>`;
+    }
+
+    // Suntat baris data pelajar ke dalam jadual keputusan di bawah
+    const tbody = document.getElementById("calcBody");
+    tbody.innerHTML = `
+        <tr>
+            <td style="font-weight: 600;">${selectedStudent.name}</td>
+            <td>${selectedStudent.id}</td>
             <td>${attendedHours} Jam</td>
             <td>${absentHours} Jam</td>
             <td style="font-weight: 700; color: ${isBarred ? 'var(--kv-danger)' : 'var(--kv-green)'}">${attendancePercentage}%</td>
             <td><span class="status-badge ${statusClass}">${statusText}</span></td>
             <td>${actionHTML}</td>
-        `;
-        tbody.appendChild(tr);
-    });
+        </tr>
+    `;
 }
 
-// Penjanaan Fail Cetakan PDF Berformat A4 Rasmi
+// ── FUNGSI 3: JANA PDF WINDOW CETAKAN SURAT RASMI (A4) ──
 function generateLetterPDF(type, name, id, course, attended, absent, displayPercent) {
     const todayDate = new Date().toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
     let letterTitle = "";
@@ -110,7 +140,7 @@ function generateLetterPDF(type, name, id, course, attended, absent, displayPerc
             <title>Cetak_Surat_${id}</title>
             <style>
                 @page { size: A4; margin: 2.5cm; }
-                body { font-family: 'Arial', sans-serif; font-size: 11pt; line-height: 1.6; color: #000; }
+                body { font-family: 'Arial', sans-serif; font-size: 11pt; line-height: 1.6; color: #000; padding: 20px; }
                 .letter-head { text-align: center; font-weight: bold; border-bottom: 3px double #000; padding-bottom: 10px; margin-bottom: 25px; }
                 .meta-table { width: 100%; margin-bottom: 20px; }
                 .meta-table td { vertical-align: top; }
@@ -143,31 +173,4 @@ function generateLetterPDF(type, name, id, course, attended, absent, displayPerc
         </html>
     `);
     printWindow.document.close();
-}
-
-function filterCalcGrid() {
-    const q = document.getElementById('calcSearch').value.toLowerCase();
-    document.querySelectorAll('#calcBody tr').forEach(tr => {
-        if(tr.cells.length > 1) {
-            const match = tr.dataset.name.includes(q) || tr.dataset.id.includes(q);
-            tr.style.display = match ? '' : 'none';
-        }
-    });
-}
-
-function exportAnalysisCSV() {
-    const code = document.getElementById("courseCode").value.trim() || "Course";
-    let csv = 'Student Name,Student ID,Hours Attended,Absent Hours,Percentage (%),Status\n';
-    document.querySelectorAll('#calcBody tr').forEach(tr => {
-        if (tr.style.display === 'none' || tr.cells.length < 6) return;
-        const cells = tr.querySelectorAll('td');
-        csv += `"${cells[0].textContent.trim()}","${cells[1].textContent.trim()}","${cells[2].textContent.trim()}","${cells[3].textContent.trim()}","${cells[4].textContent.trim()}","${cells[5].textContent.trim()}"\n`;
-    });
-    const uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-    const a = document.createElement('a');
-    a.href = uri;
-    a.download = `Attendance_Analysis_${code}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
 }
