@@ -1,4 +1,4 @@
-// Database Induk Pelajar KVDSMZ
+// Student Master Database
 const studentDatabase = [
     { name: "AUMAN BIN ABIDEN",              id: "2023122119" },
     { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805" },
@@ -12,36 +12,80 @@ const studentDatabase = [
     { name: "WAN HAZIQ BIN WAN AZMAN",        id: "2023123412" }
 ];
 
-let selectedStudent = null; // Menyimpan data pelajar yang berjaya dicari
+let selectedStudent = null; // Stores the current verified student data
 
-// ── FUNGSI 1: CARI STUDENT BERDASARKAN ID ──
+// ── INITIALIZATION: LOAD INITIAL PRE-POPULATED ROWS ──
+window.onload = function() {
+    loadDefaultRows();
+};
+
+function loadDefaultRows() {
+    const tbody = document.getElementById("calcBody");
+    tbody.innerHTML = ""; 
+    
+    // Default few rows matching your exact request
+    const initialSampleData = [
+        { name: "AUMAN BIN ABIDEN", id: "2023122119", attended: 19, absent: 1, rate: "95.0", isBarred: false, code: "TRC501" },
+        { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805", attended: 20, absent: 0, rate: "100.0", isBarred: false, code: "TRC501" },
+        { name: "ILYA SYAHIRAH BT HAIDI", id: "2023112709", attended: 15, absent: 5, rate: "75.0", isBarred: true, code: "TRC501" },
+        { name: "MUHAMMAD SYAZANI BIN AHMAD", id: "2023126582", attended: 20, absent: 0, rate: "100.0", isBarred: false, code: "TRC501" }
+    ];
+
+    initialSampleData.forEach(item => {
+        const statusClass = item.isBarred ? "badge-absent" : "badge-present";
+        const statusText = item.isBarred ? "BARRED (Attendance Failed)" : "ELIGIBLE (Exam Allowed)";
+        
+        let actionHTML = "";
+        if (item.isBarred) {
+            actionHTML = `
+                <div class="letter-actions">
+                    <button class="btn-letter btn-warning" onclick="generateLetterPDF('warning', '${item.name}', '${item.id}', '${item.code}', ${item.attended}, ${item.absent}, ${item.rate})">⚠️ Warning Letter</button>
+                    <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervention', '${item.name}', '${item.id}', '${item.code}', ${item.attended}, ${item.absent}, ${item.rate})">📩 Intervention</button>
+                </div>`;
+        } else {
+            actionHTML = `<span class="txt-disabled">No Action Needed</span>`;
+        }
+
+        const tr = document.createElement("tr");
+        tr.id = `row-${item.id}`; 
+        tr.innerHTML = `
+            <td style="font-weight: 600;">${item.name}</td>
+            <td>${item.id}</td>
+            <td>${item.attended} Hours</td>
+            <td>${item.absent} Hours</td>
+            <td style="font-weight: 700; color: ${item.isBarred ? 'var(--kv-danger)' : 'var(--kv-green)'}">${item.rate}%</td>
+            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+            <td>${actionHTML}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// ── FUNCTION 1: SEARCH STUDENT BY ID ──
 function searchStudent() {
     const inputID = document.getElementById("searchStudentID").value.trim();
     const msgElement = document.getElementById("searchMessage");
     const inputSection = document.getElementById("inputSection");
     
-    // Cari matching ID dalam pangkalan data
     selectedStudent = studentDatabase.find(s => s.id === inputID);
 
     if (selectedStudent) {
         msgElement.style.color = "var(--kv-green)";
-        msgElement.innerHTML = `✅ Pelajar Ditemui: ${selectedStudent.name}`;
+        msgElement.innerHTML = `✅ Student Found: ${selectedStudent.name}`;
         
-        // Paparkan ruangan input borang data
         document.getElementById("targetStudentName").textContent = selectedStudent.name;
         inputSection.style.display = "block";
         
-        // Reset input borang sebelum ini untuk kemudahan
         document.getElementById("hoursAbsent").value = "";
         document.getElementById("totalContactHours").value = "";
     } else {
         msgElement.style.color = "var(--kv-danger)";
-        msgElement.innerHTML = "❌ Ralat: No. Pelajar tidak wujud dalam sistem. Sila cuba lagi.";
+        msgElement.innerHTML = "❌ Error: Student ID does not exist in the system. Please try again.";
         inputSection.style.display = "none";
     }
 }
 
-// ── FUNGSI 2: KIRA PERATUS & CETAK DI JADUAL BAWAH ──
+// ── FUNCTION 2: CALCULATE PERCENTAGE & OUTPUT/UPDATE TO TABLE ──
 function processSelectedCalculation() {
     if (!selectedStudent) return;
 
@@ -52,84 +96,92 @@ function processSelectedCalculation() {
     const absentHours = parseInt(hoursAbsentInput);
     const totalHours = parseInt(totalContactInput);
 
-    // Validasi data input angka
     if (isNaN(absentHours) || isNaN(totalHours) || totalHours <= 0 || absentHours < 0) {
-        alert("Sila pastikan nilai 'Hours Absent' dan 'Total Contact Hours' diisi dengan angka yang betul.");
+        alert("Please ensure 'Hours Absent' and 'Total Contact Hours' are filled with valid values.");
         return;
     }
 
     if (absentHours > totalHours) {
-        alert("Ralat: Jam tidak hadir tidak boleh melebihi jumlah keseluruhan jam kuliah!");
+        alert("Error: Absent hours cannot exceed total contact hours!");
         return;
     }
 
     const attendedHours = totalHours - absentHours;
-    
-    // Mengira peratus kadar kehadiran (E.g., 15/20 = 75.0%)
     const attendancePercentage = ((attendedHours / totalHours) * 100).toFixed(1);
     
-    // Status sekatan rasmi KVDSMZ (Sekatan Barred teraktif jika ketidakhadiran >= 20%, bermakna kehadiran < 80%)
     const absentRate = (absentHours / totalHours) * 100;
     const isBarred = absentRate >= 20.0;
 
     const statusClass = isBarred ? "badge-absent" : "badge-present";
-    const statusText = isBarred ? "BARRED (Gagal Kehadiran)" : "ELIGIBLE (Layak Exam)";
+    const statusText = isBarred ? "BARRED (Attendance Failed)" : "ELIGIBLE (Exam Allowed)";
 
     let actionHTML = "";
     if (isBarred) {
         actionHTML = `
             <div class="letter-actions">
-                <button class="btn-letter btn-warning" onclick="generateLetterPDF('amaran', '${selectedStudent.name}', '${selectedStudent.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">⚠️ Amaran</button>
-                <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervensi', '${selectedStudent.name}', '${selectedStudent.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">📩 Intervensi</button>
+                <button class="btn-letter btn-warning" onclick="generateLetterPDF('warning', '${selectedStudent.name}', '${selectedStudent.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">⚠️ Warning Letter</button>
+                <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervention', '${selectedStudent.name}', '${selectedStudent.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">📩 Intervention</button>
             </div>`;
     } else {
         actionHTML = `<span class="txt-disabled">No Action Needed</span>`;
     }
 
-    // Suntat baris data pelajar ke dalam jadual keputusan di bawah
     const tbody = document.getElementById("calcBody");
-    tbody.innerHTML = `
-        <tr>
-            <td style="font-weight: 600;">${selectedStudent.name}</td>
-            <td>${selectedStudent.id}</td>
-            <td>${attendedHours} Jam</td>
-            <td>${absentHours} Jam</td>
-            <td style="font-weight: 700; color: ${isBarred ? 'var(--kv-danger)' : 'var(--kv-green)'}">${attendancePercentage}%</td>
-            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-            <td>${actionHTML}</td>
-        </tr>
+    const existingRow = document.getElementById(`row-${selectedStudent.id}`);
+
+    const rowHTML = `
+        <td style="font-weight: 600;">${selectedStudent.name}</td>
+        <td>${selectedStudent.id}</td>
+        <td>${attendedHours} Hours</td>
+        <td>${absentHours} Hours</td>
+        <td style="font-weight: 700; color: ${isBarred ? 'var(--kv-danger)' : 'var(--kv-green)'}">${attendancePercentage}%</td>
+        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+        <td>${actionHTML}</td>
     `;
+
+    // If student already exists in the table list, overwrite/update it. Otherwise, append it.
+    if (existingRow) {
+        existingRow.innerHTML = rowHTML;
+    } else {
+        const tr = document.createElement("tr");
+        tr.id = `row-${selectedStudent.id}`;
+        tr.innerHTML = rowHTML;
+        tbody.appendChild(tr);
+    }
 }
 
-// ── FUNGSI 3: JANA PDF WINDOW CETAKAN SURAT RASMI (A4) ──
+// ── FUNCTION 3: GENERATE REFORMATTED OFFICIAL PDF LETTERS ──
 function generateLetterPDF(type, name, id, course, attended, absent, displayPercent) {
-    const todayDate = new Date().toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
+    const todayDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
     let letterTitle = "";
     let letterBody = "";
     
-    if (type === "amaran") {
-        letterTitle = `SURAT AMARAN KETIDAKHADIRAN KURSUS: ${course}`;
+    if (type === "warning") {
+        letterTitle = `WARNING LETTER: COURSE ABSENTEEISM FOR ${course}`;
         letterBody = `
-            <p>Dengan segala hormatnya, perkara di atas adalah dirujuk.</p>
-            <p>2.&nbsp;&nbsp;Dukacita dimaklumkan bahawa anak/jagaan tuan/puan, <strong>${name}</strong> (No. Pelajar: <strong>${id}</strong>) yang mengikuti kursus <strong>${course}</strong> didapati gagal memenuhi syarat kehadiran minimum 80%.</p>
-            <p>3.&nbsp;&nbsp;Berikut merupakan rekod analisis sistem kehadiran semasa:</p>
+            <p>We are writing to bring to your urgent attention a matter regarding your child's academic attendance.</p>
+            <p>2.&nbsp;&nbsp;Please be informed that your child/ward, <strong>${name}</strong> (Student ID: <strong>${id}</strong>), who is currently enrolled in the course <strong>${course}</strong>, has failed to meet the required minimum attendance threshold of 80%.</p>
+            <p>3.&nbsp;&nbsp;According to our automated Attendance Management System (SMS) analytics, the current breakdown is as follows:</p>
             <ul>
-                <li>Jumlah Keseluruhan Kuliah: <strong>${attended + absent} Jam</strong></li>
-                <li>Jumlah Jam Hadir: <strong>${attended} Jam</strong></li>
-                <li>Jumlah Jam Tidak Hadir: <strong style="color:red;">${absent} Jam</strong></li>
-                <li>Peratusan Kehadiran Semasa: <strong>${displayPercent}%</strong></li>
+                <li>Total Course Contact Hours: <strong>${attended + absent} Hours</strong></li>
+                <li>Total Hours Attended: <strong>${attended} Hours</strong></li>
+                <li>Total Hours Absent: <strong style="color:red;">${absent} Hours</strong></li>
+                <li>Current Attendance Rate: <strong>${displayPercent}%</strong></li>
             </ul>
-            <p>4.&nbsp;&nbsp;Sehubungan dengan itu, status anak jagaan tuan/puan kini bertukar kepada <strong>BARRED</strong>. Sila hadir ke kolej bersama pelajar untuk memberikan surat tunjuk sebab rasmi bagi mengelakkan tindakan lanjut.</p>
+            <p>4.&nbsp;&nbsp;Consequently, the student's status has been updated to <strong>BARRED</strong>. The student will be restricted from sitting for the Final Examination / Evaluation for this semester unless a valid official justification (e.g., medical certificate) is produced immediately.</p>
+            <p>Please contact the course lecturer as soon as possible to resolve this issue.</p>
         `;
     } else {
-        letterTitle = `SURAT JEMPUTAN PROGRAM INTERVENSI AKADEMIK`;
+        letterTitle = `INVITATION LETTER: STUDENT ACADEMIC INTERVENTION PROGRAMME`;
         letterBody = `
-            <p>Merujuk kepada ketidakhadiran kritikal bagi kursus <strong>${course}</strong>, anak jagaan tuan/puan <strong>${name}</strong> (${id}) diwajibkan untuk melalui proses intervensi.</p>
-            <p>2.&nbsp;&nbsp;Tuan/puan dengan ini diminta hadir ke kolej bagi membincangkan pemulihan prestasi kehadiran anak jagaan tuan/puan:</p>
+            <p>Following the critical absenteeism rate recorded for the course <strong>${course}</strong>, your child/ward <strong>${name}</strong> (${id}) is strictly required to undergo the institutional academic intervention process.</p>
+            <p>2.&nbsp;&nbsp;You are hereby respectfully requested to attend an urgent meeting with the Academic Counselling Unit and the respective course lecturer to discuss methods to support and rehabilitate the student's attendance track record:</p>
             <table style="width:100%; border:none; margin: 15px 0;">
-                <tr><td style="width:140px; border:none; padding:4px 0;"><strong>Tempat Sesi</strong></td><td style="border:none; padding:4px 0;">: Bilik Intervensi Kaunseling, KVDSMZ</td></tr>
-                <tr><td style="border:none; padding:4px 0;"><strong>Tindakan</strong></td><td style="border:none; padding:4px 0;">: Sila bawa bersama dokumen sokongan (MC / Surat Rasmi)</td></tr>
+                <tr><td style="width:150px; border:none; padding:4px 0;"><strong>Session Location</strong></td><td style="border:none; padding:4px 0;">: Academic Intervention & Counselling Room, KVDSMZ</td></tr>
+                <tr><td style="border:none; padding:4px 0;"><strong>Required Actions</strong></td><td style="border:none; padding:4px 0;">: Please bring along any official supporting documents (MC / Excuse Letters)</td></tr>
+                <tr><td style="border:none; padding:4px 0;"><strong>Date / Time</strong></td><td style="border:none; padding:4px 0;">: Please contact the Head of Programme to schedule an appointment</td></tr>
             </table>
+            <p>Your prompt cooperation is highly valued to ensure the student's academic continuity at the Vocational College.</p>
         `;
     }
 
@@ -137,7 +189,7 @@ function generateLetterPDF(type, name, id, course, attended, absent, displayPerc
     printWindow.document.write(`
         <html>
         <head>
-            <title>Cetak_Surat_${id}</title>
+            <title>Print_Letter_${id}</title>
             <style>
                 @page { size: A4; margin: 2.5cm; }
                 body { font-family: 'Arial', sans-serif; font-size: 11pt; line-height: 1.6; color: #000; padding: 20px; }
@@ -150,21 +202,21 @@ function generateLetterPDF(type, name, id, course, attended, absent, displayPerc
         </head>
         <body>
             <div class="letter-head">
-                KOLEJ VOKASIONAL DATUK SERI MOHD ZIN<br>
+                DATUK SERI MOHD ZIN VOCATIONAL COLLEGE<br>
                 <span style="font-size:10pt; font-weight:normal;">JALAN GETAH, 78000 ALOR GAJAH, MELAKA</span>
             </div>
             <table class="meta-table">
                 <tr>
-                    <td><strong>Kepada:</strong><br>Ibu bapa / Penjaga<br>Pelajar: ${name} (${id})</td>
-                    <td style="text-align: right;"><strong>Ruj:</strong> KVDSMZ/INT/${id}<br><strong>Tarikh:</strong> ${todayDate}</td>
+                    <td><strong>To:</strong><br>Parent / Guardian of<br>Student: ${name} (${id})</td>
+                    <td style="text-align: right;"><strong>Ref:</strong> KVDSMZ/INT/${id}<br><strong>Date:</strong> ${todayDate}</td>
                 </tr>
             </table>
             <div class="title">${letterTitle}</div>
             <div>${letterBody}</div>
             <div class="footer">
-                <p>Yang menjalankan amanah,</p><br><br>
+                <p>Respectfully yours,</p><br><br>
                 <strong>.....................................</strong><br>
-                b.p. Pengarah Kolej Vokasional Datuk Seri Mohd Zin
+                f.b. Director of Datuk Seri Mohd Zin Vocational College
             </div>
             <script>
                 window.onload = function() { window.print(); setTimeout(function() { window.close(); }, 500); };
