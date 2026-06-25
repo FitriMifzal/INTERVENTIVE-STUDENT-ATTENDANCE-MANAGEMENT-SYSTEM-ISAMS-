@@ -12,67 +12,55 @@
     <div class="logo-container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Logo_Kolej_Vokasional.png/640px-Logo_Kolej_Vokasional.png" alt="KV Logo">
     </div>
-
     <div class="role-badge">Subject Teacher</div>
-
     <div class="nav-menu">
-        <button class="nav-item">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-            Dashboard
-        </button>
-        <button class="nav-item">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            Student Class
-        </button>
-        <button class="nav-item">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Student Attendance
-        </button>
-        <button class="nav-item active">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
-            Calculate Percentage
-        </button>
-        <button class="nav-item">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Absent Records
-        </button>
+        <button class="nav-item">Dashboard</button>
+        <button class="nav-item">Student Class</button>
+        <button class="nav-item">Student Attendance</button>
+        <button class="nav-item active">Calculate Percentage</button>
+        <button class="nav-item">Absent Records</button>
     </div>
 </div>
 
 <div id="main-wrapper">
     <div id="header">
-        <div class="header-left">
-            <span>Intervention: Student Management System</span>
-        </div>
-        <div class="header-right">
-            <span>Subject Teacher</span>
-            <div class="user-avatar-circle">T</div>
-        </div>
+        <div class="header-left"><span>Intervention: Student Management System</span></div>
+        <div class="header-right"><span>Subject Teacher</span><div class="user-avatar-circle">T</div></div>
     </div>
 
     <div class="container">
         <div class="card">
-            <div class="card-title">Course Attendance Configuration</div>
-            <p class="card-sub">Sila masukkan kod kursus dan jam pertemuan secara manual untuk mengira peratusan.</p>
+            <div class="card-title">Step 1: Search Student ID (Desired Student)</div>
+            <p class="card-sub">Enter the Student ID to verify the student's record in the system.</p>
+            
+            <div style="display: flex; gap: 12px; max-width: 500px;">
+                <input type="text" id="searchStudentID" class="search-input" style="max-width:none;" placeholder="e.g., 2023112709">
+                <button class="btn btn-save" onclick="searchStudent()">Verify ID</button>
+            </div>
+            <div id="searchMessage" style="margin-top: 10px; font-size: 13.5px; font-weight: 600;"></div>
+        </div>
+
+        <div class="card" id="inputSection" style="display: none; border-left: 4px solid var(--kv-orange);">
+            <div class="card-title">Step 2: Enter Student Attendance Details</div>
+            <p class="card-sub">Please input the course details and contact hours for: <span id="targetStudentName" style="color: #1e293b; font-weight: 700;"></span></p>
             
             <div class="config-layout">
                 <div class="config-grid">
                     <div class="form-group">
-                        <label for="courseCode">Course Code</label>
+                        <label>Course Code</label>
                         <input type="text" id="courseCode" placeholder="e.g., TRC501">
                     </div>
                     <div class="form-group">
-                        <label for="creditHours">Credit Hours</label>
-                        <input type="number" id="creditHours" placeholder="e.g., 3" min="1">
+                        <label>Hours Absent</label>
+                        <input type="number" id="hoursAbsent" placeholder="e.g., 5" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="contactHours">Jumlah Keseluruhan Jam Kuliah</label>
-                        <input type="number" id="contactHours" placeholder="e.g., 20" min="1">
+                        <label>Total Contact Hours</label>
+                        <input type="number" id="totalContactHours" placeholder="e.g., 20" min="1">
                     </div>
                 </div>
                 <div class="config-actions">
-                    <button class="btn btn-save" onclick="triggerCalculation()">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <button class="btn btn-save" onclick="processSelectedCalculation()">
                         Calculate Analytics
                     </button>
                 </div>
@@ -80,15 +68,8 @@
         </div>
 
         <div class="card">
-            <div class="card-title">Automated Attendance Analytics & Percentage</div>
-            <p class="card-sub">Menjejaki ketidakhadiran pelajar berasaskan formula rasmi KVDSMZ.</p>
-
-            <div class="toolbar-panel">
-                <input type="text" id="calcSearch" class="search-input" oninput="filterCalcGrid()" placeholder="Search student name or ID...">
-                <div class="btn-group-actions">
-                    <button class="btn btn-export" onclick="exportAnalysisCSV()">Export CSV</button>
-                </div>
-            </div>
+            <div class="card-title">Attendance Analysis Result</div>
+            <p class="card-sub">View evaluation status and generate formal official letters.</p>
 
             <div class="sheet-table-wrapper">
                 <table>
@@ -96,18 +77,15 @@
                         <tr>
                             <th>Student Name</th>
                             <th>Student ID</th>
-                            <th>Jam Hadir</th>
-                            <th>Jam Tidak Hadir</th>
-                            <th>Peratus Ketidakhadiran (%)</th>
-                            <th>Status Penilaian</th>
-                            <th style="text-align: center;">Tindakan (Surat Rasmi)</th>
+                            <th>Hours Attended</th>
+                            <th>Hours Absent</th>
+                            <th>Attendance Rate (%)</th>
+                            <th>Evaluation Status</th>
+                            <th style="text-align: center;">Actions (Official Letters)</th>
                         </tr>
                     </thead>
                     <tbody id="calcBody">
-                        <tr>
-                            <td colspan="7" style="color: #64748b; padding: 20px; text-align: center;">Sila isi konfigurasi di atas dan klik "Calculate Analytics" untuk memulakan analisis.</td>
-                        </tr>
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
