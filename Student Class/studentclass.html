@@ -14,12 +14,12 @@
     </div>
     <div class="role-badge" id="display-role">Loading...</div>
     <nav>
-      <a href="Dashboard.html" class="nav-item">Dashboard</a>
-      <a href="deleteaccount.html" id="nav-account" class="nav-item" style="display:none;">Account</a>
-      <a href="studentclass.html" class="nav-item active">Student Class</a>
-      <a href="student-list.html" class="nav-item">Student Profile</a>
-      <a href="testsubject.html" class="nav-item">Subject</a>
-      <a href="absent_record.html" class="nav-item">Absent Records</a>
+      <a href="../Dashboard.html" class="nav-item">Dashboard</a>
+      <a href="../deleteaccount.html" id="nav-account" class="nav-item" style="display:none;">Account</a>
+      <a href="../main.html" class="nav-item active">Student Class</a>
+      <a href="../student-list.html" class="nav-item">Student Profile</a>
+      <a href="../testsubject.html" class="nav-item">Subject</a>
+      <a href="../absent_record.html" class="nav-item">Absent Records</a>
     </nav>
     <div class="logout-section">
       <a href="#" onclick="logoutUser()" class="nav-item logout">Logout</a>
@@ -28,12 +28,12 @@
 
   <div id="main-wrapper">
     <header id="header">
-        <button class="header-title-btn" onclick="toggleSidebar()">
-          <span style="font-size:24px;">&#9776;</span>
-          <span style="font-weight: bold; font-size: 1.2rem; white-space: nowrap; font-family: sans-serif;">Intervention: Student Management System</span>
-        </button>
+      <button class="header-title-btn" onclick="toggleSidebar()">
+        <span style="font-size:24px;">&#9776;</span>
+        <span style="font-weight: bold; font-size: 1.2rem; white-space: nowrap; font-family: sans-serif;">Intervention: Student Management System</span>
+      </button>
 
-      <div class="user-profile" onclick="window.location.href='profile.html'">
+      <div class="user-profile" onclick="window.location.href='../profile.html'">
         <span id="user-fullname" class="user-name">Loading...</span>
         <div class="user-icon">
           <span id="user-initial"></span>
@@ -45,13 +45,14 @@
       <div class="shadow-box">
         <div class="header-row">
           <h1>Student Class</h1>
-          <button class="btn-create" onclick="window.location.href='CreateStudentClass.html'">Create</button>
+          <button class="btn-create" onclick="window.location.href='../createstudentclass.html'">Create</button>
         </div>
         <div class="orange-bar"></div>
 
         <table>
           <thead>
             <tr>
+              <th>No.</th>
               <th>Class Code</th>
               <th>Class Name</th>
               <th>Actions</th>

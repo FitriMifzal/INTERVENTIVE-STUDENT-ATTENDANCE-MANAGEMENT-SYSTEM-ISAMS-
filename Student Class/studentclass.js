@@ -4,14 +4,15 @@ function loadClasses() {
   table.innerHTML = "";
 
   if (classes.length === 0) {
-    table.innerHTML = `<tr><td colspan="3">No classes found</td></tr>`;
+    table.innerHTML = `<tr><td colspan="4">No classes found</td></tr>`;
     return;
   }
 
-  classes.forEach(c => {
+  classes.forEach((c, index) => {
     const row = document.createElement("tr");
 
     row.innerHTML = `
+      <td>${index + 1}</td>
       <td>${c.classId}</td>
       <td>${c.className}</td>
       <td>

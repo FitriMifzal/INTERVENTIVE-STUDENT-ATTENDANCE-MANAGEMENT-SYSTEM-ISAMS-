@@ -29,7 +29,9 @@ body {
   z-index: 1000;
 }
 
-#sidebar.collapsed { left: calc(var(--sidebar-width) * -1); }
+#sidebar.collapsed { 
+  left: calc(var(--sidebar-width) * -1); 
+}
 
 #sidebar .logo { 
   text-align: center; 
@@ -38,11 +40,12 @@ body {
   padding: 10px; 
   margin-bottom: 20px; 
 }
+
 #sidebar .logo img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 .role-badge {
@@ -57,7 +60,9 @@ body {
   letter-spacing: 1px;
 }
 
-nav { flex-grow: 1; }
+nav { 
+  flex-grow: 1; 
+}
 
 .nav-item {
   padding: 12px 15px;
@@ -84,7 +89,10 @@ nav { flex-grow: 1; }
   margin-top: 15px;
 }
 
-.nav-item.logout { color: #ff9a9a; }
+.nav-item.logout { 
+  color: #ff9a9a; 
+}
+
 .nav-item.logout:hover {
   background: rgba(255, 71, 71, 0.1);
   color: #ff4747;
@@ -101,7 +109,10 @@ nav { flex-grow: 1; }
   box-sizing: border-box;
 }
 
-#main-wrapper.expanded { margin-left: 0; width: 100%; }
+#main-wrapper.expanded { 
+  margin-left: 0; 
+  width: 100%; 
+}
 
 #header {
   background: var(--kv-header-orange);
@@ -139,7 +150,9 @@ nav { flex-grow: 1; }
   transition: 0.2s;
 }
 
-.user-profile:hover { background: rgba(255, 255, 255, 0.1); }
+.user-profile:hover { 
+  background: rgba(255, 255, 255, 0.1); 
+}
 
 .user-icon {
   width: 45px;
@@ -160,10 +173,18 @@ nav { flex-grow: 1; }
   text-transform: uppercase;
 }
 
-.user-name { font-weight: 600; font-size: 0.95rem; }
+.user-name { 
+  font-weight: 600; 
+  font-size: 0.95rem; 
+}
 
 /* --- CONTENT AREA --- */
-#content { padding: 30px; flex-grow: 1; box-sizing: border-box; }
+#content { 
+  padding: 30px; 
+  flex-grow: 1; 
+  box-sizing: border-box; 
+}
+
 .header-row {
   display: flex;
   justify-content: space-between;
@@ -195,7 +216,10 @@ h1 {
   font-size:14px;
   font-weight: bold;
 }
-.btn-create:hover { background:#e04d24; }
+
+.btn-create:hover { 
+  background:#e04d24; 
+}
 
 .orange-bar {
   width: 100%;
@@ -205,12 +229,19 @@ h1 {
 }
 
 /* --- TABLE STYLES --- */
-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-top: 10px; 
+  border: 1px solid #bbb; /* Garisan luar jadual */
+}
+
 th, td {
   padding: 12px;
   text-align: center;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #bbb; /* Garisan kotak keliling sel */
 }
+
 th {
   background: #e0e0e0;
   color: #000;
