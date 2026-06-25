@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Profile | KV Student Management</title>
+    <link rel="stylesheet" href="ViewAccount.css">
+</head>
+<body>
+    <aside id="sidebar">
+        <div class="logo"><img src="WhatsApp Image 2026-01-11 at 12.37.08.jpeg" alt="Logo"></div>
+        <div class="role-badge" id="display-role">STATUS</div>
+        <nav>
+            <a href="../Dashboard/Dashboard.html"    class="nav-item">Dashboard</a>
+            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item active">Account</a>
+            <a href="../Create-Student-Class/StudentClass.html"         class="nav-item">Student Class</a>
+            <a href="../studentList/studentList.html" class="nav-item">Student Profile</a>
+            <a href="../Subject/Subject.html"  class="nav-item">Subject</a>
+            <a href="../Create-Student-Absent-Record/Create-Student-Absent-Record.html" class="nav-item">Absent Records</a>
+        </nav>
+        <div class="logout-section"><a onclick="logout()" class="nav-item">Logout</a></div>
+    </aside>
+
+    <div id="main-wrapper">
+        <header id="header">
+            <div style="font-weight: bold; font-size: 18px;">Intervention System</div>
+            <div class="user-profile">
+                <span id="user-fullname">User Name</span>
+                <div id="user-initial" class="user-initial-icon">?</div>
+            </div>
+        </header>
+
+        <main id="content">
+            <div class="card" id="profile-section">
+                <h2 id="profile-title" style="color: var(--kv-primary);">My Profile Information</h2>
+                <hr>
+                <div class="profile-grid">
+                    <div class="input-group"><label>Teacher ID</label><input type="text" id="profID" disabled></div>
+                    <div class="input-group"><label>IC Number</label><input type="text" id="profIC" disabled></div>
+                    <div class="input-group"><label>Full Name</label><input type="text" id="profName" disabled></div>
+                    <div class="input-group"><label>Email Address</label><input type="email" id="profEmail" disabled></div>
+                    <div class="input-group"><label>Phone Number</label><input type="text" id="profPhone" disabled></div>
+                </div>
+                <div class="button-group" style="margin-top:20px; display:flex; gap:10px;">
+                    <button class="btn btn-edit" onclick="window.location.href='updateaccount.html'">EDIT PROFILE</button>
+                    <button class="btn btn-back" onclick="window.location.href='Dashboard.html'">BACK</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="ViewAccount.js"></script>
+</body>
+</html>

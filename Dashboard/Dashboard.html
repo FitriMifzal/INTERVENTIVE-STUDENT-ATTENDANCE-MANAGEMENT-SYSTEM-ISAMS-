@@ -15,8 +15,8 @@
         <nav>
             <a href="../Dashboard/Dashboard.html"    class="nav-item active">Dashboard</a>
             <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
-            <a href="../View-Student/viewStudent.html"         class="nav-item">Student Class</a>
-            <a href="../studentList/studentList.html" class="nav-item">Student Profile</a>
+            <a href="../Student-Class/StudentClass.html"         class="nav-item">Student Class</a>
+            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
             <a href="../Subject/Subject.html"  class="nav-item">Subject</a>
             <a href="../Create-Student-Absent-Record/Create-Student-Absent-Record.html" class="nav-item">Absent Records</a>
         </nav>
@@ -27,7 +27,10 @@
 
     <div id="main-wrapper">
         <header id="header">
-            <div style="font-weight: bold; font-size: 18px;">Intervention System</div>
+            <button class="header-title" onclick="toggleSidebar()">
+                <span class="menu-icon">&#9776;</span>
+                <span class="header-text">Intervention: Student Management System</span>
+            </button>
             <div class="user-profile" onclick="toggleProfile()">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
