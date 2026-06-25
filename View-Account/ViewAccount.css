@@ -203,5 +203,11 @@ header button {
     padding: 40px;
 }
 
+/* ── SUBMENU STYLE ── */
+.submenu { display: flex; flex-direction: column; gap: 2px; padding-left: 20px; margin-bottom: 8px; }
+.sub-nav-item { padding: 10px 15px; color: rgba(255,255,255,0.7); text-decoration: none; display: flex; align-items: center; font-size: 14px; border-radius: 6px; transition: 0.3s; }
+.sub-nav-item:hover, .sub-nav-item.active { background: rgba(255,255,255,0.08); color: white; }
+.sub-nav-item.active { font-weight: 600; color: #fff; border-left: 3px solid var(--kv-header-orange); border-radius: 0 6px 6px 0; }
+
 /* --- END SHARED SIDEBAR & HEADER STYLES --- */
 
