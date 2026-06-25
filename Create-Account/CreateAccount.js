@@ -42,7 +42,7 @@ function processConfirm() {
     showLogin();
 }
 
-// ── FUNGSI BAHARU: MENUKAR LABEL ID / IC MENGIKUT ROLE ──
+// Menukar label input mengikut pilihan Radio Button
 function handleRoleChange() {
     const selectedRole = document.querySelector('input[name="loginRole"]:checked').value;
     const loginIDLabel = document.getElementById('loginIDLabel');
@@ -57,36 +57,39 @@ function handleRoleChange() {
     }
 }
 
-// ── FUNGSI BAHARU: TUNJUK / SEMBUNYI PASSWORD (FEATURES EYES) ──
+// ── FUNGSI DIKEMAS KINI: KLIK BUTANG UNTUK TUKAR IKON MATA SVG ──
 function togglePasswordVisibility(inputId, buttonEl) {
     const passInput = document.getElementById(inputId);
+    const eyeOpenIcon = buttonEl.querySelector('.eye-open');
+    const eyeClosedIcon = buttonEl.querySelector('.eye-closed');
+
     if (passInput.type === "password") {
         passInput.type = "text";
-        buttonEl.textContent = "🙈"; // Tukar ikon mata kepada tutup mata apabila password kelihatan
+        eyeOpenIcon.style.display = "none";
+        eyeClosedIcon.style.display = "block"; // Tunjuk ikon mata bergaris/tutup
     } else {
         passInput.type = "password";
-        buttonEl.textContent = "👁️"; // Kembali kepada ikon asal (tersembunyi sebagai ****)
+        eyeOpenIcon.style.display = "block";  // Tunjuk ikon mata biasa
+        eyeClosedIcon.style.display = "none";
     }
 }
 
-// ── FUNGSI CHECK LOGIN YANG TELAH DIUBAH SUAI KREDENSIALNYA ──
 function checkLogin() {
     const inputID = document.getElementById('loginID').value.trim();
     const inputPass = document.getElementById('loginPass').value;
     const selectedRole = document.querySelector('input[name="loginRole"]:checked').value;
 
     if (selectedRole === "Penyelaras Intervensi") {
-        // Penyelaras Intervensi menggunakan: ID Number (ADMIN123) & Password
         if (inputID.toUpperCase() === "ADMIN123" && inputPass === "PASSWORD123") {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('active_role', "Penyelaras Intervensi");
             localStorage.setItem('active_name', "Admin Penyelaras");
             window.location.href = "../Dashboard/Dashboard.html";
         } else { 
-            alert("Invalid Admin Credentials! (Please check your ID Number and Password)"); 
+            alert("Invalid Admin Credentials!"); 
         }
     } else {
-        // Teacher menggunakan: IC Number & Password semasa log masuk
+        // Teacher memerlukan padanan rekod IC Number
         const storedIC = localStorage.getItem('reg_ic');
         const storedPass = localStorage.getItem('reg_pass');
         const storedName = localStorage.getItem('reg_name');
@@ -97,7 +100,7 @@ function checkLogin() {
             localStorage.setItem('active_name', storedName);
             window.location.href = "Dashboard.html"; 
         } else { 
-            alert("Invalid Teacher Credentials! (Please check your IC Number and Password)"); 
+            alert("Invalid Teacher Credentials!"); 
         }
     }
 }
