@@ -8,36 +8,27 @@
 <body>
 
 <aside id="sidebar">
-    <div class="logo">
-        <img src="WhatsApp Image 2026-01-11 at 12.37.08.jpeg">
-    </div>
-
-    <div class="role-badge" id="sidebar-role">Penyelaras Intervensi</div>
-
-    <nav>
-        <a href="../Dashboard/Dashboard.html"    class="nav-item">Dashboard</a>
+        <div class="logo">
+            <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
+        </div>
+        <div class="role-badge" id="display-role">STATUS</div>
+        <nav>
+            <a href="../Dashboard/Dashboard.html"    class="nav-item">Dashboard</a>
             <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
             <a href="../Student-Class/StudentClass.html"    class="nav-item">Student Class</a>
-            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
-            <a href="../Subject/Subject.html"  class="nav-item">Subject</a>
-        
-        <div class="nav-item">Subject</div>
+            <a href="../Student-List/StudentList.html" class="nav-item active">Student Profile</a>
+            <div class="nav-item">Subject</div>
         <div class="submenu">
-            <a href="subject-details.html" class="sub-nav-item">Details Subject</a>
-            <a href="subject-enrollment.html" class="sub-nav-item active">Enroll Students</a>
+            <a href="../Subject/Subject.html" class="sub-nav-item">Details Subject</a>
+            <a href="../Enroll-Subject/Enroll-Subject.html" class="sub-nav-item">Enroll Students</a>
         </div>
-        
-        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item active">Student Attendance</a>
+            <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item">Student Attendance</a>
             <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item">Calculate Percentage</a>
-    </nav>
-
-    <div class="logout-section">
-        <a href="#" onclick="logoutUser()" class="nav-item logout">
-            <svg viewBox="0 0 24 24"><path d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z"/></svg>
-            Logout
-        </a>
-    </div>
-</aside>
+        </nav>
+        <div class="logout-section">
+            <a onclick="logout()" class="nav-item">Logout</a>
+        </div>
+    </aside>
 
 <div id="main-wrapper">
     <header id="header">
