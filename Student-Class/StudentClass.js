@@ -1,78 +1,65 @@
-function loadProfile() {
-    const name = localStorage.getItem('reg_name');
-    const role = localStorage.getItem('reg_role');
-    const accountNav = document.getElementById('nav-account');
-
-    if (name) {
-        document.getElementById('user-fullname').innerText = name;
-        document.getElementById('user-initial').innerText = name.trim().charAt(0).toUpperCase();
-    }
-
-    if (role) {
-        document.getElementById('display-role').innerText = role;
-        if (role !== "Penyelaras Intervensi") {
-            if (accountNav) accountNav.style.display = 'none';
-        }
-    }
-}
-
 function loadClasses() {
-    const classes = JSON.parse(localStorage.getItem('classes')) || [];
-    const tbody = document.getElementById('classTableBody');
-    tbody.innerHTML = '';
+  const classes = JSON.parse(localStorage.getItem("classes")) || [];
+  const table = document.getElementById("classTable");
+  table.innerHTML = "";
 
-    if (classes.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="4" class="empty-state">No classes found. Click Create Class to add one.</td>
-            </tr>
-        `;
-        return;
-    }
+  if (classes.length === 0) {
+    table.innerHTML = `<tr><td colspan="4">No classes found</td></tr>`;
+    return;
+  }
 
-    classes.forEach((cls, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${cls.classId}</td>
-            <td>${cls.className}</td>
-            <td class="action-cell">
-                <button class="btn-update" onclick="goToUpdate('${encodeURIComponent(cls.classId)}')">Update</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
+  classes.forEach((c, index) => {
+    const row = document.createElement("tr");
 
-function searchTable() {
-    const filter = document.getElementById('searchInput').value.toLowerCase();
-    document.querySelectorAll('#classTableBody tr').forEach(row => {
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.includes(filter) ? '' : 'none';
-    });
-}
-
-function goToCreate() {
-    window.location.href = '../Create-Student-Class/CreateStudentClass.html';
-}
-
-function goToUpdate(classId) {
-    window.location.href = `../Update-Student-Class/UpdateStudentClass.html?id=${classId}`;
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${c.classId}</td>
+      <td>${c.className}</td>
+      <td>
+        <button class="btn-update" 
+                onclick="window.location.href='updatestudentclass.html?id=${c.classId}'">Update</button>
+      </td>
+    `;
+    table.appendChild(row);
+  });
 }
 
 function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('main-wrapper').classList.toggle('expanded');
+  document.getElementById("sidebar").classList.toggle("collapsed");
+  document.getElementById("main-wrapper").classList.toggle("expanded");
 }
 
 function logoutUser() {
-    if (confirm('Are you sure you want to log out?')) {
-        localStorage.removeItem('isLoggedIn');
-        window.location.href = '../create-account/CreateAccount.html';
-    }
+  if (confirm("Are you sure you want to logout?")) {
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "login.html";
+  }
 }
 
-window.onload = function() {
-    loadProfile();
-    loadClasses();
+window.onload = function () {
+  if (localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "login.html";
+    return;
+  }
+
+  loadClasses();
+
+  const name = localStorage.getItem("active_name") || "Guest User";
+  const role = localStorage.getItem("active_role") || "Subject Teacher";
+
+  document.getElementById("user-fullname").innerText = name;
+  document.getElementById("display-role").innerText = role;
+  document.getElementById("user-initial").innerText = name
+    .charAt(0)
+    .toUpperCase();
+
+  if (role === "Penyelaras Intervensi") {
+    const navAccount = document.getElementById("nav-account");
+    if (navAccount) navAccount.style.display = "flex";
+  }
+
+  if (role === "Subject Teacher") {
+    const createBtn = document.querySelector(".btn-create");
+    if (createBtn) createBtn.style.display = "none";
+  }
 };
