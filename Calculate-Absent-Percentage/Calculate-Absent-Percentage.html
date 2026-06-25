@@ -30,19 +30,19 @@
 
     <div class="container">
         <div class="card">
-            <div class="card-title">Langkah 1: Cari ID Pelajar (Desired Student)</div>
-            <p class="card-sub">Masukkan No. Pelajar untuk mengesahkan rekod dalam sistem.</p>
+            <div class="card-title">Step 1: Search Student ID (Desired Student)</div>
+            <p class="card-sub">Enter the Student ID to verify the student's record in the system.</p>
             
             <div style="display: flex; gap: 12px; max-width: 500px;">
-                <input type="text" id="searchStudentID" class="search-input" style="max-width:none;" placeholder="Contoh: 2023112709">
-                <button class="btn btn-save" onclick="searchStudent()">Sahkan ID</button>
+                <input type="text" id="searchStudentID" class="search-input" style="max-width:none;" placeholder="e.g., 2023112709">
+                <button class="btn btn-save" onclick="searchStudent()">Verify ID</button>
             </div>
             <div id="searchMessage" style="margin-top: 10px; font-size: 13.5px; font-weight: 600;"></div>
         </div>
 
         <div class="card" id="inputSection" style="display: none; border-left: 4px solid var(--kv-orange);">
-            <div class="card-title">Langkah 2: Masukkan Butiran Kehadiran Pelajar</div>
-            <p class="card-sub">Sila isi maklumat jam kuliah bagi pelajar: <span id="targetStudentName" style="color: #1e293b; font-weight: 700;"></span></p>
+            <div class="card-title">Step 2: Enter Student Attendance Details</div>
+            <p class="card-sub">Please input the course details and contact hours for: <span id="targetStudentName" style="color: #1e293b; font-weight: 700;"></span></p>
             
             <div class="config-layout">
                 <div class="config-grid">
@@ -51,11 +51,11 @@
                         <input type="text" id="courseCode" placeholder="e.g., TRC501">
                     </div>
                     <div class="form-group">
-                        <label>Hours Absent (Jam Tidak Hadir)</label>
+                        <label>Hours Absent</label>
                         <input type="number" id="hoursAbsent" placeholder="e.g., 5" min="0">
                     </div>
                     <div class="form-group">
-                        <label>Total Contact Hours (Jumlah Jam Kuliah)</label>
+                        <label>Total Contact Hours</label>
                         <input type="number" id="totalContactHours" placeholder="e.g., 20" min="1">
                     </div>
                 </div>
@@ -68,8 +68,8 @@
         </div>
 
         <div class="card">
-            <div class="card-title">Hasil Analisis Kehadiran Pelajar</div>
-            <p class="card-sub">Keputusan status penilaian dan penjanaan surat tindakan.</p>
+            <div class="card-title">Attendance Analysis Result</div>
+            <p class="card-sub">View evaluation status and generate formal official letters.</p>
 
             <div class="sheet-table-wrapper">
                 <table>
@@ -77,17 +77,17 @@
                         <tr>
                             <th>Student Name</th>
                             <th>Student ID</th>
-                            <th>Jam Hadir</th>
-                            <th>Jam Tidak Hadir</th>
-                            <th>Peratus Kehadiran (%)</th>
-                            <th>Status Penilaian</th>
-                            <th style="text-align: center;">Tindakan (Surat Rasmi)</th>
+                            <th>Hours Attended</th>
+                            <th>Hours Absent</th>
+                            <th>Attendance Rate (%)</th>
+                            <th>Evaluation Status</th>
+                            <th style="text-align: center;">Actions (Official Letters)</th>
                         </tr>
                     </thead>
                     <tbody id="calcBody">
                         <tr>
                             <td colspan="7" style="color: #64748b; padding: 20px; text-align: center;">
-                                Tiada data diproses. Sila jalankan Langkah 1 & Langkah 2 di atas.
+                                No data processed. Please complete Step 1 & Step 2 above.
                             </td>
                         </tr>
                     </tbody>
