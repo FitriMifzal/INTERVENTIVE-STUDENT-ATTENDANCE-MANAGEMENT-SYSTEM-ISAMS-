@@ -1,63 +1,65 @@
+window.onload = function() {
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "login.html";
+        return;
+    }
 
-    window.onload = function() {
-        const storedName = localStorage.getItem('reg_name') || "Guest User";
-        const storedRole = localStorage.getItem('reg_role') || "Staff";
+    const storedName = localStorage.getItem('active_name') || "Guest User";
+    const storedRole = localStorage.getItem('active_role') || "Subject Teacher";
 
-        document.getElementById('user-fullname').innerText = storedName;
-        document.getElementById('display-role').innerText = storedRole;
-        document.getElementById('user-initial').innerText = storedName.charAt(0).toUpperCase();
+    document.getElementById('user-fullname').innerText = storedName;
+    document.getElementById('display-role').innerText = storedRole;
+    document.getElementById('user-initial').innerText = storedName.charAt(0).toUpperCase();
 
-        if (storedRole === "Penyelaras Intervensi") {
-            const acc = document.getElementById('nav-account');
-            if(acc) acc.style.display = 'flex';
-        }
+    if (storedRole === "Penyelaras Intervensi") {
+        const acc = document.getElementById('nav-account');
+        if(acc) acc.style.display = 'flex';
+    }
+};
+
+// Fungsi menguruskan penyerahan data borang pendaftaran kelas
+function handleForm(event) {
+    event.preventDefault(); 
+    
+    const cid = document.getElementById("classId").value.trim();
+    const cname = document.getElementById("className").value.trim();
+
+    if (!cid || !cname) {
+        alert("Please fill in all the information!");
+        return;
+    }
+
+    let classes = JSON.parse(localStorage.getItem("classes")) || [];
+
+    // Semakan untuk memastikan kod kelas tidak bertindih
+    if (classes.some(c => c.classId.toLowerCase() === cid.toLowerCase())) {
+        alert("This Class ID already exists!");
+        return;
+    }
+
+    const newClass = {
+        classId: cid,
+        className: cname,
+        isArchived: false 
     };
 
-    // Function to handle form submission
-    function handleForm(event) {
-        event.preventDefault(); // Prevents the page from refreshing
-        
-        const cid = document.getElementById("classId").value.trim();
-        const cname = document.getElementById("className").value.trim();
+    classes.push(newClass);
+    localStorage.setItem("classes", JSON.stringify(classes));
 
-        if (!cid || !cname) {
-            alert("Please fill in all the information!");
-            return;
-        }
+    alert("Class successfully registered!");
+    window.location.href = "main.html";
+}
 
-        let classes = JSON.parse(localStorage.getItem("classes")) || [];
+// Fungsi interaksi sidebar toggle
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    document.getElementById('main-wrapper').classList.toggle('expanded');
+}
 
-        // Check if Class ID already exists
-        if (classes.some(c => c.classId.toLowerCase() === cid.toLowerCase())) {
-            alert("This Class ID already exists!");
-            return;
-        }
-
-        // Save data (isArchived: false so it appears in main.html table)
-        const newClass = {
-            classId: cid,
-            className: cname,
-            isArchived: false 
-        };
-
-        classes.push(newClass);
-        localStorage.setItem("classes", JSON.stringify(classes));
-
-        alert("Class successfully registered!");
-        
-        // Redirect to main.html
-        window.location.href = "main.html";
+// Fungsi log keluar sistem
+function logoutUser() {
+    if(confirm("Are you sure you want to log out?")) {
+        localStorage.removeItem('isLoggedIn');
+        window.location.href = "login.html";
     }
-
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('collapsed');
-        document.getElementById('main-wrapper').classList.toggle('expanded');
-    }
-
-    function logoutUser() {
-        if(confirm("Are you sure you want to log out?")) {
-            localStorage.removeItem('isLoggedIn');
-            window.location.href = "login.html";
-        }
-    }
-
+}
