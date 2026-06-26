@@ -30,7 +30,7 @@ function loadClassData() {
     // Check if class exists
     if (classIdFromURL && !selectedClass) {
         alert("Class not found!");
-        window.location.href = "../Student-Class/StudentClass.html";
+        window.location.href = "../Student Class/StudentClass.html";
         return;
     }
 
@@ -40,7 +40,7 @@ function loadClassData() {
         document.getElementById("className").value = selectedClass.className;
     } else {
         alert("No class ID provided");
-        window.location.href = "../Student-Class/StudentClass.html";
+        window.location.href = "../Student Class/StudentClass.html";
     }
 }
 
@@ -67,7 +67,7 @@ function updateClass() {
         alert("Class updated successfully!");
 
         // Redirect to class list
-        window.location.href = "../Student-Class/StudentClass.html";
+        window.location.href = "../Student Class/StudentClass.html";
     }
 }
 
