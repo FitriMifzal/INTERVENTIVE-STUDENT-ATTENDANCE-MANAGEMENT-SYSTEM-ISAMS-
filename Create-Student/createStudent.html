@@ -1,82 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Student - Student Record System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="createStudent.css">
 </head>
 
 <body>
 
-<aside id="sidebar">
+    <aside id="sidebar">
         <div class="logo">
             <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
         </div>
         <div class="role-badge" id="display-role">STATUS</div>
         <nav>
-            <a href="../Dashboard/Dashboard.html"    class="nav-item">Dashboard</a>
+            <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
             <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
-            <a href="../Student Class/StudentClass.html"    class="nav-item">Student Class</a>
+            <a href="../Student Class/StudentClass.html" class="nav-item">Student Class</a>
             <a href="../Student-List/StudentList.html" class="nav-item active">Student Profile</a>
-            <div class="nav-item">Subject</div>
-        <div class="submenu">
-            <a href="../Subject/Subject.html" class="sub-nav-item">Details Subject</a>
-            <a href="../Enroll-Subject/Enroll-Subject.html" class="sub-nav-item">Enroll Students</a>
-        </div>
+            
+            <div class="nav-item menu-trigger" id="subject-menu-btn" onclick="toggleSubjectSubmenu()">Subject</div>
+            <div class="submenu" id="subject-submenu">
+                <a href="../Subject/Subject.html" class="sub-nav-item">Details Subject</a>
+                <a href="../Enroll-Subject/Enroll-Subject.html" class="sub-nav-item">Enroll Students</a>
+            </div>
+            
             <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item">Student Attendance</a>
             <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item">Calculate Percentage</a>
         </nav>
         <div class="logout-section">
-            <a onclick="logout()" class="nav-item">Logout</a>
+            <button class="nav-item" onclick="logoutUser()">Logout</button>
         </div>
     </aside>
 
-<div id="main-wrapper">
-    <header id="header">
-        <div style="display: flex; align-items: center; gap: 5px;">
-            <button onclick="toggleSidebar()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer; padding: 10px;">&#9776;</button>
-            <div class="fw-bold fs-5" style="white-space: nowrap;">Intervention: Student Management System</div>
-        </div>
-        <div class="user-profile" onclick="window.location.href='profile.html'">
-            <span id="user-fullname" style="font-weight: 600;">muhammad</span>
-            <div class="user-icon" id="user-initial">M</div>
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="form-card">
-            <h2>Create Student Profile</h2>
-
-            <div class="form-group">
-                <label>Full Name</label>
-                <input id="name">
+    <div id="main-wrapper">
+        <header>
+            <div class="d-flex align-items-center gap-3">
+                <button onclick="toggleSidebar()"><i class="material-icons">menu</i></button>
+                <div class="fw-bold fs-5" style="white-space: nowrap;">Intervention: Student Management System</div>
             </div>
-
-            <div class="form-group">
-                <label>IC Number</label>
-                <input id="ic">
+            <div class="user-profile" onclick="window.location.href='profile.html'">
+                <span id="user-fullname" style="font-weight: 600;">Loading...</span>
+                <div class="user-icon" id="user-initial">-</div>
             </div>
+        </header>
 
-            <div class="form-group">
-                <label>Class</label>
-                <input id="cls">
+        <div class="container">
+            <div class="form-card">
+                <h2>Create Student Profile</h2>
+
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input id="name" placeholder="Enter student's full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="ic">IC Number</label>
+                    <input id="ic" placeholder="e.g. 031024045562">
+                </div>
+
+                <div class="form-group">
+                    <label for="cls">Class</label>
+                    <input id="cls" placeholder="e.g. 2 DVM CDCS266">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Home Address</label>
+                    <textarea id="address" placeholder="Enter residential address"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="No">Contact No</label>
+                    <input id="No" placeholder="e.g. 0123456789">
+                </div>
+
+                <div class="form-actions">
+                    <button class="submit-btn" onclick="saveStudent()">Save Profile</button>
+                    <button class="cancel-btn" type="button" onclick="window.location.href='../Student-List/StudentList.html'">Cancel</button>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label>Address</label>
-                <textarea id="address"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Contact No</label>
-                <input id="No">
-            </div>
-
-            <button class="submit-btn" onclick="saveStudent()">Submit</button>
         </div>
     </div>
-</div>
 
-<script src="createStudent.js"></script>
-
+    <script src="createStudent.js"></script>
+    <script>
+        window.onload = function() {
+            loadProfile();
+        }
+    </script>
 </body>
 </html>

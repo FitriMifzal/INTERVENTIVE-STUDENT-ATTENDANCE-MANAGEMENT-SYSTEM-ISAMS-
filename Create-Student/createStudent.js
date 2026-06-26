@@ -4,21 +4,42 @@ function loadProfile() {
     const accountNav = document.getElementById('nav-account');
     
     if (name) {
-        document.getElementById('user-fullname').innerText = name;
-        document.getElementById('user-initial').innerText = name.trim().charAt(0).toUpperCase();
+        const fullnameElem = document.getElementById('user-fullname');
+        const initialElem = document.getElementById('user-initial');
+        
+        if (fullnameElem) fullnameElem.innerText = name;
+        if (initialElem) initialElem.innerText = name.trim().charAt(0).toUpperCase();
     }
+    
     if (role) {
-        document.getElementById('sidebar-role').innerText = role;
-        // Sembunyikan Nav Account jika bukan Penyelaras Intervensi
+        const roleDisplay = document.getElementById('display-role') || document.getElementById('sidebar-role');
+        if (roleDisplay) {
+            roleDisplay.innerText = role;
+        }
+        
         if (role !== "Penyelaras Intervensi") {
             if (accountNav) accountNav.style.display = 'none';
         }
     }
 }
 
+// Kawalan Buka/Tutup Submenu dan Pewarnaan Kotak Utama Khas (Don Norman - Feedback)
+function toggleSubjectSubmenu() {
+    const submenu = document.getElementById('subject-submenu');
+    const menuBtn = document.getElementById('subject-menu-btn');
+    
+    if (submenu && menuBtn) {
+        submenu.classList.toggle('show');
+        menuBtn.classList.toggle('menu-active');
+    }
+}
+
 function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('main-wrapper').classList.toggle('expanded');
+    const sidebar = document.getElementById('sidebar');
+    const mainWrapper = document.getElementById('main-wrapper');
+    
+    if (sidebar) sidebar.classList.toggle('collapsed');
+    if (mainWrapper) mainWrapper.classList.toggle('expanded');
 }
 
 function saveStudent() {
@@ -33,8 +54,8 @@ function saveStudent() {
         return;
     }
     if (ic.length != 12 || isNaN(ic)) {
-    alert("Error: IC Number must contain exactly 12 digits.");
-    return;
+        alert("Error: IC Number must contain exactly 12 digits.");
+        return;
     }
 
     let students = JSON.parse(localStorage.getItem("students")) || [];
@@ -46,9 +67,7 @@ function saveStudent() {
 
 function logoutUser() {
     if(confirm("Are you sure you want to logout?")) {
-        localStorage.removeItem('isLoggedIn');
-        window.location.href = "../create-account/CreateAccount.html";
+        localStorage.clear();
+        window.location.href = "../Login/Login.html";
     }
 }
-
-window.onload = loadProfile;

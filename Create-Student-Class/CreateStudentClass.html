@@ -5,32 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KV Dashboard - Create Student Class</title>
     <link rel="stylesheet" href="CreateStudentClass.css">
+    <link rel="stylesheet" href="../Sidebar/Sidebar.css">
 </head>
 <body>
 
-<aside id="sidebar">
-    <div class="logo">
+<div id="sidebar">
+    <div class="logo-container">
         <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
     </div>
-    <div class="role-badge" id="display-role">Loading...</div>
-    <nav>
-        <a href="../Dashboard/Dashboard.html"    class="nav-item">Dashboard</a>
-            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
-            <a href="../Student Class/StudentClass.html"    class="nav-item active">Student Class</a>
-            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
-            <a href="../Subject/Subject.html"  class="nav-item">Subject</a>
+
+    <div class="role-badge">Subject Teacher</div>
+
+    <div class="nav-menu">
+        <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
+        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
+        <a href="../Student Class/StudentClass.html" class="nav-item active">Student Class</a>
+        <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
         
-        <div class="nav-item">Subject</div>
-        <div class="submenu">
-            <a href="subject-details.html" class="sub-nav-item">Details Subject</a>
-            <a href="subject-enrollment.html" class="sub-nav-item active">Enroll Students</a>
-        </div>
+        <button class="nav-item" data-submenu>
+    <!-- icon --> Subject
+    <span class="arrow">▾</span>
+</button>
+<div class="submenu">
+    <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html">Enroll Students</a>
+    <a class="sub-nav-item" href="../Subject/Subject.html">Subject Details</a>
+</div>
         
-        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item ">Student Attendance</a>
-            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item">Calculate Percentage</a>
-    </nav>
+        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item">Student Attendance</a>
+        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item">Calculate Percentage</a>
+    </div>
     <a href="#" onclick="logoutUser()" class="nav-item logout">Logout</a>
-</aside>
+
+</div>
 
 <div id="main-wrapper">
     <header id="header">
@@ -70,5 +76,6 @@
 </div>
 
 <script src="CreateStudentClass.js"></script>
+<script src="../Sidebar/Sidebar.js"></script>
 </body>
 </html>
