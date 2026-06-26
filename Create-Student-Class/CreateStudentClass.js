@@ -52,7 +52,7 @@ function handleForm(event) {
     alert("Class successfully registered!");
 
     // Redirect to student class list
-    window.location.href = "../Student-Class/StudentClass.html";
+    window.location.href = "../Student Class/StudentClass.html";
 }
 
 /* ────────────────────────────────────────────────────────
