@@ -1,17 +1,22 @@
-window.onload = function() {
-    if (localStorage.getItem('isLoggedIn') !== 'true') { window.location.href = "login.html"; return; }
-    updateHeaderInfo();
-    loadProfileData();
-};
+/* ============================================================
+   UPDATEACCOUNT.JS — Page-specific logic
+   User profile initialization handled by Sidebar.js
+   ============================================================ */
 
-function updateHeaderInfo() {
-    const role = localStorage.getItem('active_role');
-    const name = localStorage.getItem('active_name');
-    document.getElementById('display-role').innerText = role || "Teacher";
-    document.getElementById('user-fullname').innerText = name || "User";
-    document.getElementById('user-initial').innerText = name ? name.charAt(0).toUpperCase() : "?";
-    if (role === "Penyelaras Intervensi") document.getElementById('nav-teacher-account').style.display = 'flex';
-}
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if user is logged in
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "../login.html";
+        return;
+    }
+
+    // Load profile data
+    loadProfileData();
+});
+
+/* ────────────────────────────────────────────────────────
+   LOAD PROFILE DATA FROM LOCALSTORAGE
+────────────────────────────────────────────────────────── */
 
 function loadProfileData() {
     document.getElementById('profID').value = localStorage.getItem('reg_id') || "N/A";
@@ -21,16 +26,57 @@ function loadProfileData() {
     document.getElementById('profPhone').value = localStorage.getItem('reg_phone') || "";
 }
 
+/* ────────────────────────────────────────────────────────
+   UPDATE PROFILE FUNCTION
+────────────────────────────────────────────────────────── */
+
 function updateProfile() {
-    const name = document.getElementById('profName').value;
+    const name = document.getElementById('profName').value.trim();
+    const email = document.getElementById('profEmail').value.trim();
+    const phone = document.getElementById('profPhone').value.trim();
+
+    // Validation
+    if (!name) {
+        alert("Please enter your full name");
+        return;
+    }
+
+    if (!email) {
+        alert("Please enter your email address");
+        return;
+    }
+
+    if (!phone) {
+        alert("Please enter your phone number");
+        return;
+    }
+
+    // Update localStorage
     localStorage.setItem('active_name', name);
     localStorage.setItem('reg_name', name);
-    localStorage.setItem('reg_email', document.getElementById('profEmail').value);
-    localStorage.setItem('reg_phone', document.getElementById('profPhone').value);
-    alert("Profile updated!");
-    
-    // Selepas berjaya kemas kini, bawa pengguna kembali ke halaman viewaccount.html
-    window.location.href = "viewaccount.html";
+    localStorage.setItem('reg_email', email);
+    localStorage.setItem('reg_phone', phone);
+
+    alert("Profile updated successfully!");
+
+    // Redirect to dashboard
+    window.location.href = "../Dashboard/Dashboard.html";
 }
 
-function logout() { localStorage.clear(); window.location.href = "../create-account/CreateAccount.html"; }
+/* ────────────────────────────────────────────────────────
+   UTILITY FUNCTIONS
+────────────────────────────────────────────────────────── */
+
+function toggleProfile() {
+    var profileSection = document.getElementById('profile-section');
+    var welcomeCard = document.getElementById('welcome-card');
+
+    if (profileSection) {
+        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
+        profileSection.style.display = isHidden ? 'block' : 'none';
+    }
+    if (welcomeCard) {
+        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
+        welcomeCard.style.display = isHidden ? 'none' : 'block';
+    }
+}

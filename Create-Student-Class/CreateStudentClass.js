@@ -1,67 +1,74 @@
-window.onload = function() {
+/* ============================================================
+   CREATESTUDENTCLASS.JS — Page-specific logic
+   User profile initialization handled by Sidebar.js
+   ============================================================ */
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if user is logged in
     if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "login.html";
+        window.location.href = "../login.html";
         return;
     }
+});
 
-    const storedName = localStorage.getItem('active_name') || "Guest User";
-    const storedRole = localStorage.getItem('active_role') || "Subject Teacher";
+/* ────────────────────────────────────────────────────────
+   HANDLE FORM SUBMISSION
+────────────────────────────────────────────────────────── */
 
-    document.getElementById('user-fullname').innerText = storedName;
-    document.getElementById('display-role').innerText = storedRole;
-    document.getElementById('user-initial').innerText = storedName.charAt(0).toUpperCase();
-
-    if (storedRole === "Penyelaras Intervensi") {
-        const acc = document.getElementById('nav-account');
-        if(acc) acc.style.display = 'flex';
-    }
-};
-
-// Fungsi menguruskan penyerahan data borang pendaftaran kelas
 function handleForm(event) {
-    event.preventDefault(); 
-    
-    const cid = document.getElementById("classId").value.trim();
-    const cname = document.getElementById("className").value.trim();
+    event.preventDefault();
 
-    if (!cid || !cname) {
+    const classId = document.getElementById("classId").value.trim();
+    const className = document.getElementById("className").value.trim();
+
+    // Validation - check if all fields filled
+    if (!classId || !className) {
         alert("Please fill in all the information!");
         return;
     }
 
+    // Get existing classes
     let classes = JSON.parse(localStorage.getItem("classes")) || [];
 
-    // Semakan untuk memastikan kod kelas tidak bertindih
-    if (classes.some(c => c.classId.toLowerCase() === cid.toLowerCase())) {
+    // Check for duplicate Class ID
+    if (classes.some(c => c.classId.toLowerCase() === classId.toLowerCase())) {
         alert("This Class ID already exists!");
         return;
     }
 
+    // Create new class object
     const newClass = {
-        classId: cid,
-        className: cname,
-        isArchived: false 
+        classId: classId,
+        className: className,
+        isArchived: false
     };
 
+    // Add to classes array
     classes.push(newClass);
+
+    // Save to localStorage
     localStorage.setItem("classes", JSON.stringify(classes));
 
-        alert("Class successfully registered!");
-        
-        // Redirect to the student class list page
-        window.location.href = "../Student-Class/StudentClass.html";
-    }
+    alert("Class successfully registered!");
 
-// Fungsi interaksi sidebar toggle
-function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('main-wrapper').classList.toggle('expanded');
+    // Redirect to student class list
+    window.location.href = "../Student-Class/StudentClass.html";
 }
 
-    function logoutUser() {
-        if(confirm("Are you sure you want to log out?")) {
-            localStorage.removeItem('isLoggedIn');
-            window.location.href = "../create-account/CreateAccount.html";
-        }
-    }
+/* ────────────────────────────────────────────────────────
+   UTILITY FUNCTIONS
+────────────────────────────────────────────────────────── */
 
+function toggleProfile() {
+    var profileSection = document.getElementById('profile-section');
+    var welcomeCard = document.getElementById('welcome-card');
+
+    if (profileSection) {
+        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
+        profileSection.style.display = isHidden ? 'block' : 'none';
+    }
+    if (welcomeCard) {
+        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
+        welcomeCard.style.display = isHidden ? 'none' : 'block';
+    }
+}

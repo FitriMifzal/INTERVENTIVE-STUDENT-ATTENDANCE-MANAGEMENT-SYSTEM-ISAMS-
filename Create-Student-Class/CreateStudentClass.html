@@ -1,81 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KV Dashboard - Create Student Class</title>
-    <link rel="stylesheet" href="CreateStudentClass.css">
+    <title>Create Student Class | KV Student Management</title>
+    
+    <!-- Sidebar CSS DULU (defines all variables) -->
     <link rel="stylesheet" href="../Sidebar/Sidebar.css">
+    
+    <!-- Page CSS SELEPAS -->
+    <link rel="stylesheet" href="CreateStudentClass.css">
 </head>
 <body>
-
-<div id="sidebar">
-    <div class="logo-container">
-        <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
-    </div>
-
-    <div class="role-badge">Subject Teacher</div>
-
-    <div class="nav-menu">
-        <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
-        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
-        <a href="../Student Class/StudentClass.html" class="nav-item active">Student Class</a>
-        <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
-        
-        <button class="nav-item" data-submenu>
-    <!-- icon --> Subject
-    <span class="arrow">▾</span>
-</button>
-<div class="submenu">
-    <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html">Enroll Students</a>
-    <a class="sub-nav-item" href="../Subject/Subject.html">Subject Details</a>
-</div>
-        
-        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item">Student Attendance</a>
-        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item">Calculate Percentage</a>
-    </div>
-    <a href="#" onclick="logoutUser()" class="nav-item logout">Logout</a>
-
-</div>
-
-<div id="main-wrapper">
-    <header id="header">
-        <button class="header-title-btn" onclick="toggleSidebar()">
-            <span style="font-size:24px;">&#9776;</span>
-            <span style="font-weight: bold; font-size: 1.2rem; white-space: nowrap; font-family: sans-serif;">Intervention: Student Management System</span>
-        </button>
-        <div class="user-profile" onclick="window.location.href='profile.html'">
-            <span id="user-fullname" class="user-name">Loading...</span>
-            <div class="user-icon"><span id="user-initial" style="color: white; font-weight: bold; font-size: 1.2rem; text-transform: uppercase;">?</span></div>
+    <!-- ════════════════════════════════════════════════════════
+         SIDEBAR (same structure untuk semua pages)
+         ════════════════════════════════════════════════════════ -->
+    <div id="sidebar">
+        <div class="logo-container">
+            <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
         </div>
-    </header>
 
-    <div id="content">
-        <div class="shadow-box">
-            <h1 style="margin:0;">Create Student Class</h1>
-            <div class="orange-bar"></div>
+        <div class="role-badge">Subject Teacher</div>
 
-            <form id="createForm" onsubmit="handleForm(event)">
-                <div class="form-group">
-                    <label for="classId">Class Code</label>
-                    <input type="text" id="classId" placeholder="Example: 1SVM KPD" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="className">Class Name</label>
-                    <input type="text" id="className" placeholder="Example: Computer Systems & Networking" required>
-                </div>
-
-                <div class="actions">
-                    <button type="button" class="btn-cancel" onclick="window.location.href='../Student-Class/StudentClass.html'">Cancel</button>
-                    <button type="submit" class="btn-submit">Confirm</button>
-                </div>
-            </form>
+        <div class="nav-menu">
+            <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
+            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
+            <a href="../Student Class/StudentClass.html" class="nav-item active">Student Class</a>
+            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
+            
+            <button class="nav-item" data-submenu>
+                Subject
+                <span class="arrow">▾</span>
+            </button>
+            <div class="submenu">
+                <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html">Enroll Students</a>
+                <a class="sub-nav-item" href="../Subject/Subject.html">Subject Details</a>
+            </div>
+            
+            <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item">Student Attendance</a>
+            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item">Calculate Percentage</a>
         </div>
+        
+        <a href="#" onclick="logoutUser()" class="nav-item logout">Logout</a>
     </div>
-</div>
 
-<script src="CreateStudentClass.js"></script>
-<script src="../Sidebar/Sidebar.js"></script>
+    <!-- ════════════════════════════════════════════════════════
+         MAIN CONTENT AREA
+         ════════════════════════════════════════════════════════ -->
+    <div id="main-wrapper">
+        <!-- HEADER -->
+        <header id="header">
+            <button class="header-title" onclick="toggleSidebar()">
+                <span class="menu-icon">☰</span>
+                <span class="header-text">Intervention: Student Management System</span>
+            </button>
+            
+            <!-- USER PROFILE AREA (icon + name) -->
+            <div class="user-profile" onclick="toggleProfile()">
+                <span id="user-fullname">User Name</span>
+                <div id="user-initial" class="user-initial-icon">?</div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main id="content">
+            <div class="form-card">
+                <h2>Create Student Class</h2>
+                <div class="orange-bar"></div>
+
+                <form id="createForm" onsubmit="handleForm(event)">
+                    <div class="form-group">
+                        <label for="classId">Class Code</label>
+                        <input type="text" id="classId" placeholder="Example: 1SVM KPD" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="className">Class Name</label>
+                        <input type="text" id="className" placeholder="Example: Computer Systems & Networking" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="window.location.href='../Student-Class/StudentClass.html'">Cancel</button>
+                        <button type="submit" class="btn-submit">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         SCRIPTS
+         ════════════════════════════════════════════════════════ -->
+    <!-- Sidebar.js DULU (handle submenu, sidebar toggle, user profile init) -->
+    <script src="../Sidebar/Sidebar.js"></script>
+    
+    <!-- Page JS SELEPAS -->
+    <script src="CreateStudentClass.js"></script>
 </body>
 </html>

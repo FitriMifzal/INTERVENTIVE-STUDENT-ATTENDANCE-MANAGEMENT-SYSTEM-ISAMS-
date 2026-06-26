@@ -1,29 +1,40 @@
+/* ============================================================
+   CALCULATE-ABSENT-PERCENTAGE.JS — Page-specific logic
+   User profile initialization handled by Sidebar.js
+   ============================================================ */
+
 // Student Master Database
 const studentDatabase = [
-    { name: "AUMAN BIN ABIDEN",              id: "2023122119" },
+    { name: "AUMAN BIN ABIDEN", id: "2023122119" },
     { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805" },
-    { name: "ILYA SYAHIRAH BT HAIDI",         id: "2023112709" },
-    { name: "MUHAMMAD SYAZANI BIN AHMAD",     id: "2023126582" },
-    { name: "NUR AINA INSYIRAH BT ROSLAN",    id: "2023118834" },
-    { name: "NUR ALIYAH BINTI RAZALI",        id: "2023117621" },
-    { name: "NUR FARHANA BINTI ZULKIFLI",     id: "2023119045" },
-    { name: "NURUL AIN BINTI HAMID",          id: "2023115503" },
-    { name: "SITI HAJAR BINTI MOHD NOOR",     id: "2023120167" },
-    { name: "WAN HAZIQ BIN WAN AZMAN",        id: "2023123412" }
+    { name: "ILYA SYAHIRAH BT HAIDI", id: "2023112709" },
+    { name: "MUHAMMAD SYAZANI BIN AHMAD", id: "2023126582" },
+    { name: "NUR AINA INSYIRAH BT ROSLAN", id: "2023118834" },
+    { name: "NUR ALIYAH BINTI RAZALI", id: "2023117621" },
+    { name: "NUR FARHANA BINTI ZULKIFLI", id: "2023119045" },
+    { name: "NURUL AIN BINTI HAMID", id: "2023115503" },
+    { name: "SITI HAJAR BINTI MOHD NOOR", id: "2023120167" },
+    { name: "WAN HAZIQ BIN WAN AZMAN", id: "2023123412" }
 ];
 
-let selectedStudent = null; // Stores the current verified student data
+let selectedStudent = null;
 
-// ── INITIALIZATION: LOAD INITIAL PRE-POPULATED ROWS ──
-window.onload = function() {
+/* ── PAGE INITIALIZATION ── */
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if user is logged in
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "../login.html";
+        return;
+    }
+
     loadDefaultRows();
-};
+});
 
 function loadDefaultRows() {
     const tbody = document.getElementById("calcBody");
-    tbody.innerHTML = ""; 
-    
-    // Default few rows matching your exact request
+    tbody.innerHTML = "";
+
+    // Default sample data
     const initialSampleData = [
         { name: "AUMAN BIN ABIDEN", id: "2023122119", attended: 19, absent: 1, rate: "95.0", isBarred: false, code: "TRC501" },
         { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805", attended: 20, absent: 0, rate: "100.0", isBarred: false, code: "TRC501" },
@@ -32,60 +43,72 @@ function loadDefaultRows() {
     ];
 
     initialSampleData.forEach(item => {
-        const statusClass = item.isBarred ? "badge-absent" : "badge-present";
-        const statusText = item.isBarred ? "BARRED (Attendance Failed)" : "ELIGIBLE (Exam Allowed)";
-        
-        let actionHTML = "";
-        if (item.isBarred) {
-            actionHTML = `
-                <div class="letter-actions">
-                    <button class="btn-letter btn-warning" onclick="generateLetterPDF('warning', '${item.name}', '${item.id}', '${item.code}', ${item.attended}, ${item.absent}, ${item.rate})">⚠️ Warning Letter</button>
-                    <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervention', '${item.name}', '${item.id}', '${item.code}', ${item.attended}, ${item.absent}, ${item.rate})">📩 Intervention</button>
-                </div>`;
-        } else {
-            actionHTML = `<span class="txt-disabled">No Action Needed</span>`;
-        }
-
-        const tr = document.createElement("tr");
-        tr.id = `row-${item.id}`; 
-        tr.innerHTML = `
-            <td style="font-weight: 600;">${item.name}</td>
-            <td>${item.id}</td>
-            <td>${item.attended} Hours</td>
-            <td>${item.absent} Hours</td>
-            <td style="font-weight: 700; color: ${item.isBarred ? 'var(--kv-danger)' : 'var(--kv-green)'}">${item.rate}%</td>
-            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-            <td>${actionHTML}</td>
-        `;
-        tbody.appendChild(tr);
+        addRowToTable(item);
     });
 }
 
-// ── FUNCTION 1: SEARCH STUDENT BY ID ──
+function addRowToTable(item) {
+    const tbody = document.getElementById("calcBody");
+    const statusClass = item.isBarred ? "badge-absent" : "badge-present";
+    const statusText = item.isBarred ? "BARRED (Attendance Failed)" : "ELIGIBLE (Exam Allowed)";
+
+    let actionHTML = "";
+    if (item.isBarred) {
+        actionHTML = `
+            <div class="letter-actions">
+                <button class="btn-letter btn-warning" onclick="generateLetterPDF('warning', '${item.name}', '${item.id}', '${item.code}', ${item.attended}, ${item.absent}, ${item.rate})">⚠️ Warning Letter</button>
+                <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervention', '${item.name}', '${item.id}', '${item.code}', ${item.attended}, ${item.absent}, ${item.rate})">📩 Intervention</button>
+            </div>`;
+    } else {
+        actionHTML = `<span class="txt-disabled">No Action Needed</span>`;
+    }
+
+    const tr = document.createElement("tr");
+    tr.id = `row-${item.id}`;
+    tr.innerHTML = `
+        <td style="font-weight: 600;">${item.name}</td>
+        <td>${item.id}</td>
+        <td>${item.attended} Hours</td>
+        <td>${item.absent} Hours</td>
+        <td style="font-weight: 700; color: ${item.isBarred ? '#e53e3e' : '#28a745'}">${item.rate}%</td>
+        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+        <td>${actionHTML}</td>
+    `;
+    tbody.appendChild(tr);
+}
+
+/* ════════════════════════════════════════════════════════
+   SEARCH STUDENT
+════════════════════════════════════════════════════════ */
+
 function searchStudent() {
     const inputID = document.getElementById("searchStudentID").value.trim();
     const msgElement = document.getElementById("searchMessage");
     const inputSection = document.getElementById("inputSection");
-    
+
     selectedStudent = studentDatabase.find(s => s.id === inputID);
 
     if (selectedStudent) {
-        msgElement.style.color = "var(--kv-green)";
+        msgElement.style.color = "#28a745";
         msgElement.innerHTML = `✅ Student Found: ${selectedStudent.name}`;
-        
+
         document.getElementById("targetStudentName").textContent = selectedStudent.name;
         inputSection.style.display = "block";
-        
+
+        // Reset form
         document.getElementById("hoursAbsent").value = "";
         document.getElementById("totalContactHours").value = "";
     } else {
-        msgElement.style.color = "var(--kv-danger)";
+        msgElement.style.color = "#e53e3e";
         msgElement.innerHTML = "❌ Error: Student ID does not exist in the system. Please try again.";
         inputSection.style.display = "none";
     }
 }
 
-// ── FUNCTION 2: CALCULATE PERCENTAGE & OUTPUT/UPDATE TO TABLE ──
+/* ════════════════════════════════════════════════════════
+   PROCESS CALCULATION
+════════════════════════════════════════════════════════ */
+
 function processSelectedCalculation() {
     if (!selectedStudent) return;
 
@@ -96,6 +119,7 @@ function processSelectedCalculation() {
     const absentHours = parseInt(hoursAbsentInput);
     const totalHours = parseInt(totalContactInput);
 
+    // Validation
     if (isNaN(absentHours) || isNaN(totalHours) || totalHours <= 0 || absentHours < 0) {
         alert("Please ensure 'Hours Absent' and 'Total Contact Hours' are filled with valid values.");
         return;
@@ -106,12 +130,13 @@ function processSelectedCalculation() {
         return;
     }
 
+    // Calculate
     const attendedHours = totalHours - absentHours;
     const attendancePercentage = ((attendedHours / totalHours) * 100).toFixed(1);
-    
     const absentRate = (absentHours / totalHours) * 100;
     const isBarred = absentRate >= 20.0;
 
+    // Update or add row
     const statusClass = isBarred ? "badge-absent" : "badge-present";
     const statusText = isBarred ? "BARRED (Attendance Failed)" : "ELIGIBLE (Exam Allowed)";
 
@@ -134,12 +159,11 @@ function processSelectedCalculation() {
         <td>${selectedStudent.id}</td>
         <td>${attendedHours} Hours</td>
         <td>${absentHours} Hours</td>
-        <td style="font-weight: 700; color: ${isBarred ? 'var(--kv-danger)' : 'var(--kv-green)'}">${attendancePercentage}%</td>
+        <td style="font-weight: 700; color: ${isBarred ? '#e53e3e' : '#28a745'}">${attendancePercentage}%</td>
         <td><span class="status-badge ${statusClass}">${statusText}</span></td>
         <td>${actionHTML}</td>
     `;
 
-    // If student already exists in the table list, overwrite/update it. Otherwise, append it.
     if (existingRow) {
         existingRow.innerHTML = rowHTML;
     } else {
@@ -150,12 +174,16 @@ function processSelectedCalculation() {
     }
 }
 
-// ── FUNCTION 3: GENERATE REFORMATTED OFFICIAL PDF LETTERS ──
+/* ════════════════════════════════════════════════════════
+   GENERATE PDF LETTER
+════════════════════════════════════════════════════════ */
+
 function generateLetterPDF(type, name, id, course, attended, absent, displayPercent) {
     const todayDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+    
     let letterTitle = "";
     let letterBody = "";
-    
+
     if (type === "warning") {
         letterTitle = `WARNING LETTER: COURSE ABSENTEEISM FOR ${course}`;
         letterBody = `
@@ -225,4 +253,22 @@ function generateLetterPDF(type, name, id, course, attended, absent, displayPerc
         </html>
     `);
     printWindow.document.close();
+}
+
+/* ════════════════════════════════════════════════════════
+   UTILITY FUNCTIONS
+════════════════════════════════════════════════════════ */
+
+function toggleProfile() {
+    var profileSection = document.getElementById('profile-section');
+    var welcomeCard = document.getElementById('welcome-card');
+
+    if (profileSection) {
+        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
+        profileSection.style.display = isHidden ? 'block' : 'none';
+    }
+    if (welcomeCard) {
+        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
+        welcomeCard.style.display = isHidden ? 'none' : 'block';
+    }
 }
