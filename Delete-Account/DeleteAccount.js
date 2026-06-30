@@ -1,46 +1,97 @@
+/* ============================================================
+   DELETEACCOUNT.JS — Page-specific logic
+   User profile initialization handled by Sidebar.js
+   ============================================================ */
+
 let selectedId = null;
 const modal = document.getElementById('archiveModal');
 const successMsg = document.getElementById('successMsg');
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if user is logged in
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "../login.html";
+        return;
+    }
+});
+
+/* ────────────────────────────────────────────────────────
+   SHOW ARCHIVE MODAL
+────────────────────────────────────────────────────────── */
+
 function showArchiveModal(id, name) {
-    // Jangan buka modal jika akaun dah memang archived
-    const element = document.getElementById('item-' + id);
-    if(element.classList.contains('archived')) return;
+    // Check if account already archived
+    if (document.querySelector('[onclick*="' + id + '"]')?.classList.contains('archived')) {
+        return;
+    }
 
     selectedId = id;
     document.getElementById('targetAccount').innerText = "ID: " + id + " | Name: " + name;
-    modal.style.display = 'flex';
+    modal.classList.add('show');
     successMsg.style.display = 'none';
 }
 
+/* ────────────────────────────────────────────────────────
+   CLOSE MODAL
+────────────────────────────────────────────────────────── */
+
 function closeModal() {
-    modal.style.display = 'none';
+    modal.classList.remove('show');
 }
 
-function executeArchive() {
-    modal.style.display = 'none';
-    successMsg.style.display = 'block';
-    
-    // Cari element mengikut ID dan tambah class 'archived'
-    const item = document.getElementById('item-' + selectedId);
-    if(item) {
-        item.classList.add('archived');
-        // Tukar icon kepada icon yang menunjukkan ia sudah disimpan
-        const icon = item.querySelector('i');
-        if (icon) {
-            icon.classList.replace('fa-box-archive', 'fa-check-double');
-            icon.style.color = 'var(--archive-grey)';
-        }
-    }
+/* ────────────────────────────────────────────────────────
+   EXECUTE ARCHIVE
+────────────────────────────────────────────────────────── */
 
+function executeArchive() {
+    modal.classList.remove('show');
+    successMsg.style.display = 'block';
+
+    // Find account item and mark as archived
+    const allItems = document.querySelectorAll('.account-item');
+    allItems.forEach(item => {
+        if (item.textContent.includes('ID: ' + selectedId)) {
+            item.classList.add('archived');
+            
+            // Update icon
+            const icon = item.querySelector('i');
+            if (icon) {
+                icon.classList.replace('fa-box-archive', 'fa-check-double');
+                icon.style.color = '#9e9e9e';
+            }
+        }
+    });
+
+    // Hide success message after 3 seconds
     setTimeout(() => {
         successMsg.style.display = 'none';
     }, 3000);
 }
 
-// Menutup modal jika klik di luar kawasan modal-content
+/* ────────────────────────────────────────────────────────
+   CLOSE MODAL ON OUTSIDE CLICK
+────────────────────────────────────────────────────────── */
+
 window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = 'none';
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+
+/* ────────────────────────────────────────────────────────
+   UTILITY FUNCTIONS
+────────────────────────────────────────────────────────── */
+
+function toggleProfile() {
+    var profileSection = document.getElementById('profile-section');
+    var welcomeCard = document.getElementById('welcome-card');
+
+    if (profileSection) {
+        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
+        profileSection.style.display = isHidden ? 'block' : 'none';
+    }
+    if (welcomeCard) {
+        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
+        welcomeCard.style.display = isHidden ? 'none' : 'block';
     }
 }

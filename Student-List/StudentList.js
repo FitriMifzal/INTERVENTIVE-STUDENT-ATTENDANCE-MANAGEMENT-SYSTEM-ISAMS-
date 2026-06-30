@@ -1,93 +1,111 @@
-function loadProfile() {
-    const name = localStorage.getItem('reg_name');
-    const role = localStorage.getItem('reg_role');
-    const accountNav = document.getElementById('nav-account');
-    
-    if (name) {
-        document.getElementById('user-fullname').innerText = name;
-        document.getElementById('user-initial').innerText = name.trim().charAt(0).toUpperCase();
+/* ============================================================
+   STUDENTLIST.JS — Page-specific logic
+   User profile initialization handled by Sidebar.js
+   ============================================================ */
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if user is logged in
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "../login.html";
+        return;
     }
-    
-    if (role) {
-        document.getElementById('sidebar-role').innerText = role;
-        if (role !== "Penyelaras Intervensi") {
-            if (accountNav) accountNav.style.display = 'none';
+
+    // Load students into table
+    loadStudents();
+});
+
+/* ────────────────────────────────────────────────────────
+   LOAD STUDENTS FROM LOCALSTORAGE
+────────────────────────────────────────────────────────── */
+
+function loadStudents() {
+    const students = JSON.parse(localStorage.getItem("students")) || [];
+    const tableBody = document.getElementById("studentTableBody");
+    tableBody.innerHTML = "";
+
+    if (students.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="5" class="no-data">No students found. <a href="../Create-Student/createStudent.html" style="color: var(--kv-orange); text-decoration: none; font-weight: 600;">Create one</a></td>
+            </tr>
+        `;
+        return;
+    }
+
+    students.forEach((student, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${student.name}</td>
+            <td>${student.ic}</td>
+            <td>${student.cls}</td>
+            <td>
+                <button class="btn-action btn-view" onclick="viewStudent('${student.ic}')">
+                    View
+                </button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+/* ────────────────────────────────────────────────────────
+   SEARCH FUNCTIONALITY
+────────────────────────────────────────────────────────── */
+
+function searchTable() {
+    const input = document.getElementById("searchInput");
+    const filter = input.value.toUpperCase();
+    const table = document.querySelector("table");
+    const rows = table.getElementsByTagName("tr");
+
+    // Skip header row (index 0)
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName("td");
+        if (cells.length === 0) continue;
+
+        const name = cells[1] ? cells[1].textContent.toUpperCase() : "";
+        const ic = cells[2] ? cells[2].textContent.toUpperCase() : "";
+        const kelas = cells[3] ? cells[3].textContent.toUpperCase() : "";
+
+        if (name.includes(filter) || ic.includes(filter) || kelas.includes(filter)) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
         }
     }
 }
 
-let students = JSON.parse(localStorage.getItem("students")) || [];
+/* ────────────────────────────────────────────────────────
+   VIEW STUDENT DETAILS
+────────────────────────────────────────────────────────── */
 
-function renderTable() {
-    const tbody = document.getElementById("studentTableBody");
-    tbody.innerHTML = "";
-
-    students.forEach((s, i) => {
-        const tr = document.createElement("tr");
-        tr.onclick = () => goToView(i);
-
-        tr.innerHTML = `
-            <td>${i + 1}</td>
-            <td>${s.name}</td>
-            <td>${s.ic}</td>
-            <td>${s.cls}</td>
-            <td onclick="event.stopPropagation()">
-                <div class="action-cell">
-                    <button class="btn-update" onclick="goToUpdate(${i}, event)">Update</button>
-                    <button class="btn-row-absent" onclick="goToAbsent(${i}, event)">Absent Record</button>
-                    <button class="delete-icon-only" onclick="removeStudent(${i}, event)">🗑</button>
-                </div>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
+function viewStudent(ic) {
+    // Store selected student IC in sessionStorage
+    sessionStorage.setItem('selectedStudentIC', ic);
+    
+    // Redirect to student detail page (if exists)
+    // window.location.href = 'studentDetail.html?ic=' + ic;
+    
+    // For now, show alert
+    alert("View details for student IC: " + ic);
 }
 
-function searchTable() {
-    const filter = document.getElementById("searchInput").value.toLowerCase();
-    document.querySelectorAll("#studentTableBody tr").forEach(row => {
-        row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
-    });
-}
+/* ────────────────────────────────────────────────────────
+   UTILITY FUNCTIONS
+────────────────────────────────────────────────────────── */
 
-function goToView(index) {
-    window.location.href = "../View-Student/ViewStudent.html?id=" + index;
-}
+function toggleProfile() {
+    var profileSection = document.getElementById('profile-section');
+    var welcomeCard = document.getElementById('welcome-card');
 
-function goToUpdate(index, event) {
-    event.stopPropagation();
-    window.location.href = "../Update-Student/UpdateStudent.html?id=" + index;
-}
-
-function goToAbsent(index, event) {
-    event.stopPropagation();
-    // Menghantar index pelajar ke halaman absent record
-    window.location.href = "../Create-Student-Absent-Record/absent_record.html?student_id=" + index;
-}
-
-function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('main-wrapper').classList.toggle('expanded');
-}
-
-function logoutUser() {
-    if(confirm("Are you sure you want to logout?")) {
-        localStorage.removeItem('isLoggedIn');
-        window.location.href = "../create-account/CreateAccount.html";
+    if (profileSection) {
+        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
+        profileSection.style.display = isHidden ? 'block' : 'none';
+    }
+    if (welcomeCard) {
+        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
+        welcomeCard.style.display = isHidden ? 'none' : 'block';
     }
 }
-
-function removeStudent(index, event) {
-    event.stopPropagation();
-    if (confirm("Are you sure you want to delete this student?")) {
-        students.splice(index, 1);
-        localStorage.setItem("students", JSON.stringify(students));
-        renderTable();
-        alert("Student profile deleted successfully!");
-    }
-}
-
-window.onload = function() {
-    loadProfile();
-    renderTable();
-};
