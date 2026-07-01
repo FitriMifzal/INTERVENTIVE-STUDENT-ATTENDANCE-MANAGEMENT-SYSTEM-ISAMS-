@@ -1,55 +1,64 @@
-// --- FUNGSI AUTO PROFILE & NAVIGATION CONTROL ---
-function loadProfile() {
-    const name = localStorage.getItem('reg_name');
-    const role = localStorage.getItem('reg_role');
-    const accountNav = document.getElementById('nav-account');
-    
-    if (name) {
-        document.getElementById('user-fullname').innerText = name;
-        document.getElementById('user-initial').innerText = name.trim().charAt(0).toUpperCase();
+/* ============================================================
+   VIEWSTUDENT.JS — Page-specific logic
+   User profile initialization handled by Sidebar.js
+   ============================================================ */
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if user is logged in
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "../login.html";
+        return;
     }
-    
-    if (role) {
-        document.getElementById('sidebar-role').innerText = role;
-        
-        // Sembunyikan Account jika bukan Penyelaras Intervensi
-        if (role !== "Penyelaras Intervensi") {
-            if (accountNav) accountNav.style.display = 'none';
-        }
-    }
-}
+
+    // Load student data
+    loadStudentData();
+});
+
+/* ────────────────────────────────────────────────────────
+   LOAD STUDENT DATA FROM LOCALSTORAGE
+────────────────────────────────────────────────────────── */
 
 function loadStudentData() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
-    const students = JSON.parse(localStorage.getItem("students"));
+    const students = JSON.parse(localStorage.getItem("students")) || [];
 
-    if (students && students[id]) {
-        const s = students[id];
-        document.getElementById("v_name").innerText = s.name || "N/A";
-        document.getElementById("v_ic").innerText = s.ic || "N/A";
-        document.getElementById("v_cls").innerText = s.cls || "N/A";
-        document.getElementById("v_address").innerText = s.address || "N/A";
-        document.getElementById("v_No").innerText = s.No || "N/A";
+    // Validate student exists
+    if (id === null || id === undefined || isNaN(id) || id < 0 || id >= students.length) {
+        alert("Student record not found!");
+        window.location.href = "../Student-List/StudentList.html";
+        return;
+    }
+
+    const student = students[id];
+
+    if (student) {
+        // Populate view fields
+        document.getElementById("v_name").innerText = student.name || "N/A";
+        document.getElementById("v_ic").innerText = student.ic || "N/A";
+        document.getElementById("v_cls").innerText = student.cls || "N/A";
+        document.getElementById("v_address").innerText = student.address || "N/A";
+        document.getElementById("v_No").innerText = student.No || "N/A";
     } else {
         alert("Student record not found!");
         window.location.href = "../Student-List/StudentList.html";
     }
 }
 
-function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('main-wrapper').classList.toggle('expanded');
-}
+/* ────────────────────────────────────────────────────────
+   UTILITY FUNCTIONS
+────────────────────────────────────────────────────────── */
 
-function logoutUser() {
-    if(confirm("Are you sure you want to logout?")) {
-        localStorage.removeItem('isLoggedIn');
-        window.location.href = "../create-account/CreateAccount.html";
+function toggleProfile() {
+    var profileSection = document.getElementById('profile-section');
+    var welcomeCard = document.getElementById('welcome-card');
+
+    if (profileSection) {
+        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
+        profileSection.style.display = isHidden ? 'block' : 'none';
+    }
+    if (welcomeCard) {
+        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
+        welcomeCard.style.display = isHidden ? 'none' : 'block';
     }
 }
-
-window.onload = function() {
-    loadProfile();
-    loadStudentData();
-};

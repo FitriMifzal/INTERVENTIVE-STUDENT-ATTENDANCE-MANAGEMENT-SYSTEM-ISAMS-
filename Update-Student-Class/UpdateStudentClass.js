@@ -1,65 +1,90 @@
+/* ============================================================
+   UPDATESTUDENTCLASS.JS — Page-specific logic
+   User profile initialization handled by Sidebar.js
+   ============================================================ */
+
+// Get class ID from URL parameters
 const params = new URLSearchParams(window.location.search);
 const classIdFromURL = params.get("id");
 
+// State variables
 let classes = JSON.parse(localStorage.getItem("classes")) || [];
 let selectedClass = classes.find(c => c.classId === classIdFromURL);
 
-  // 3. Masukkan data ke dalam form jika class dijumpai
-  if (classIdFromURL && !selectedClass) {
-    alert("Class not found!");
-    window.location.href = "../Student-Class/StudentClass.html";
-  } else if (selectedClass) {
-    document.getElementById("classId").value = selectedClass.classId;
-    document.getElementById("className").value = selectedClass.className;
-    // Bahagian Credit Hour telah dibuang dari sini
-  }
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if user is logged in
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "../login.html";
+        return;
+    }
 
-// Fungsi mengemas kini maklumat kelas
-function updateClass() {
-  const updatedName = document.getElementById("className").value.trim();
+    // Load class data for editing
+    loadClassData();
+});
 
-  if (!updatedName) {
-    alert("Please fill in the Class Name!");
-    return;
-  }
+/* ────────────────────────────────────────────────────────
+   LOAD CLASS DATA FROM LOCALSTORAGE
+────────────────────────────────────────────────────────── */
 
+function loadClassData() {
+    // Check if class exists
+    if (classIdFromURL && !selectedClass) {
+        alert("Class not found!");
+        window.location.href = "../Student Class/StudentClass.html";
+        return;
+    }
+
+    // If class found, populate form
     if (selectedClass) {
-        selectedClass.className = updatedName;
-        // Penukaran nilai creditHour telah dibuang dari sini
-        localStorage.setItem("classes", JSON.stringify(classes));
-        alert("Class updated successfully!");
-        window.location.href = "../Student-Class/StudentClass.html";
-  }
-
-// Fungsi kawalan semasa halaman dimuatkan (Urusan sesi & profil maklumat)
-window.onload = function () {
-  if (localStorage.getItem('isLoggedIn') !== 'true') {
-      window.location.href = "login.html";
-      return;
-  }
-
-  const storedName = localStorage.getItem('active_name') || "Guest User";
-  const storedRole = localStorage.getItem('active_role') || "Subject Teacher";
-
-  document.getElementById('user-fullname').innerText = storedName;
-  document.getElementById('display-role').innerText = storedRole;
-  document.getElementById('user-initial').innerText = storedName.charAt(0).toUpperCase();
-
-  if (storedRole === "Penyelaras Intervensi") {
-    const accountNav = document.getElementById('nav-account');
-    if (accountNav) accountNav.style.display = 'flex';
-  }
-};
-
-// Fungsi interaksi sidebar toggle
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('collapsed');
-  document.getElementById('main-wrapper').classList.toggle('expanded');
+        document.getElementById("classId").value = selectedClass.classId;
+        document.getElementById("className").value = selectedClass.className;
+    } else {
+        alert("No class ID provided");
+        window.location.href = "../Student Class/StudentClass.html";
+    }
 }
 
-  function logoutUser() {
-    if(confirm("Are you sure you want to logout?")) {
-      window.location.href = "../create-account/CreateAccount.html";
+/* ────────────────────────────────────────────────────────
+   UPDATE CLASS FUNCTION
+────────────────────────────────────────────────────────── */
+
+function updateClass() {
+    const updatedName = document.getElementById("className").value.trim();
+
+    // Validation
+    if (!updatedName) {
+        alert("Please fill in the Class Name!");
+        return;
     }
-  }
+
+    if (selectedClass) {
+        // Update class data
+        selectedClass.className = updatedName;
+
+        // Save to localStorage
+        localStorage.setItem("classes", JSON.stringify(classes));
+
+        alert("Class updated successfully!");
+
+        // Redirect to class list
+        window.location.href = "../Student Class/StudentClass.html";
+    }
+}
+
+/* ────────────────────────────────────────────────────────
+   UTILITY FUNCTIONS
+────────────────────────────────────────────────────────── */
+
+function toggleProfile() {
+    var profileSection = document.getElementById('profile-section');
+    var welcomeCard = document.getElementById('welcome-card');
+
+    if (profileSection) {
+        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
+        profileSection.style.display = isHidden ? 'block' : 'none';
+    }
+    if (welcomeCard) {
+        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
+        welcomeCard.style.display = isHidden ? 'none' : 'block';
+    }
 }

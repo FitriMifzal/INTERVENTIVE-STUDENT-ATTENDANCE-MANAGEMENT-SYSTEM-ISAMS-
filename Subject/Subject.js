@@ -1,3 +1,12 @@
+/* ============================================================
+   SUBJECT.JS — Page-specific logic
+   User profile initialization handled by Sidebar.js
+   ============================================================ */
+
+// ══════════════════════════════════════════════════════════════
+// DATA & STATE
+// ══════════════════════════════════════════════════════════════
+
 let subjects = [
     { id: "SSD3013", name: "System Analysis & Design", credit: 3, teacher: "En. Azman", enrolled: false },
     { id: "SSD3023", name: "Database Management", credit: 3, teacher: "Pn. Maria", enrolled: false },
@@ -9,34 +18,54 @@ let subjects = [
     { id: "SSD4042", name: "Entrepreneurship", credit: 2, teacher: "Pn. Aishah", enrolled: false }
 ];
 
-let currentUserRole = ""; 
+let currentUserRole = "";
 let activeIdx = null;
 
-function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('main-wrapper').classList.toggle('expanded');
-}
+// ══════════════════════════════════════════════════════════════
+// PAGE INITIALIZATION
+// ══════════════════════════════════════════════════════════════
 
-function logoutUser() {
-    if(confirm("Are you sure you want to logout?")) {
-        localStorage.removeItem('isLoggedIn');
-        window.location.href = "../create-account/CreateAccount.html";
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if user is logged in
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "../login.html";
+        return;
     }
-}
 
+    // Get user role from localStorage
+    const savedRole = localStorage.getItem('reg_role') || 'Subject Teacher';
+    currentUserRole = savedRole;
+
+    // Adjust UI based on user role
+    if (savedRole === "Penyelaras Intervensi") {
+        document.getElementById('btnCreate').style.display = 'block';
+    } else {
+        document.getElementById('btnCreate').style.display = 'none';
+    }
+
+    // Render initial table
+    renderTable();
+});
+
+// ══════════════════════════════════════════════════════════════
+// TABLE MANAGEMENT
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * Render subject table based on user role
+ */
 function renderTable() {
     const body = document.getElementById('subjectTableBody');
     body.innerHTML = '';
-    
+
     subjects.forEach((s, i) => {
         let btns = `<button class="btn btn-view btn-sm" onclick="viewSub(${i})">View</button>`;
-        
+
         if (currentUserRole === "Penyelaras Intervensi") {
             btns += `<button class="btn btn-update btn-sm" onclick="showForm(${i})">Update</button>`;
-        } 
-        else if (currentUserRole === "Subject Teacher") {
-            btns += s.enrolled 
-                ? `<button class="btn btn-secondary btn-sm disabled"><i class="bi bi-check-circle"></i> Enrolled</button>` 
+        } else if (currentUserRole === "Subject Teacher") {
+            btns += s.enrolled
+                ? `<button class="btn btn-secondary btn-sm disabled"><i class="bi bi-check-circle"></i> Enrolled</button>`
                 : `<button class="btn btn-save btn-sm" onclick="openEnroll(${i})">Enroll</button>`;
         }
 
@@ -50,6 +79,13 @@ function renderTable() {
     });
 }
 
+// ══════════════════════════════════════════════════════════════
+// PAGE NAVIGATION
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * Show subject list page
+ */
 function showList() {
     document.getElementById('subjectListPage').classList.remove('hidden');
     document.getElementById('formPage').classList.add('hidden');
@@ -57,11 +93,14 @@ function showList() {
     renderTable();
 }
 
+/**
+ * Show form page for create/update
+ */
 function showForm(i = null) {
     document.getElementById('subjectForm').reset();
     document.getElementById('globalError').classList.add('hidden');
     document.getElementById('idError').classList.add('hidden');
-    
+
     if (i !== null) {
         const s = subjects[i];
         document.getElementById('formTitle').innerText = "Update Subject Information";
@@ -76,10 +115,18 @@ function showForm(i = null) {
         document.getElementById('subId').readOnly = false;
         document.getElementById('editIdx').value = "";
     }
+
     document.getElementById('subjectListPage').classList.add('hidden');
     document.getElementById('formPage').classList.remove('hidden');
 }
 
+// ══════════════════════════════════════════════════════════════
+// FORM OPERATIONS
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * Save subject (create or update)
+ */
 function saveData() {
     const id = document.getElementById('subId').value.trim();
     const name = document.getElementById('subName').value.trim();
@@ -90,6 +137,7 @@ function saveData() {
     document.getElementById('globalError').classList.add('hidden');
     document.getElementById('idError').classList.add('hidden');
 
+    // Validation
     if (!id || !name || !credit || !teacher) {
         document.getElementById('globalError').classList.remove('hidden');
         document.getElementById('globalError').innerText = "Please fill in all text fields!";
@@ -97,6 +145,7 @@ function saveData() {
     }
 
     if (idx === "") {
+        // Create new subject
         const isDuplicate = subjects.some(s => s.id.toUpperCase() === id.toUpperCase());
         if (isDuplicate) {
             document.getElementById('globalError').classList.remove('hidden');
@@ -108,21 +157,30 @@ function saveData() {
             document.getElementById('idError').classList.remove('hidden');
             return;
         }
+
         subjects.push({ id, name, credit, teacher, enrolled: false });
         document.getElementById('resTitle').innerText = "Registration Successful!";
         document.getElementById('resMsg').innerText = "New subject added.";
     } else {
+        // Update existing subject
         subjects[idx].name = name;
         subjects[idx].credit = credit;
         subjects[idx].teacher = teacher;
         document.getElementById('resTitle').innerText = "Update Successful!";
         document.getElementById('resMsg').innerText = "Subject updated.";
     }
-    
+
     document.getElementById('formPage').classList.add('hidden');
     document.getElementById('successPage').classList.remove('hidden');
 }
 
+// ══════════════════════════════════════════════════════════════
+// VIEW & ENROLLMENT
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * View subject details in modal
+ */
 function viewSub(i) {
     const s = subjects[i];
     document.getElementById('viewDetailBody').innerHTML = `
@@ -135,12 +193,18 @@ function viewSub(i) {
     new bootstrap.Modal(document.getElementById('viewModal')).show();
 }
 
+/**
+ * Open enrollment confirmation modal
+ */
 function openEnroll(i) {
     activeIdx = i;
     document.getElementById('targetSub').innerText = subjects[i].name;
     new bootstrap.Modal(document.getElementById('enrollModal')).show();
 }
 
+/**
+ * Execute enrollment
+ */
 function executeEnroll() {
     subjects[activeIdx].enrolled = true;
     bootstrap.Modal.getInstance(document.getElementById('enrollModal')).hide();
@@ -150,25 +214,20 @@ function executeEnroll() {
     document.getElementById('successPage').classList.remove('hidden');
 }
 
-window.onload = function() {
-    const savedName = localStorage.getItem('reg_name') || "Muhammad Amin bin Abdullah";
-    const savedRole = localStorage.getItem('reg_role') || "Subject Teacher";
+// ══════════════════════════════════════════════════════════════
+// UTILITY FUNCTIONS
+// ══════════════════════════════════════════════════════════════
 
-    currentUserRole = savedRole; 
+function toggleProfile() {
+    var profileSection = document.getElementById('profile-section');
+    var welcomeCard = document.getElementById('welcome-card');
 
-    document.getElementById('user-fullname').innerText = savedName;
-    document.getElementById('display-role').innerText = savedRole;
-
-    // Update Initial
-    document.getElementById("user-initial").innerText = savedName.trim().charAt(0).toUpperCase();
-
-    if (savedRole === "Penyelaras Intervensi") {
-        document.getElementById('nav-account').style.display = 'flex';
-        document.getElementById('btnCreate').style.display = 'block';
-    } else {
-        document.getElementById('nav-account').style.display = 'none';
-        document.getElementById('btnCreate').style.display = 'none';
+    if (profileSection) {
+        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
+        profileSection.style.display = isHidden ? 'block' : 'none';
     }
-
-    renderTable();
-};
+    if (welcomeCard) {
+        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
+        welcomeCard.style.display = isHidden ? 'none' : 'block';
+    }
+}

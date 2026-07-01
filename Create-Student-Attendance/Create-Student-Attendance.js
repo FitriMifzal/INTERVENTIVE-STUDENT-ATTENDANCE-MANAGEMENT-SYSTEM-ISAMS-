@@ -1,24 +1,32 @@
-// ── DATA ──────────────────────────────────────────────────────────
+/* ============================================================
+   CREATE-STUDENT-ATTENDANCE.JS — Page-specific logic
+   User profile initialization handled by Sidebar.js
+   ============================================================ */
+
+// Student Database
 const students = [
-    { name: "AUMAN BIN ABIDEN",              id: "2023122119" },
+    { name: "AUMAN BIN ABIDEN", id: "2023122119" },
     { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805" },
-    { name: "ILYA SYAHIRAH BT HAIDI",         id: "2023112709" },
-    { name: "MUHAMMAD SYAZANI BIN AHMAD",     id: "2023126582" },
-    { name: "NUR AINA INSYIRAH BT ROSLAN",    id: "2023118834" },
-    { name: "NUR ALIYAH BINTI RAZALI",        id: "2023117621" },
-    { name: "NUR FARHANA BINTI ZULKIFLI",     id: "2023119045" },
-    { name: "NURUL AIN BINTI HAMID",          id: "2023115503" },
-    { name: "SITI HAJAR BINTI MOHD NOOR",     id: "2023120167" },
-    { name: "WAN HAZIQ BIN WAN AZMAN",        id: "2023123412" },
+    { name: "ILYA SYAHIRAH BT HAIDI", id: "2023112709" },
+    { name: "MUHAMMAD SYAZANI BIN AHMAD", id: "2023126582" },
+    { name: "NUR AINA INSYIRAH BT ROSLAN", id: "2023118834" },
+    { name: "NUR ALIYAH BINTI RAZALI", id: "2023117621" },
+    { name: "NUR FARHANA BINTI ZULKIFLI", id: "2023119045" },
+    { name: "NURUL AIN BINTI HAMID", id: "2023115503" },
+    { name: "SITI HAJAR BINTI MOHD NOOR", id: "2023120167" },
+    { name: "WAN HAZIQ BIN WAN AZMAN", id: "2023123412" }
 ];
 
 // Past session dates (Monday sessions) – all before today
-const pastDates = ["31/03","07/04","14/04","21/04","28/04","05/05","12/05","26/05","09/06","16/06"];
+const pastDates = ["31/03", "07/04", "14/04", "21/04", "28/04", "05/05", "12/05", "26/05", "09/06", "16/06"];
 
-// Simulated past attendance (1 = present, 0 = absent, R = reason)
+/* ════════════════════════════════════════════════════════
+   HELPER FUNCTIONS
+════════════════════════════════════════════════════════ */
+
 function fakePast(studentIdx, dateIdx) {
-    const absences = [[7,9],[3],[5],[2,8],[6],[4,9],[1],[7],[3,5],[2,8]];
-    const reasons  = [[2],[8],[7],[5],[1],[3],[9],[4],[7],[6]];
+    const absences = [[7, 9], [3], [5], [2, 8], [6], [4, 9], [1], [7], [3, 5], [2, 8]];
+    const reasons = [[2], [8], [7], [5], [1], [3], [9], [4], [7], [6]];
     const row = absences[studentIdx % absences.length];
     const rea = reasons[studentIdx % reasons.length];
     if (rea.includes(dateIdx)) return "O";
@@ -26,20 +34,21 @@ function fakePast(studentIdx, dateIdx) {
     return "✓";
 }
 
-// ── DATES & TODAY ─────────────────────────────────────────────────
 function getTodayStr() {
     const d = new Date();
-    const dd = String(d.getDate()).padStart(2,'0');
-    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
     return `${dd}/${mm}`;
 }
 
+/* ════════════════════════════════════════════════════════
+   TABLE INITIALIZATION
+════════════════════════════════════════════════════════ */
+
 const todayStr = getTodayStr();
-// Check if today is already in pastDates; if not, add it as the active column
 const allDates = pastDates.includes(todayStr) ? [...pastDates] : [...pastDates, todayStr];
 const todayIdx = allDates.indexOf(todayStr);
 
-// ── BUILD TABLE ───────────────────────────────────────────────────
 function buildTable() {
     const head = document.getElementById('gridHead');
     const body = document.getElementById('gridBody');
@@ -48,9 +57,10 @@ function buildTable() {
     let thHTML = `<tr>
         <th class="sticky-col" style="min-width:260px;">NAMA PELAJAR (STUDENT NAME)</th>
         <th style="min-width:115px;">NO PELAJAR</th>`;
+    
     allDates.forEach((d, i) => {
         const isTd = (i === todayIdx);
-        thHTML += `<th style="min-width:70px;" ${isTd ? 'class="today-col"' : ''}>${d}${isTd ? '<span class="today-tag">TODAY</span>':''}</th>`;
+        thHTML += `<th style="min-width:70px;" ${isTd ? 'class="today-col"' : ''}>${d}${isTd ? '<span class="today-tag">TODAY</span>' : ''}</th>`;
     });
     thHTML += `</tr>`;
     head.innerHTML = thHTML;
@@ -60,7 +70,7 @@ function buildTable() {
     students.forEach((s, si) => {
         const tr = document.createElement('tr');
         tr.dataset.name = s.name.toLowerCase();
-        tr.dataset.id   = s.id;
+        tr.dataset.id = s.id;
 
         let tdHTML = `<td class="sticky-col">${s.name}</td><td>${s.id}</td>`;
 
@@ -95,7 +105,10 @@ function styleSelect(sel) {
     else sel.classList.add('val-reason');
 }
 
-// ── FILTER ────────────────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════
+   FILTER FUNCTION
+════════════════════════════════════════════════════════ */
+
 function filterGrid() {
     const q = document.getElementById('gridSearch').value.toLowerCase();
     document.querySelectorAll('#gridBody tr').forEach(tr => {
@@ -104,32 +117,41 @@ function filterGrid() {
     });
 }
 
-// ── SAVE ──────────────────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════
+   SAVE FUNCTION
+════════════════════════════════════════════════════════ */
+
 function saveGrid() {
     const data = [];
     document.querySelectorAll('#gridBody tr').forEach(tr => {
         const name = tr.dataset.name;
-        const id   = tr.dataset.id;
-        const sel  = tr.querySelector('.att-select');
+        const id = tr.dataset.id;
+        const sel = tr.querySelector('.att-select');
         if (sel) data.push({ name, id, date: todayStr, status: sel.value });
     });
+    
+    // Save to localStorage
+    localStorage.setItem('attendance_' + todayStr.replace('/', '_'), JSON.stringify(data));
+    
     console.log('Saved:', data);
     showToast('✅  Attendance saved for ' + todayStr);
 }
 
-// ── EXPORT CSV ────────────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════
+   EXPORT CSV FUNCTION
+════════════════════════════════════════════════════════ */
+
 function exportGridCSV() {
-    // Fixed mapping: explicitly checking for both character representations '✗' and 'O'
     const symMap = { '✓': 'Present', '✗': 'Absent', 'O': 'Absent-Reason' };
     let csv = 'Student Name,Student ID,' + allDates.map(d => '"' + d + '"').join(',') + '\n';
-    
+
     document.querySelectorAll('#gridBody tr').forEach(tr => {
         if (tr.style.display === 'none') return;
         const cells = tr.querySelectorAll('td');
         const name = cells[0].textContent.trim();
-        const id   = cells[1].textContent.trim();
+        const id = cells[1].textContent.trim();
         const vals = [];
-        
+
         allDates.forEach((d, di) => {
             const isToday = (di === todayIdx);
             if (isToday) {
@@ -144,7 +166,7 @@ function exportGridCSV() {
         });
         csv += '"' + name + '","' + id + '",' + vals.join(',') + '\n';
     });
-    
+
     const uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
     const a = document.createElement('a');
     a.href = uri;
@@ -155,7 +177,10 @@ function exportGridCSV() {
     showToast('📥  CSV exported successfully');
 }
 
-// ── RESET ─────────────────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════
+   RESET FUNCTION
+════════════════════════════════════════════════════════ */
+
 function resetGrid() {
     document.querySelectorAll('.att-select').forEach(sel => {
         sel.value = '✓';
@@ -164,7 +189,10 @@ function resetGrid() {
     showToast("🔄  Today's attendance reset to Present");
 }
 
-// ── TOAST ─────────────────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════
+   TOAST NOTIFICATION
+════════════════════════════════════════════════════════ */
+
 function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -172,11 +200,35 @@ function showToast(msg) {
     setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ── NAV ───────────────────────────────────────────────────────────
-function navClick(btn) {
-    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+/* ════════════════════════════════════════════════════════
+   UTILITY FUNCTIONS
+════════════════════════════════════════════════════════ */
+
+function toggleProfile() {
+    var profileSection = document.getElementById('profile-section');
+    var welcomeCard = document.getElementById('welcome-card');
+
+    if (profileSection) {
+        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
+        profileSection.style.display = isHidden ? 'block' : 'none';
+    }
+    if (welcomeCard) {
+        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
+        welcomeCard.style.display = isHidden ? 'none' : 'block';
+    }
 }
 
-// ── INIT ──────────────────────────────────────────────────────────
-buildTable();
+/* ════════════════════════════════════════════════════════
+   PAGE INITIALIZATION
+════════════════════════════════════════════════════════ */
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if user is logged in
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "../login.html";
+        return;
+    }
+
+    // Build table
+    buildTable();
+});
