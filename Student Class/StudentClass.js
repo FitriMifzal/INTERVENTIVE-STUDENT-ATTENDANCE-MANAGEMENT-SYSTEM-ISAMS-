@@ -46,7 +46,7 @@ function loadClasses() {
             <td>${c.className}</td>
             <td>
                 <button class="btn-update" 
-                        onclick="window.location.href='../Create-Student-Class/UpdateStudentClass.html?id=${c.classId}'">
+                        onclick="window.location.href='../Update-Student-Class/UpdateStudentClass.html?id=${c.classId}'">
                     Update
                 </button>
             </td>
