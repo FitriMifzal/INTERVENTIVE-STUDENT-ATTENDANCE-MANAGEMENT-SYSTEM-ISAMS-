@@ -345,6 +345,111 @@ td.locked-col {
     display: flex;
 }
 
+/* ── SELECT CLASS & SESSION (new) ── */
+.select-card {
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.select-form {
+    margin-top: 4px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-field label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 6px;
+    font-family: var(--font-family-main);
+}
+
+.form-field select {
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 13.5px;
+    color: #1e293b;
+    background: white;
+    font-family: var(--font-family-main);
+    outline: none;
+}
+
+.form-field select:focus {
+    border-color: var(--kv-orange);
+    box-shadow: 0 0 0 2px rgba(245, 87, 41, 0.2);
+}
+
+.session-toggle {
+    display: flex;
+    gap: 12px;
+}
+
+.session-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 11px 16px;
+    cursor: pointer;
+    font-size: 13.5px;
+    color: #1e293b;
+    font-family: var(--font-family-main);
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.session-option input[type="radio"] {
+    margin-left: auto;
+    accent-color: var(--kv-orange);
+}
+
+.session-option:has(input:checked) {
+    border-color: var(--kv-orange);
+    background: #fff7ed;
+}
+
+.session-icon {
+    font-size: 15px;
+}
+
+.form-error {
+    display: none;
+    color: #991b1b;
+    font-size: 12.5px;
+    margin: -8px 0 16px;
+    font-family: var(--font-family-main);
+}
+
+.form-error.visible {
+    display: block;
+}
+
+.btn-confirm {
+    background: var(--kv-orange);
+    color: white;
+}
+
+.btn-confirm:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
     #main-wrapper,
@@ -403,5 +508,14 @@ td.locked-col {
     th.sticky-col,
     td.sticky-col {
         min-width: 150px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .session-toggle {
+        flex-direction: column;
     }
 }

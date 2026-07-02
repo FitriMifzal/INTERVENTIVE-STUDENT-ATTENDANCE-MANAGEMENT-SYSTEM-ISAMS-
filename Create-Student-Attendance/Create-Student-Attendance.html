@@ -64,9 +64,75 @@
 
         <!-- MAIN CONTENT -->
         <main id="content">
+
+            <!-- ════════════════════════════════════════════════
+                 STEP 1: SELECT CLASS, SUBJECT & SESSION
+                 Hidden once a selection is confirmed
+                 ════════════════════════════════════════════════ -->
+            <div class="card select-card" id="selectSection">
+                <h2 class="card-title">Select Class &amp; Session</h2>
+                <p class="card-sub">Please select the class, subject, and session before viewing the student attendance list.</p>
+
+                <form id="selectForm" class="select-form" novalidate>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="classSelect">Class</label>
+                            <select id="classSelect" required>
+                                <option value="" disabled selected>-- Select class --</option>
+                                <option value="DVM 1A">DVM 1A</option>
+                                <option value="DVM 1B">DVM 1B</option>
+                                <option value="DVM 2A">DVM 2A</option>
+                                <option value="DVM 2B">DVM 2B</option>
+                                <option value="DVM 3A">DVM 3A</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="subjectSelect">Subject</label>
+                            <select id="subjectSelect" required>
+                                <option value="" disabled selected>-- Select subject --</option>
+                                <option value="TRC501">TRC501 - Network Management</option>
+                                <option value="TRC502">TRC502 - Computer Systems</option>
+                                <option value="TRC503">TRC503 - Programming</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Session</label>
+                        <div class="session-toggle">
+                            <label class="session-option" data-value="Morning">
+                                <input type="radio" name="session" value="Morning" required>
+                                <span class="session-icon">☀</span>
+                                <span>Morning</span>
+                            </label>
+                            <label class="session-option" data-value="Afternoon">
+                                <input type="radio" name="session" value="Afternoon" required>
+                                <span class="session-icon">☾</span>
+                                <span>Afternoon</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <p class="form-error" id="formError">Please complete all fields before continuing.</p>
+
+                    <button type="submit" class="btn btn-confirm">Confirm &amp; View Attendance</button>
+                </form>
+            </div>
+
+            <!-- ════════════════════════════════════════════════
+                 STEP 2: ATTENDANCE MATRIX
+                 Hidden until a selection is confirmed above
+                 ════════════════════════════════════════════════ -->
+            <div id="attendanceSection" style="display:none;">
             <div class="card">
-                <h2 class="card-title">Student Attendance Spreadsheet Matrix</h2>
-                <p class="card-sub">File Context Reference: <strong style="color:#334155;">TRC501-PHM2453B1B2.xlsx</strong></p>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
+                    <div>
+                        <h2 class="card-title">Student Attendance Spreadsheet Matrix</h2>
+                        <p class="card-sub" id="contextRef">File Context Reference: <strong style="color:#334155;">TRC501-PHM2453B1B2.xlsx</strong></p>
+                    </div>
+                    <button type="button" class="btn btn-reset" onclick="backToSelection()" style="white-space:nowrap;">← Change Class / Session</button>
+                </div>
 
                 <!-- Legend -->
                 <div class="legend-row">
@@ -112,6 +178,7 @@
                         <tbody id="gridBody"></tbody>
                     </table>
                 </div>
+            </div>
             </div>
         </main>
     </div>
