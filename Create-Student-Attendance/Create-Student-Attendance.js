@@ -21,6 +21,63 @@ const students = [
 const pastDates = ["31/03", "07/04", "14/04", "21/04", "28/04", "05/05", "12/05", "26/05", "09/06", "16/06"];
 
 /* ════════════════════════════════════════════════════════
+   SELECT CLASS & SESSION → SHOW ATTENDANCE (same page)
+════════════════════════════════════════════════════════ */
+
+let selectedClass = null;
+let selectedSubject = null;
+let selectedSession = null;
+
+function initSelectForm() {
+    const form = document.getElementById('selectForm');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const classValue = document.getElementById('classSelect').value;
+        const subjectValue = document.getElementById('subjectSelect').value;
+        const sessionEl = document.querySelector('input[name="session"]:checked');
+        const errorEl = document.getElementById('formError');
+
+        if (!classValue || !subjectValue || !sessionEl) {
+            errorEl.classList.add('visible');
+            return;
+        }
+        errorEl.classList.remove('visible');
+
+        selectedClass = classValue;
+        selectedSubject = subjectValue;
+        selectedSession = sessionEl.value;
+
+        // Update the attendance card subtitle
+        const contextRef = document.getElementById('contextRef');
+        if (contextRef) {
+            contextRef.innerHTML = `Class: <strong style="color:#334155;">${selectedClass}</strong>
+                &nbsp;|&nbsp; Subject: <strong style="color:#334155;">${selectedSubject}</strong>
+                &nbsp;|&nbsp; Session: <strong style="color:#334155;">${selectedSession}</strong>`;
+        }
+
+        // Swap sections: hide selection, show attendance
+        document.getElementById('selectSection').style.display = 'none';
+        document.getElementById('attendanceSection').style.display = 'block';
+
+        // Build the table now that a class/subject/session is chosen
+        buildTable();
+    });
+}
+
+/* ════════════════════════════════════════════════════════
+   BACK TO SELECTION
+════════════════════════════════════════════════════════ */
+
+function backToSelection() {
+    document.getElementById('attendanceSection').style.display = 'none';
+    document.getElementById('selectSection').style.display = 'block';
+    document.getElementById('formError').classList.remove('visible');
+}
+
+/* ════════════════════════════════════════════════════════
    HELPER FUNCTIONS
 ════════════════════════════════════════════════════════ */
 
@@ -80,7 +137,7 @@ function buildTable() {
                 // Editable dropdown
                 tdHTML += `<td class="today-col">
                     <select class="att-select val-present" onchange="styleSelect(this)" data-student="${si}" data-date="${d}">
-                        <option value="✓" selected>✓ Hadir</option>
+                        <option value="✓" selected>✓ Present</option>
                         <option value="✗">✗ Absent</option>
                         <option value="O">O  Reason</option>
                     </select>
@@ -229,6 +286,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    // Build table
-    buildTable();
+    // Set up the class/subject/session selection form
+    initSelectForm();
 });
