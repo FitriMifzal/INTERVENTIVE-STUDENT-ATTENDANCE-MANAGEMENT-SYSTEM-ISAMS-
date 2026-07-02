@@ -1,9 +1,8 @@
 /* ============================================================
    CALCULATE-ABSENT-PERCENTAGE.JS — Page-specific logic
-   User profile initialization handled by Sidebar.js
+   Profile functions handled by Sidebar.js
    ============================================================ */
 
-// Student Master Database
 const studentDatabase = [
     { name: "AUMAN BIN ABIDEN", id: "2023122119" },
     { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805" },
@@ -19,14 +18,11 @@ const studentDatabase = [
 
 let selectedStudent = null;
 
-/* ── PAGE INITIALIZATION ── */
 document.addEventListener('DOMContentLoaded', function () {
-    // Check if user is logged in
     if (localStorage.getItem('isLoggedIn') !== 'true') {
         window.location.href = "../login.html";
         return;
     }
-
     loadDefaultRows();
 });
 
@@ -34,7 +30,6 @@ function loadDefaultRows() {
     const tbody = document.getElementById("calcBody");
     tbody.innerHTML = "";
 
-    // Default sample data
     const initialSampleData = [
         { name: "AUMAN BIN ABIDEN", id: "2023122119", attended: 19, absent: 1, rate: "95.0", isBarred: false, code: "TRC501" },
         { name: "ARISHA REENA BINTI AZMAL RAHIM", id: "2023112805", attended: 20, absent: 0, rate: "100.0", isBarred: false, code: "TRC501" },
@@ -77,10 +72,6 @@ function addRowToTable(item) {
     tbody.appendChild(tr);
 }
 
-/* ════════════════════════════════════════════════════════
-   SEARCH STUDENT
-════════════════════════════════════════════════════════ */
-
 function searchStudent() {
     const inputID = document.getElementById("searchStudentID").value.trim();
     const msgElement = document.getElementById("searchMessage");
@@ -91,11 +82,8 @@ function searchStudent() {
     if (selectedStudent) {
         msgElement.style.color = "#28a745";
         msgElement.innerHTML = `✅ Student Found: ${selectedStudent.name}`;
-
         document.getElementById("targetStudentName").textContent = selectedStudent.name;
         inputSection.style.display = "block";
-
-        // Reset form
         document.getElementById("hoursAbsent").value = "";
         document.getElementById("totalContactHours").value = "";
     } else {
@@ -104,10 +92,6 @@ function searchStudent() {
         inputSection.style.display = "none";
     }
 }
-
-/* ════════════════════════════════════════════════════════
-   PROCESS CALCULATION
-════════════════════════════════════════════════════════ */
 
 function processSelectedCalculation() {
     if (!selectedStudent) return;
@@ -119,7 +103,6 @@ function processSelectedCalculation() {
     const absentHours = parseInt(hoursAbsentInput);
     const totalHours = parseInt(totalContactInput);
 
-    // Validation
     if (isNaN(absentHours) || isNaN(totalHours) || totalHours <= 0 || absentHours < 0) {
         alert("Please ensure 'Hours Absent' and 'Total Contact Hours' are filled with valid values.");
         return;
@@ -130,13 +113,11 @@ function processSelectedCalculation() {
         return;
     }
 
-    // Calculate
     const attendedHours = totalHours - absentHours;
     const attendancePercentage = ((attendedHours / totalHours) * 100).toFixed(1);
     const absentRate = (absentHours / totalHours) * 100;
     const isBarred = absentRate >= 20.0;
 
-    // Update or add row
     const statusClass = isBarred ? "badge-absent" : "badge-present";
     const statusText = isBarred ? "BARRED (Attendance Failed)" : "ELIGIBLE (Exam Allowed)";
 
@@ -173,10 +154,6 @@ function processSelectedCalculation() {
         tbody.appendChild(tr);
     }
 }
-
-/* ════════════════════════════════════════════════════════
-   GENERATE PDF LETTER
-════════════════════════════════════════════════════════ */
 
 function generateLetterPDF(type, name, id, course, attended, absent, displayPercent) {
     const todayDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -253,22 +230,4 @@ function generateLetterPDF(type, name, id, course, attended, absent, displayPerc
         </html>
     `);
     printWindow.document.close();
-}
-
-/* ════════════════════════════════════════════════════════
-   UTILITY FUNCTIONS
-════════════════════════════════════════════════════════ */
-
-function toggleProfile() {
-    var profileSection = document.getElementById('profile-section');
-    var welcomeCard = document.getElementById('welcome-card');
-
-    if (profileSection) {
-        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
-        profileSection.style.display = isHidden ? 'block' : 'none';
-    }
-    if (welcomeCard) {
-        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
-        welcomeCard.style.display = isHidden ? 'none' : 'block';
-    }
 }

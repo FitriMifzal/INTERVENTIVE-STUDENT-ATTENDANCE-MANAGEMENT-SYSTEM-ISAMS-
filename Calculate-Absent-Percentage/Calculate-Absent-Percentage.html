@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculate Absent Percentage | KV Student Management</title>
     
-    <!-- Sidebar CSS DULU (defines all variables) -->
     <link rel="stylesheet" href="../Sidebar/Sidebar.css">
-    
-    <!-- Page CSS SELEPAS -->
     <link rel="stylesheet" href="Calculate-Absent-Percentage.css">
 </head>
 <body>
@@ -39,26 +36,58 @@
             <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item active">Calculate Percentage</a>
         </div>
         
-       <a href="../Create-Account/CreateAccount.html" onclick="logoutUser()" class="nav-item logout">Logout</a>
+        <a href="../Create-Account/CreateAccount.html" onclick="logoutUser()" class="nav-item logout">Logout</a>
     </div>
 
     <div id="main-wrapper">
-        <!-- HEADER -->
         <header id="header">
             <button class="header-title" onclick="toggleSidebar()">
                 <span class="menu-icon">☰</span>
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
             
-            <!-- USER PROFILE AREA (icon + name) -->
             <div class="user-profile" onclick="toggleProfile()">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
         </header>
 
-        <!-- MAIN CONTENT -->
         <main id="content">
+            <!-- PROFILE SECTION -->
+            <div class="card" id="profile-section" style="display: none;">
+                <h2 id="profile-title">My Profile Information</h2>
+                <hr>
+                <div class="profile-grid">
+                    <div class="input-group">
+                        <label>Teacher ID</label>
+                        <input type="text" id="profID" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>IC Number</label>
+                        <input type="text" id="profIC" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" id="profName" class="profile-input" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" id="profEmail" class="profile-input" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="profPhone" class="profile-input" disabled>
+                    </div>
+                </div>
+                <div class="button-group" style="margin-top:20px;">
+                    <button id="btn-edit" class="btn btn-edit" onclick="enableEdit()">EDIT PROFILE</button>
+                    <button id="btn-back" class="btn btn-back" onclick="toggleProfile()">BACK</button>
+                    <button id="btn-save" class="btn btn-save" onclick="updateProfile()">SAVE CHANGES</button>
+                    <button id="id-cancel" class="btn btn-cancel" onclick="disableEdit()">CANCEL</button>
+                </div>
+            </div>
+
+            <!-- ORIGINAL CONTENT -->
             <div class="card">
                 <h2 class="card-title">Step 1: Search Student ID</h2>
                 <p class="card-sub">Enter the Student ID to verify the student's record in the system.</p>
