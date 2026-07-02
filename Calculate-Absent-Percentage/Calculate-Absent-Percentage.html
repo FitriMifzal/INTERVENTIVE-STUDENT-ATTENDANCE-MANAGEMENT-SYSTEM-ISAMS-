@@ -12,9 +12,7 @@
     <link rel="stylesheet" href="Calculate-Absent-Percentage.css">
 </head>
 <body>
-    <!-- ════════════════════════════════════════════════════════
-         SIDEBAR (same structure untuk semua pages)
-         ════════════════════════════════════════════════════════ -->
+
     <div id="sidebar">
         <div class="logo-container">
             <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
@@ -44,9 +42,6 @@
        <a href="../Create-Account/CreateAccount.html" onclick="logoutUser()" class="nav-item logout">Logout</a>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════
-         MAIN CONTENT AREA
-         ════════════════════════════════════════════════════════ -->
     <div id="main-wrapper">
         <!-- HEADER -->
         <header id="header">
@@ -64,7 +59,6 @@
 
         <!-- MAIN CONTENT -->
         <main id="content">
-            <!-- Step 1: Search Student -->
             <div class="card">
                 <h2 class="card-title">Step 1: Search Student ID</h2>
                 <p class="card-sub">Enter the Student ID to verify the student's record in the system.</p>
@@ -76,7 +70,6 @@
                 <div id="searchMessage" style="margin-top: 10px; font-size: 13.5px; font-weight: 600;"></div>
             </div>
 
-            <!-- Step 2: Input Attendance Details -->
             <div class="card" id="inputSection" style="display: none;">
                 <h2 class="card-title">Step 2: Enter Student Attendance Details</h2>
                 <p class="card-sub">Please input the course details and contact hours for: <span id="targetStudentName" style="color: #1e293b; font-weight: 700;"></span></p>
@@ -102,7 +95,6 @@
                 </div>
             </div>
 
-            <!-- Results Table -->
             <div class="card">
                 <h2 class="card-title">Attendance Analysis Result</h2>
                 <p class="card-sub">View evaluation status and generate formal official letters.</p>
@@ -127,13 +119,7 @@
         </main>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════
-         SCRIPTS
-         ════════════════════════════════════════════════════════ -->
-    <!-- Sidebar.js DULU (handle submenu, sidebar toggle, user profile init) -->
     <script src="../Sidebar/Sidebar.js"></script>
-    
-    <!-- Page JS SELEPAS -->
     <script src="Calculate-Absent-Percentage.js"></script>
 </body>
 </html>
