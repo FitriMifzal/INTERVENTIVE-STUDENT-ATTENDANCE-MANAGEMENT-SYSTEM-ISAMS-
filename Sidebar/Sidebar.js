@@ -60,8 +60,7 @@
             window.location.href = '../Create-Account/CreateAccount.html';
         }
         else {
-            return;
-
+            
         }
     };
 
