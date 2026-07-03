@@ -6,13 +6,16 @@ let currentUserRole = "";
 let activeSubId = null; // subject currently targeted for enroll
 
 document.addEventListener('DOMContentLoaded', function () {
+    // ⭐ TAMBAH: Update sessionStorage dengan URL page ni (untuk profile return)
+    sessionStorage.setItem('profile_return_url', window.location.href);
+    
     // check if user is logged in
     if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../Create-Account/Create-Account.html";
+        window.location.href = "../Create-Account/CreateAccount.html";
         return;
     }
 
-    currentUserRole = localStorage.getItem('active_role') || 'Subject Teacher';
+    currentUserRole = localStorage.getItem('active_role') || 'Teacher';
 
     // adjust UI based on user role
     const btnCreate = document.getElementById('btnCreate');
@@ -213,17 +216,4 @@ function executeEnroll() {
     });
 }
 
-// utility functions
-function toggleProfile() {
-    var profileSection = document.getElementById('profile-section');
-    var welcomeCard = document.getElementById('welcome-card');
-
-    if (profileSection) {
-        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
-        profileSection.style.display = isHidden ? 'block' : 'none';
-    }
-    if (welcomeCard) {
-        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
-        welcomeCard.style.display = isHidden ? 'none' : 'block';
-    }
-}
+// ❌ DELETED: Duplicate toggleProfile() function — sudah ada dalam Header.js!

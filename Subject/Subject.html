@@ -26,42 +26,28 @@
 
     <div class="nav-menu">
         <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
-        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
+        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Teacher Account</a>
         <a href="../Student Class/StudentClass.html" class="nav-item">Student Class</a>
         <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
-        <a href="../Subject/Subject.html" class="nav-item">Subject</a>
 
         <button class="nav-item" data-submenu>
             Subject
             <span class="arrow">▾</span>
         </button>
         <div class="submenu">
-<<<<<<< HEAD
             <!-- FOR SUBJECT TEACHER -->
             <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">View Subject</a>
             <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
             
             <!-- FOR PENYELARAS INTERVENSI -->
             <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
-=======
-            <a class="sub-nav-item active" href="../Subject/Subject.html">Subject Details</a>
-            <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html">Enroll Students</a>
->>>>>>> 0e03557525eb4d50b35b1ad5b1df76ce16551af2
         </div>
 
-        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item">Student Attendance</a>
-        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item">Calculate Percentage</a>
+        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" data-role="Teacher" class="nav-item">Student Attendance</a>
+        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" data-role="Penyelaras Intervensi" class="nav-item">Calculate Percentage</a>
     </div>
 
-    <div class="logout-section">
-        <a href="#" onclick="logoutUser()" class="nav-item logout">
-            Logout
-        </a>
-    </div>
-<<<<<<< HEAD
    <button onclick="logoutUser()" class="nav-item logout">Logout</button>
-=======
->>>>>>> 0e03557525eb4d50b35b1ad5b1df76ce16551af2
 </div>
 
     <!-- MAIN CONTENT AREA -->
@@ -172,8 +158,8 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../Sidebar/Sidebar.js"></script>
+     <script src="../Header/Header.js"></script>
     <script src="Subject.js"></script>
 </body>
 </html>
