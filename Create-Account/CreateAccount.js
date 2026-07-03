@@ -11,18 +11,17 @@ function showLogin() {
 }
 
 function askConfirmation() { 
-    const id = document.getElementById('regID').value.trim();
+    const ic = document.getElementById('regIC').value.trim();
     const name = document.getElementById('regName').value.trim();
     const pass = document.getElementById('regPass').value;
-    if(!id || !pass || !name) { 
-        alert("Please fill in ID, Name and Password!"); 
+    if(!ic || !pass || !name) { 
+        alert("Please fill in IC Number, Name and Password!"); 
         return; 
     }
     document.getElementById('confirmModal').style.display = 'block'; 
 }
 
 function processConfirm() {
-    const id = document.getElementById('regID').value.trim();
     const ic = document.getElementById('regIC').value.trim();
     const name = document.getElementById('regName').value.trim();
     const phone = document.getElementById('regPhone').value.trim();
@@ -30,7 +29,6 @@ function processConfirm() {
     const pass = document.getElementById('regPass').value;
     
     // Simpan semua data ke localStorage
-    localStorage.setItem('reg_id', id);
     localStorage.setItem('reg_ic', ic);
     localStorage.setItem('reg_name', name);
     localStorage.setItem('reg_phone', phone);
@@ -106,7 +104,7 @@ function checkLogin() {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('active_role', "Teacher");
             localStorage.setItem('active_name', storedName);
-            window.location.href = "Dashboard.html"; 
+            window.location.href = "../Dashboard/Dashboard.html";
         } else { 
             alert("Invalid Teacher Credentials!"); 
         }

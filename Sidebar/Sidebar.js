@@ -41,6 +41,15 @@
                 item.style.display = '';
             }
         });
+
+        document.querySelectorAll('.sub-nav-item[data-role]').forEach(function (item) {
+        var allowedRole = item.getAttribute('data-role');
+        if (allowedRole !== role) {
+            item.style.display = 'none';  // HIDE kalau role tak match
+        } else {
+            item.style.display = '';
+        }
+    });
     }
 
     /* ── LOGOUT ── */
@@ -49,6 +58,10 @@
             localStorage.clear();
             sessionStorage.clear();
             window.location.href = '../Create-Account/CreateAccount.html';
+        }
+        else {
+            return;
+
         }
     };
 

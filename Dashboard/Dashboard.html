@@ -5,41 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | KV Student Management</title>
     
-   
     <link rel="stylesheet" href="../Sidebar/Sidebar.css">
     <link rel="stylesheet" href="Dashboard.css">
 </head>
 <body>
+
     <div id="sidebar">
-        <div class="logo-container">
-            <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
-        </div>
-
-        <div class="role-badge">Subject Teacher</div>
-
-        <div class="nav-menu">
-            <a href="../Dashboard/Dashboard.html" class="nav-item active">Dashboard</a>
-            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
-            <a href="../Student Class/StudentClass.html" class="nav-item">Student Class</a>
-            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
-            
-            <button class="nav-item" data-submenu>
-                Subject
-                <span class="arrow">▾</span>
-            </button>
-            <div class="submenu">
-                <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html">Enroll Students</a>
-                <a class="sub-nav-item" href="../Subject/Subject.html">Subject Details</a>
-            </div>
-            
-            <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item">Student Attendance</a>
-            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item">Calculate Percentage</a>
-        </div>
-        
-        <a href="../Create-Account/CreateAccount.html" onclick="logoutUser()" class="nav-item logout">Logout</a>
+    <div class="logo-container">
+        <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
     </div>
+ 
+    <div class="role-badge">Subject Teacher</div>
+ 
+    <div class="nav-menu">
+        
+        <!-- DASHBOARD (untuk semua roles) -->
+        <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
+ 
+        <!-- TEACHER ACCOUNT — Hanya untuk Penyelaras Intervensi -->
+        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Teacher Account</a>
+ 
+        <!-- STUDENT CLASS (untuk semua roles) -->
+        <a href="../Student Class/StudentClass.html" class="nav-item">Student Class</a>
+ 
+        <!-- STUDENT PROFILE (untuk semua roles) -->
+        <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
+ 
+        <!-- SUBJECT (dengan submenu berbeda per role) -->
+        <button class="nav-item" data-submenu>
+            Subject
+            <span class="arrow">▾</span>
+        </button>
+        <div class="submenu">
+            <!-- FOR SUBJECT TEACHER -->
+            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">View Subject</a>
+            <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
+            
+            <!-- FOR PENYELARAS INTERVENSI -->
+            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
+            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">View Subject Details</a>
+        </div>
+ 
+        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
+        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Calculate Percentage</a>
+ 
+    </div>
+    
+    <!-- LOGOUT -->
+    <a href="../Create-Account/CreateAccount.html" onclick="logoutUser()" class="nav-item logout">Logout</a>
+</div>
 
-     <div id="main-wrapper">
+    <!-- ════════════════════════════════════════════════════════════════════
+         MAIN WRAPPER
+         ════════════════════════════════════════════════════════════════════ -->
+    <div id="main-wrapper">
         <!-- HEADER -->
         <header id="header">
             <button class="header-title" onclick="toggleSidebar()">
@@ -47,7 +66,7 @@
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
             
-           <div class="user-profile" onclick="window.location.href='../Profile/Profile.html'">
+            <div class="user-profile" onclick="toggleProfile()">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
@@ -60,14 +79,15 @@
                 <h1 id="welcome-msg">Welcome!</h1>
                 <p>Status: <strong id="status-text">Teacher</strong></p>
             </div>
-
-            <!-- PROFILE SECTION REMOVED - Now redirects to Profile/Profile.html -->
         </main>
     </div>
 
-   <script src="../Sidebar/Sidebar.js"></script>
-   <script src="../Header/Header.js"></script>
-   <script src="../Profile/Profile.js"></script>
+    <!-- ════════════════════════════════════════════════════════════════════
+         SCRIPTS
+         ════════════════════════════════════════════════════════════════════ -->
+    <script src="../Sidebar/Sidebar.js"></script>
+    <script src="../Header/Header.js"></script>
     <script src="Dashboard.js"></script>
+
 </body>
 </html>

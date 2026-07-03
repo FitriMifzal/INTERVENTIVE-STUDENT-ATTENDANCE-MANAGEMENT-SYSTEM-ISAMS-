@@ -5,44 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Student | KV Student Management</title>
     
-    <!-- Sidebar CSS DULU (defines all variables) -->
     <link rel="stylesheet" href="../Sidebar/Sidebar.css">
-    
-    <!-- Page CSS SELEPAS -->
     <link rel="stylesheet" href="createStudent.css">
 </head>
 <body>
-    <!-- ════════════════════════════════════════════════════════
-         SIDEBAR (same structure untuk semua pages)
-         ════════════════════════════════════════════════════════ -->
     <div id="sidebar">
-        <div class="logo-container">
-            <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
-        </div>
-
-        <div class="role-badge">Subject Teacher</div>
-
-        <div class="nav-menu">
-            <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
-            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Account</a>
-            <a href="../Student Class/StudentClass.html" class="nav-item">Student Class</a>
-            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
-            
-            <button class="nav-item" data-submenu>
-                Subject
-                <span class="arrow">▾</span>
-            </button>
-            <div class="submenu">
-                <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html">Enroll Students</a>
-                <a class="sub-nav-item" href="../Subject/Subject.html">Subject Details</a>
-            </div>
-            
-            <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item">Student Attendance</a>
-            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item">Calculate Percentage</a>
-        </div>
-        
-        <a href="../Create-Account/CreateAccount.html" onclick="logoutUser()" class="nav-item logout">Logout</a>
+    <div class="logo-container">
+        <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
     </div>
+ 
+    <div class="role-badge">Subject Teacher</div>
+ 
+    <div class="nav-menu">
+        
+        <!-- DASHBOARD (untuk semua roles) -->
+        <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
+ 
+        <!-- TEACHER ACCOUNT — Hanya untuk Penyelaras Intervensi -->
+        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Teacher Account</a>
+ 
+        <!-- STUDENT CLASS (untuk semua roles) -->
+        <a href="../Student Class/StudentClass.html" class="nav-item">Student Class</a>
+ 
+        <!-- STUDENT PROFILE (untuk semua roles) -->
+        <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
+ 
+        <!-- SUBJECT (dengan submenu berbeda per role) -->
+        <button class="nav-item" data-submenu>
+            Subject
+            <span class="arrow">▾</span>
+        </button>
+        <div class="submenu">
+            <!-- FOR SUBJECT TEACHER -->
+            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">View Subject</a>
+            <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
+            
+            <!-- FOR PENYELARAS INTERVENSI -->
+            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
+            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">View Subject Details</a>
+        </div>
+ 
+        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
+        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Calculate Percentage</a>
+ 
+    </div>
+    
+    <!-- LOGOUT -->
+    <a href="../Create-Account/CreateAccount.html" onclick="logoutUser()" class="nav-item logout">Logout</a>
+</div>
 
     <!-- ════════════════════════════════════════════════════════
          MAIN CONTENT AREA
