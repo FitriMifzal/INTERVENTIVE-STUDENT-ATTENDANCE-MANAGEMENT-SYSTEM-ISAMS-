@@ -5,16 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculate Absent Percentage | KV Student Management</title>
     
-    <!-- Sidebar CSS DULU (defines all variables) -->
     <link rel="stylesheet" href="../Sidebar/Sidebar.css">
-    
-    <!-- Page CSS SELEPAS -->
     <link rel="stylesheet" href="Calculate-Absent-Percentage.css">
 </head>
 <body>
-    <!-- ════════════════════════════════════════════════════════
-         SIDEBAR (same structure untuk semua pages)
-         ════════════════════════════════════════════════════════ -->
+
     <div id="sidebar">
         <div class="logo-container">
             <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
@@ -24,7 +19,7 @@
 
         <div class="nav-menu">
             <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
-            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
+            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Account</a>
             <a href="../Student Class/StudentClass.html" class="nav-item">Student Class</a>
             <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
             
@@ -38,37 +33,26 @@
             </div>
             
             <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item">Student Attendance</a>
-            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item">Calculate Percentage</a>
-            </div>
-</div>
-
-<div id="main-wrapper">
-    <div id="header">
-        <div class="header-left"><span>Intervention: Student Management System</span></div>
-        <div class="header-right"><span>Subject Teacher</span><div class="user-avatar-circle">T</div></div>
+            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item active">Calculate Percentage</a>
+        </div>
+        
+        <a href="../Create-Account/CreateAccount.html" onclick="logoutUser()" class="nav-item logout">Logout</a>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════
-         MAIN CONTENT AREA
-         ════════════════════════════════════════════════════════ -->
     <div id="main-wrapper">
-        <!-- HEADER -->
         <header id="header">
             <button class="header-title" onclick="toggleSidebar()">
                 <span class="menu-icon">☰</span>
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
             
-            <!-- USER PROFILE AREA (icon + name) -->
             <div class="user-profile" onclick="toggleProfile()">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
         </header>
 
-        <!-- MAIN CONTENT -->
         <main id="content">
-            <!-- Step 1: Search Student -->
             <div class="card">
                 <h2 class="card-title">Step 1: Search Student ID</h2>
                 <p class="card-sub">Enter the Student ID to verify the student's record in the system.</p>
@@ -80,7 +64,6 @@
                 <div id="searchMessage" style="margin-top: 10px; font-size: 13.5px; font-weight: 600;"></div>
             </div>
 
-            <!-- Step 2: Input Attendance Details -->
             <div class="card" id="inputSection" style="display: none;">
                 <h2 class="card-title">Step 2: Enter Student Attendance Details</h2>
                 <p class="card-sub">Please input the course details and contact hours for: <span id="targetStudentName" style="color: #1e293b; font-weight: 700;"></span></p>
@@ -106,7 +89,6 @@
                 </div>
             </div>
 
-            <!-- Results Table -->
             <div class="card">
                 <h2 class="card-title">Attendance Analysis Result</h2>
                 <p class="card-sub">View evaluation status and generate formal official letters.</p>
@@ -131,13 +113,8 @@
         </main>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════
-         SCRIPTS
-         ════════════════════════════════════════════════════════ -->
-    <!-- Sidebar.js DULU (handle submenu, sidebar toggle, user profile init) -->
     <script src="../Sidebar/Sidebar.js"></script>
-    
-    <!-- Page JS SELEPAS -->
+    <script src="../Header/Header.js"></script>
     <script src="Calculate-Absent-Percentage.js"></script>
 </body>
 </html>

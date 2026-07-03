@@ -46,7 +46,7 @@
             <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item active">Calculate Percentage</a>
         </div>
         
-        <a href="#" onclick="logoutUser()" class="nav-item logout">Logout</a>
+        <a href="../Create-Account/CreateAccount.html" onclick="logoutUser()" class="nav-item logout">Logout</a>
     </div>
 
     <!-- ════════════════════════════════════════════════════════
@@ -54,14 +54,13 @@
          ════════════════════════════════════════════════════════ -->
     <div id="main-wrapper">
         <!-- HEADER -->
-        <header id="header">
+         <header id="header">
             <button class="header-title" onclick="toggleSidebar()">
                 <span class="menu-icon">☰</span>
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
             
-            <!-- USER PROFILE AREA (icon + name) -->
-            <div class="user-profile" onclick="toggleProfile()">
+           <div class="user-profile" onclick="window.location.href='../Profile/Profile.html'">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
@@ -191,8 +190,7 @@
          ════════════════════════════════════════════════════════ -->
     <!-- Sidebar.js DULU (handle submenu, sidebar toggle, user profile init) -->
     <script src="../Sidebar/Sidebar.js"></script>
-    
-    <!-- Page JS SELEPAS -->
+    <script src="../Header/Header.js"></script>
     <script src="CreateStudentAbsentRecord.js"></script>
 </body>
 </html>

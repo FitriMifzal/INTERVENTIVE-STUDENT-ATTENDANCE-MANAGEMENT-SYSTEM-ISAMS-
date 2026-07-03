@@ -12,9 +12,10 @@ let editingRecordIndex = null;
 
 /* ── PAGE INITIALIZATION ── */
 document.addEventListener('DOMContentLoaded', function () {
+    sessionStorage.setItem('profile_return_url', window.location.href);
     // Check if user is logged in
     if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../login.html";
+        window.location.href = "../Create-Student-Absent-Record/CreateStudentAbsentRecord.html";
         return;
     }
 

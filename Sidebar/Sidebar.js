@@ -1,8 +1,6 @@
 /* ============================================================
-   SIDEBAR.JS — Toggle submenu, sidebar, dan user profile
-   Semua pages guna file ni je untuk consistent styling
-   Letakkan: <script src="../Sidebar/Sidebar.js"></script>
-   di bahagian bawah <body> setiap page.
+   SIDEBAR.JS — Sidebar navigation & role management
+   Header functions in Header.js
    ============================================================ */
 
 (function () {
@@ -26,68 +24,38 @@
         });
     }
 
-    /* ── INIT USER PROFILE (Generate initials dari name) ── */
-    function initUserProfile() {
-        var userNameEl = document.getElementById('user-fullname');
-        var userInitialEl = document.getElementById('user-initial');
-        
-        if (userNameEl && userInitialEl) {
-            var userName = userNameEl.textContent.trim();
-            
-            // Generate initials dari name
-            var initials = userName
-                .split(' ')
-                .map(function(word) { return word.charAt(0).toUpperCase(); })
-                .join('')
-                .substring(0, 2);
-            
-            // Set initial (fallback to ? jika empty)
-            userInitialEl.textContent = initials || '?';
+    /* ── INIT ROLE ── */
+    function initRole() {
+        var role = localStorage.getItem('active_role') || 'Teacher';
+
+        var roleBadgeEl = document.querySelector('.role-badge');
+        if (roleBadgeEl) {
+            roleBadgeEl.textContent = (role === 'Teacher') ? 'Subject Teacher' : role;
         }
+
+        document.querySelectorAll('.nav-item[data-role]').forEach(function (item) {
+            var allowedRole = item.getAttribute('data-role');
+            if (allowedRole !== role) {
+                item.style.display = 'none';
+            } else {
+                item.style.display = '';
+            }
+        });
     }
-
-    /* ── TOGGLE SIDEBAR (untuk mobile & menu button) ── */
-    window.toggleSidebar = function () {
-        var sidebar = document.getElementById('sidebar');
-        var mainWrapper = document.getElementById('main-wrapper');
-        var header = document.getElementById('header');
-
-        if (sidebar) sidebar.classList.toggle('collapsed');
-        if (mainWrapper) mainWrapper.classList.toggle('collapsed');
-        if (header) header.classList.toggle('collapsed');
-    };
-
-    /* ── TOGGLE PROFILE (untuk dashboard profile section) ── */
-    window.toggleProfile = function () {
-        var profileSection = document.getElementById('profile-section');
-        var welcomeCard = document.getElementById('welcome-card');
-
-        if (profileSection) {
-            var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
-            profileSection.style.display = isHidden ? 'block' : 'none';
-        }
-        if (welcomeCard) {
-            var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
-            welcomeCard.style.display = isHidden ? 'none' : 'block';
-        }
-    };
 
     /* ── LOGOUT ── */
     window.logoutUser = function () {
         if (confirm('Are you sure you want to logout?')) {
-            // Clear all storage
             localStorage.clear();
             sessionStorage.clear();
-            
-            // Redirect ke login page
-            window.location.href = '../login.html'; // Update path sesuai system
+            window.location.href = '../Create-Account/CreateAccount.html';
         }
     };
 
-    /* ── JALANKAN SELEPAS DOM SIAP ── */
+    /* ── INIT ── */
     function init() {
         initSubmenu();
-        initUserProfile();
+        initRole();
     }
 
     if (document.readyState === 'loading') {

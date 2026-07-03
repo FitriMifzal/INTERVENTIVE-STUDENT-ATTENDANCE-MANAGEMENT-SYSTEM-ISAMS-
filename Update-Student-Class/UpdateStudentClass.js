@@ -1,9 +1,4 @@
-/* ============================================================
-   UPDATESTUDENTCLASS.JS — Page-specific logic
-   User profile initialization handled by Sidebar.js
-   ============================================================ */
 
-// Get class ID from URL parameters
 const params = new URLSearchParams(window.location.search);
 const classIdFromURL = params.get("id");
 
@@ -13,18 +8,15 @@ let selectedClass = classes.find(c => c.classId === classIdFromURL);
 
 document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
+    sessionStorage.setItem('profile_return_url', window.location.href);
     if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../login.html";
+        window.location.href = "../Update-Student-Class/UpdateStudentClass.html";
         return;
     }
 
     // Load class data for editing
     loadClassData();
 });
-
-/* ────────────────────────────────────────────────────────
-   LOAD CLASS DATA FROM LOCALSTORAGE
-────────────────────────────────────────────────────────── */
 
 function loadClassData() {
     // Check if class exists
@@ -44,9 +36,6 @@ function loadClassData() {
     }
 }
 
-/* ────────────────────────────────────────────────────────
-   UPDATE CLASS FUNCTION
-────────────────────────────────────────────────────────── */
 
 function updateClass() {
     const updatedName = document.getElementById("className").value.trim();
@@ -70,10 +59,6 @@ function updateClass() {
         window.location.href = "../Student Class/StudentClass.html";
     }
 }
-
-/* ────────────────────────────────────────────────────────
-   UTILITY FUNCTIONS
-────────────────────────────────────────────────────────── */
 
 function toggleProfile() {
     var profileSection = document.getElementById('profile-section');
