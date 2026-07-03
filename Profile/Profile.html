@@ -10,15 +10,9 @@
     
     <!-- Profile CSS -->
     <link rel="stylesheet" href="Profile.css">
-    
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- ════════════════════════════════════════════════════════
-         SIDEBAR
-         ════════════════════════════════════════════════════════ -->
-    <div id="sidebar">
+   <div id="sidebar">
         <div class="logo-container">
             <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
         </div>
@@ -27,7 +21,7 @@
 
         <div class="nav-menu">
             <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
-            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Account</a>
+            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Account</a>
             <a href="../Student Class/StudentClass.html" class="nav-item">Student Class</a>
             <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
             
@@ -47,10 +41,7 @@
         <a href="../Create-Account/CreateAccount.html" onclick="logoutUser()" class="nav-item logout">Logout</a>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════
-         MAIN CONTENT
-         ════════════════════════════════════════════════════════ -->
-    <div id="main-wrapper">
+ <div id="main-wrapper">
         <!-- HEADER -->
         <header id="header">
             <button class="header-title" onclick="toggleSidebar()">
@@ -58,8 +49,8 @@
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
             
-            <!-- USER PROFILE AREA (icon + name) -->
-            <div class="user-profile" onclick="window.location.href='../Profile/Profile.html'">
+            <!-- USER PROFILE AREA (icon + name) — tekan untuk kembali ke page asal -->
+            <div class="user-profile" onclick="toggleProfile()">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
@@ -81,7 +72,7 @@
                         <h1 id="profileDisplayName">User Name</h1>
                         <p class="profile-role" id="profileDisplayRole">Subject Teacher</p>
                         <div class="profile-badges">
-                            <span class="badge badge-primary"><i class="fas fa-id-card"></i> ID: <span id="profileDisplayID">N/A</span></span>
+                            <span class="badge badge-primary">ID: <span id="profileDisplayID">N/A</span></span>
                         </div>
                     </div>
                 </div>
@@ -89,26 +80,11 @@
                 <!-- Profile Details Card -->
                 <div class="profile-card">
                     <div class="profile-card-header">
-                        <h2><i class="fas fa-user-circle"></i> Personal Information</h2>
-                        <div class="profile-actions">
-                            <button id="btn-edit-profile" class="btn btn-edit" onclick="enableEdit()">
-                                <i class="fas fa-pen"></i> Edit Profile
-                            </button>
-                            <button id="btn-back-profile" class="btn btn-back" onclick="goBack()">
-                                <i class="fas fa-arrow-left"></i> Back
-                            </button>
-                            <button id="btn-save-profile" class="btn btn-save" onclick="updateProfile()" style="display:none;">
-                                <i class="fas fa-save"></i> Save Changes
-                            </button>
-                            <button id="btn-cancel-profile" class="btn btn-cancel" onclick="disableEdit()" style="display:none;">
-                                <i class="fas fa-times"></i> Cancel
-                            </button>
-                        </div>
+                        <h2>Personal Information</h2>
                     </div>
 
                     <div class="profile-details-grid">
                         <div class="detail-item">
-                            <div class="detail-icon"><i class="fas fa-user"></i></div>
                             <div class="detail-content">
                                 <label>Full Name</label>
                                 <input type="text" id="profName" class="profile-input" disabled>
@@ -116,7 +92,6 @@
                         </div>
 
                         <div class="detail-item">
-                            <div class="detail-icon"><i class="fas fa-id-badge"></i></div>
                             <div class="detail-content">
                                 <label>Teacher ID</label>
                                 <input type="text" id="profID" disabled>
@@ -124,7 +99,6 @@
                         </div>
 
                         <div class="detail-item">
-                            <div class="detail-icon"><i class="fas fa-credit-card"></i></div>
                             <div class="detail-content">
                                 <label>IC Number</label>
                                 <input type="text" id="profIC" disabled>
@@ -132,7 +106,6 @@
                         </div>
 
                         <div class="detail-item">
-                            <div class="detail-icon"><i class="fas fa-envelope"></i></div>
                             <div class="detail-content">
                                 <label>Email Address</label>
                                 <input type="email" id="profEmail" class="profile-input" disabled>
@@ -140,7 +113,6 @@
                         </div>
 
                         <div class="detail-item">
-                            <div class="detail-icon"><i class="fas fa-phone"></i></div>
                             <div class="detail-content">
                                 <label>Phone Number</label>
                                 <input type="text" id="profPhone" class="profile-input" disabled>
@@ -148,38 +120,25 @@
                         </div>
 
                         <div class="detail-item">
-                            <div class="detail-icon"><i class="fas fa-user-tag"></i></div>
                             <div class="detail-content">
                                 <label>Role</label>
                                 <input type="text" id="profRole" disabled>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Account Actions Card -->
-                <div class="profile-card account-actions">
-                    <div class="profile-card-header">
-                        <h2><i class="fas fa-cog"></i> Account Settings</h2>
-                    </div>
-                    <div class="account-actions-grid">
-                        <button class="action-btn action-btn-danger" onclick="confirmLogout()">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </button>
-                        <button class="action-btn action-btn-warning" onclick="window.location.href='../delete-account/DeleteAccount.html'">
-                            <i class="fas fa-archive"></i>
-                            <span>Archive Account</span>
-                        </button>
+                    <!-- ACTION BUTTONS — di bawah, dekat dengan tangan user (UX: Fitts's Law) -->
+                    <div class="profile-actions">
+                        <button id="btn-edit-profile" class="btn btn-edit" onclick="enableEdit()">Edit Profile</button>
+                        <button id="btn-cancel-profile" class="btn btn-cancel" onclick="disableEdit()" style="display:none;">Cancel</button>
+                        <button id="btn-save-profile" class="btn btn-save" onclick="updateProfile()" style="display:none;">Save Changes</button>
                     </div>
                 </div>
+                
             </div>
         </main>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════
-         SCRIPTS
-         ════════════════════════════════════════════════════════ -->
     <script src="../Sidebar/Sidebar.js"></script>
     <script src="Profile.js"></script>
 </body>

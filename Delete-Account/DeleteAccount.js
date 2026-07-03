@@ -9,8 +9,9 @@ const successMsg = document.getElementById('successMsg');
 
 document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
+    sessionStorage.setItem('profile_return_url', window.location.href);
     if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../login.html";
+        window.location.href = "../Delete-Account/DeleteAccount.html";
         return;
     }
 });

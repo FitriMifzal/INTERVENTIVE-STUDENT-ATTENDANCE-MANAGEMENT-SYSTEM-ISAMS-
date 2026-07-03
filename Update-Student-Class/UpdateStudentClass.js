@@ -8,8 +8,9 @@ let selectedClass = classes.find(c => c.classId === classIdFromURL);
 
 document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
+    sessionStorage.setItem('profile_return_url', window.location.href);
     if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../login.html";
+        window.location.href = "../Update-Student-Class/UpdateStudentClass.html";
         return;
     }
 

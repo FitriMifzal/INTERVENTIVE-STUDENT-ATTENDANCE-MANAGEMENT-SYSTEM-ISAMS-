@@ -19,8 +19,9 @@ const studentDatabase = [
 let selectedStudent = null;
 
 document.addEventListener('DOMContentLoaded', function () {
+    sessionStorage.setItem('profile_return_url', window.location.href);
     if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../login.html";
+        window.location.href = "../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html";
         return;
     }
     loadDefaultRows();
