@@ -403,6 +403,7 @@ td.locked-col {
     flex: 1;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
@@ -411,11 +412,11 @@ td.locked-col {
     font-size: 13.5px;
     color: #1e293b;
     font-family: var(--font-family-main);
+    position: relative;
     transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .session-option input[type="radio"] {
-    margin-left: auto;
     accent-color: var(--kv-orange);
 }
 
