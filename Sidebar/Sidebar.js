@@ -1,6 +1,7 @@
 /* ============================================================
    SIDEBAR.JS — Sidebar navigation & role management
    Header functions in Header.js
+   FIXED: Better path matching logic
    ============================================================ */
 
 (function () {
@@ -73,8 +74,12 @@
                 // Normalize paths for comparison
                 href = href.toLowerCase();
                 
+                // Remove "../" to get clean path (e.g., "enroll-subject/enroll-subject.html")
+                var cleanHref = href.replace(/\.\.\//g, '').replace(/^\//, '');
+                
                 // Check if current page matches this link
-                if (currentPage.includes(href.replace(/\.\.\//g, '').replace(/\//g, ''))) {
+                // This is more specific - won't match partial paths
+                if (currentPage.includes(cleanHref)) {
                     item.classList.add('active');
                     
                     // If sub-item is active, open parent submenu
