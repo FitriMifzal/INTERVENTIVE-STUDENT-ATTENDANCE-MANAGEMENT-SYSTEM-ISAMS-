@@ -43,13 +43,53 @@
         });
 
         document.querySelectorAll('.sub-nav-item[data-role]').forEach(function (item) {
-        var allowedRole = item.getAttribute('data-role');
-        if (allowedRole !== role) {
-            item.style.display = 'none';  // HIDE kalau role tak match
-        } else {
-            item.style.display = '';
-        }
-    });
+            var allowedRole = item.getAttribute('data-role');
+            if (allowedRole !== role) {
+                item.style.display = 'none';  // HIDE kalau role tak match
+            } else {
+                item.style.display = '';
+            }
+        });
+    }
+
+    /* ── SET ACTIVE NAV ITEM (based on current page) ── */
+    function setActiveNav() {
+        var currentPage = window.location.pathname.toLowerCase();
+        
+        // Remove all active classes first
+        document.querySelectorAll('.nav-item').forEach(function (item) {
+            item.classList.remove('active');
+        });
+        
+        document.querySelectorAll('.sub-nav-item').forEach(function (item) {
+            item.classList.remove('active');
+        });
+
+        // Find and set active class based on current page
+        document.querySelectorAll('.nav-item, .sub-nav-item').forEach(function (item) {
+            var href = item.getAttribute('href');
+            
+            if (href) {
+                // Normalize paths for comparison
+                href = href.toLowerCase();
+                
+                // Check if current page matches this link
+                if (currentPage.includes(href.replace(/\.\.\//g, '').replace(/\//g, ''))) {
+                    item.classList.add('active');
+                    
+                    // If sub-item is active, open parent submenu
+                    if (item.classList.contains('sub-nav-item')) {
+                        var submenu = item.closest('.submenu');
+                        if (submenu) {
+                            var parentBtn = submenu.previousElementSibling;
+                            if (parentBtn && parentBtn.classList.contains('nav-item')) {
+                                parentBtn.classList.add('open');
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /* ── LOGOUT ── */
@@ -59,15 +99,13 @@
             sessionStorage.clear();
             window.location.href = '../Create-Account/CreateAccount.html';
         }
-        else {
-            
-        }
     };
 
     /* ── INIT ── */
     function init() {
         initSubmenu();
         initRole();
+        setActiveNav();  // ← SET ACTIVE NAV ITEM
     }
 
     if (document.readyState === 'loading') {
