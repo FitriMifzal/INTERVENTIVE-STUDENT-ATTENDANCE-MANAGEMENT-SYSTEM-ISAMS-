@@ -67,18 +67,17 @@
                 <!-- Profile Header with Avatar -->
                 <div class="profile-header">
                     <div class="profile-avatar-container">
+                        <!-- Avatar shows initials from T_Name (database) -->
                         <div class="profile-avatar" id="profileAvatar">?</div>
                         <div class="profile-status">
-                            <span class="status-dot active"></span>
-                            <span class="status-text">Active</span>
+                            <!-- Status from database (archive status, etc) -->
+                            <span class="status-dot" id="statusDot"></span>
+                            <span class="status-text" id="statusText">Loading...</span>
                         </div>
                     </div>
                     <div class="profile-header-info">
                         <h1 id="profileDisplayName">User Name</h1>
-                        <p class="profile-role" id="profileDisplayRole">Subject Teacher</p>
-                        <div class="profile-badges">
-                            <span class="badge badge-primary">ID: <span id="profileDisplayID">N/A</span></span>
-                        </div>
+                        <p class="profile-role" id="profileDisplayRole">Loading...</p>
                     </div>
                 </div>
 
@@ -92,35 +91,28 @@
                         <div class="detail-item">
                             <div class="detail-content">
                                 <label>Full Name</label>
-                                <input type="text" id="profName" class="profile-input" disabled>
+                                <input type="text" id="T_Name" class="profile-input" disabled>
                             </div>
                         </div>
 
                         <div class="detail-item">
                             <div class="detail-content">
                                 <label>IC Number</label>
-                                <input type="text" id="profIC" disabled>
+                                <input type="text" id="T_IC" disabled>
                             </div>
                         </div>
 
                         <div class="detail-item">
                             <div class="detail-content">
                                 <label>Email Address</label>
-                                <input type="email" id="profEmail" class="profile-input" disabled>
+                                <input type="email" id="T_Email" class="profile-input" disabled>
                             </div>
                         </div>
 
                         <div class="detail-item">
                             <div class="detail-content">
                                 <label>Phone Number</label>
-                                <input type="text" id="profPhone" class="profile-input" disabled>
-                            </div>
-                        </div>
-
-                        <div class="detail-item">
-                            <div class="detail-content">
-                                <label>Role</label>
-                                <input type="text" id="profRole" disabled>
+                                <input type="text" id="T_PhoneNum" class="profile-input" disabled>
                             </div>
                         </div>
                     </div>

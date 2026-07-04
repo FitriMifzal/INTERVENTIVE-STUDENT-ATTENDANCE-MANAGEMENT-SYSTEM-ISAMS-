@@ -1,211 +1,59 @@
-/* ============================================================
-   DASHBOARD.CSS — Content area styling
-   Letakkan di <head> SELEPAS sidebar.css
-   ============================================================ */
+/* ════════════════════════════════════════════════════════════════════
+   DASHBOARD.CSS ADDITIONS — Statistics Section
+   
+   ADD THESE STYLES TO THE END OF YOUR EXISTING Dashboard.css
+   ════════════════════════════════════════════════════════════════════ */
 
-#main-wrapper,
-#main-content {
-    margin-left: var(--sidebar-width);
-    width: calc(100% - var(--sidebar-width));
-    transition: margin-left 0.3s ease, width 0.3s ease;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding-top: 70px;
-    box-sizing: border-box;
+/* Statistics Section */
+.statistics-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
-#main-wrapper.collapsed,
-#main-content.collapsed {
-    margin-left: 0;
-    width: 100%;
-}
-
-#content,
-#content-area {
-    padding: 40px;
-    flex: 1;
-    overflow-y: auto;
-}
-
-/* ── CARDS & CONTENT SECTIONS ── */
-.card { 
-    background: white; 
-    padding: 30px; 
-    border-radius: 12px; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-    margin-bottom: 20px; 
-}
-
-.card h1,
-.card h2,
-.card h3 {
-    color: var(--kv-primary);
-    margin-top: 0;
-}
-
-/* ── PROFILE SECTION ── */
-#profile-section { 
-    display: none; 
-    animation: slideDown 0.4s ease-out; 
-}
-
-@keyframes slideDown { 
-    from { opacity: 0; transform: translateY(-10px); } 
-    to { opacity: 1; transform: translateY(0); } 
-}
-
-.profile-grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 20px; 
-    margin-top: 20px; 
-    text-align: left; 
-}
-
-@media (max-width: 768px) {
-    .profile-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* ── INPUT GROUPS ── */
-.input-group { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 5px; 
-}
-
-.input-group label { 
-    font-size: 13px; 
-    font-weight: bold; 
-    color: var(--kv-primary); 
-}
-
-.input-group input { 
-    padding: 12px; 
-    border: 2px solid #ddd; 
-    background: #f8f9fa; 
-    border-radius: 6px; 
-    font-size: 14px; 
-    color: #333; 
-    transition: 0.2s;
-    font-family: inherit;
-}
-
-.input-group input:focus {
-    outline: none;
-    border-color: var(--kv-orange);
+.stats-card {
     background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e2e8f0;
 }
 
-.input-group input.editable { 
-    border-color: #007bff; 
-    background: #fff; 
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.input-group input:disabled { 
-    background: #e9ecef; 
-    color: #6c757d; 
-    cursor: not-allowed; 
+.stat-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 10px;
+    line-height: 1;
 }
 
-/* ── BUTTON GROUP ── */
-.button-group {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-/* ── BUTTONS ── */
-.btn { 
-    padding: 12px 25px; 
-    border-radius: 6px; 
-    cursor: pointer; 
-    font-weight: bold; 
-    border: none; 
-    transition: all 0.3s ease; 
+.stat-label {
     font-size: 14px;
-    font-family: inherit;
+    color: #64748b;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.btn-edit { 
-    background: var(--kv-primary); 
-    color: white; 
-}
-
-.btn-edit:hover {
-    background: #002347;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
-}
-
-.btn-back { 
-    background: #6c757d; 
-    color: white; 
-}
-
-.btn-back:hover {
-    background: #5a6268;
-    transform: translateY(-2px);
-}
-
-.btn-save { 
-    background: #28a745; 
-    color: white; 
-    display: none; 
-}
-
-.btn-save:hover {
-    background: #218838;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-}
-
-.btn-cancel { 
-    background: #dc3545; 
-    color: white; 
-    display: none; 
-}
-
-.btn-cancel:hover {
-    background: #c82333;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
-}
-
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* ── RESPONSIVE ── */
+/* Responsive */
 @media (max-width: 768px) {
-    #main-wrapper,
-    #main-content {
-        padding-top: 70px;
+    .statistics-section {
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
-
-    #content,
-    #content-area {
-        padding: 20px;
-    }
-
-    .card {
-        padding: 20px;
-    }
-
-    .btn {
-        padding: 10px 15px;
-        font-size: 13px;
-    }
-
-    .button-group {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
+    
+    .stat-value {
+        font-size: 28px;
     }
 }
+
+/* ════════════════════════════════════════════════════════════════════ */

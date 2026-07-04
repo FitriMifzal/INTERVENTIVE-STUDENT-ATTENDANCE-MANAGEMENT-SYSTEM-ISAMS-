@@ -66,11 +66,35 @@
 
         <!-- MAIN CONTENT -->
         <main id="content">
-            <!-- WELCOME CARD -->
+            <!-- WELCOME CARD (EXISTING - NOT MODIFIED) -->
             <div class="card" id="welcome-card">
                 <h1 id="welcome-msg">Welcome!</h1>
                 <p>Status: <strong id="status-text">Teacher</strong></p>
             </div>
+
+            <!-- ════════════════════════════════════════════════════════════════════
+                 STATISTICS SECTION (NEWLY ADDED)
+                 Database: Stu_ID (Student), Class_ID (Class), Sub_ID (Subject)
+                 ════════════════════════════════════════════════════════════════════ -->
+            <section class="statistics-section">
+                <!-- Total Students from Student table -->
+                <div class="stats-card">
+                    <div class="stat-value" id="totalStudents">0</div>
+                    <div class="stat-label">Total Students</div>
+                </div>
+
+                <!-- Total Classes from Class table -->
+                <div class="stats-card">
+                    <div class="stat-value" id="totalClasses">0</div>
+                    <div class="stat-label">Total Classes</div>
+                </div>
+
+                <!-- Subjects Teaching (Count Subject WHERE T_ID = current teacher) -->
+                <div class="stats-card">
+                    <div class="stat-value" id="totalSubjects">0</div>
+                    <div class="stat-label">Subjects Teaching</div>
+                </div>
+            </section>
         </main>
     </div>
 
