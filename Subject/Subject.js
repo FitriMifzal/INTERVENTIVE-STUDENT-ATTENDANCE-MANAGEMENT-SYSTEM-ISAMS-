@@ -215,5 +215,3 @@ function executeEnroll() {
         alert("Failed to connect to server. Please try again.");
     });
 }
-
-// ❌ DELETED: Duplicate toggleProfile() function — sudah ada dalam Header.js!
