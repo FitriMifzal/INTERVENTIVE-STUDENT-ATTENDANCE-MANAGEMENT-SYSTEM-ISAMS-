@@ -21,211 +21,341 @@
     width: 100%;
 }
 
+#content,
 #content-area {
-    padding: 40px;
+    padding: 30px;
     flex: 1;
     overflow-y: auto;
     background-color: #f4f7f6;
 }
 
-/* ── CONTAINER BOX ── */
-.container-box {
+/* ── CONTENT CARD ── */
+.content-card {
     background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    font-family: var(--font-family-main);
+    box-sizing: border-box;
 }
 
-/* ── PAGE HEADER ── */
-.page-header {
-    margin-bottom: 15px;
+/* ── HEADER ROW ── */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
+
+/* ════════════════════════════════════════════════════════
+   Page title, description, and underline styling
+   (Sama dengan StudentClass.css)
+   ════════════════════════════════════════════════════════ */
 
 .page-title {
-    font-size: 32px;
-    font-weight: bold;
     color: #1e293b;
-    margin: 0;
-    font-family: var(--font-family-main);
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
 }
 
-/* ── ORANGE BAR ── */
-.orange-bar {
-    width: 100%;
+.page-description {
+    color: #64748b;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}
+
+.title-underline {
     height: 4px;
-    background-color: var(--kv-orange);
-    margin: 5px 0 10px 0;
+    background-color: #ff5722;
+    width: 100%;
+    margin-bottom: 25px;
+    border-radius: 2px;
 }
 
-/* ── CUSTOM BUTTON STYLES ── */
+/* ── CREATE BUTTON ── */
 .btn-create {
-    background-color: var(--kv-orange);
+    background: var(--kv-orange);
     color: white;
+    padding: 10px 18px;
     border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
     transition: all 0.3s ease;
     font-family: var(--font-family-main);
 }
 
 .btn-create:hover {
-    background-color: #e04d24;
-    color: white;
+    background: #e04d24;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(245, 87, 41, 0.3);
 }
 
-.btn-update {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    transition: all 0.3s ease;
-    font-family: var(--font-family-main);
+.btn-create:disabled {
+    background: #cbd5e1;
+    color: #64748b;
+    cursor: not-allowed;
+    transform: none;
 }
 
-.btn-update:hover {
-    background-color: #0056B3;
-    color: white;
-    transform: translateY(-1px);
-}
+/* ════════════════════════════════════════════════════════
+   ADDED: Button row — Right aligned, above table
+   ════════════════════════════════════════════════════════ */
 
-.btn-view {
-    background-color: #6C757D;
-    color: white;
-    border: none;
-    transition: all 0.3s ease;
-    font-family: var(--font-family-main);
-}
-
-.btn-view:hover {
-    background-color: #5A6268;
-    color: white;
-    transform: translateY(-1px);
-}
-
-.btn-cancel {
-    background-color: #DC3545;
-    color: white;
-    border: none;
-    transition: all 0.3s ease;
-    font-family: var(--font-family-main);
-}
-
-.btn-cancel:hover {
-    background-color: #B02A37;
-    color: white;
-    transform: translateY(-1px);
-}
-
-.btn-save {
-    background-color: #28A745;
-    color: white;
-    border: none;
-    transition: all 0.3s ease;
-    font-family: var(--font-family-main);
-}
-
-.btn-save:hover {
-    background-color: #218838;
-    color: white;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+.button-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
 }
 
 /* ── TABLE STYLES ── */
-.table {
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border: 1px solid #bbb;
     font-family: var(--font-family-main);
-    margin-bottom: 0;
 }
 
-.table thead th {
-    background-color: #f1f5f9;
-    border: 1px solid #e2e8f0;
-    color: #475569;
+thead th {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #bbb;
+    background: #e0e0e0;
+    color: #1e293b;
     font-weight: 700;
-    padding: 12px;
-    text-align: center;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.table tbody td {
-    border: 1px solid #e2e8f0;
-    padding: 12px;
-    text-align: center;
-    color: #334155;
     font-family: var(--font-family-main);
 }
 
-.table tbody tr:hover {
-    background-color: #f8fafc !important;
+tbody td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #bbb;
+    color: #475569;
+    font-family: var(--font-family-main);
 }
 
-.table-light {
-    background-color: #f1f5f9 !important;
+tbody tr {
+    transition: background-color 0.2s ease;
 }
 
-/* ── ACTION GAP ── */
-.action-gap {
-    gap: 8px;
+tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* ── ACTION BUTTONS ── */
+.action-buttons {
     display: flex;
+    gap: 8px;
     justify-content: center;
+    align-items: center;
 }
 
-/* ── FORM LABELS & INPUTS ── */
-.form-label {
+.btn-table-action {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    font-family: var(--font-family-main);
+}
+
+/* ════════════════════════════════════════════════════════
+   UPDATED: Action buttons (Sama dengan StudentList.css)
+   ════════════════════════════════════════════════════════ */
+
+.btn-view {
+    background: #10b981;
+    color: white;
+}
+
+.btn-view:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+.btn-update {
+    background: #003366;
+    color: white;
+}
+
+.btn-update:hover {
+    background: #002347;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 35, 71, 0.3);
+}
+
+.btn-enroll {
+    background: #22c55e;
+    color: white;
+}
+
+.btn-enroll:hover {
+    background: #16a34a;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+.btn-enrolled {
+    background: #94a3b8;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.btn-enrolled:hover {
+    transform: none;
+}
+
+.btn-assigned {
+    background: #94a3b8;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.btn-assigned:hover {
+    transform: none;
+}
+
+/* ── NO DATA MESSAGE ── */
+tbody tr td[colspan] {
+    color: #9ca3af;
+    font-style: italic;
+    padding: 20px 12px;
+    text-align: center;
+}
+
+/* ── FORM PAGE ── */
+.form-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    box-sizing: border-box;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
     color: #475569;
     font-size: 14px;
     font-family: var(--font-family-main);
 }
 
-.form-control {
-    border: 1px solid #cbd5e1;
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
     border-radius: 6px;
-    padding: 10px 12px;
+    font-size: 14px;
     font-family: var(--font-family-main);
     outline: none;
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
-.form-control:focus {
+.form-group input:focus {
     border-color: var(--kv-orange);
     box-shadow: 0 0 0 3px rgba(245, 87, 41, 0.1);
+    background-color: white;
 }
 
-.form-control::placeholder {
-    color: #94a3b8;
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
 }
 
-/* ── ERROR MESSAGE ── */
-.error-msg {
-    color: #DC3545;
-    font-size: 0.85rem;
-    font-weight: bold;
-    margin-top: 5px;
+.btn-submit {
+    background: #22c55e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.3s ease;
     font-family: var(--font-family-main);
 }
 
-.alert {
+.btn-submit:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btn-cancel {
+    background: #ef4444;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    font-family: var(--font-family-main);
+}
+
+.btn-cancel:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* ── SUCCESS PAGE ── */
+.success-card {
+    background: white;
     border-radius: 8px;
-    font-family: var(--font-family-main);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.alert-danger {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #fca5a5;
-}
-
-.alert-success {
+.success-card .alert-success {
     background-color: #f0fdf4;
     color: #166534;
     border: 1px solid #86efac;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.success-card .alert-success h4 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+}
+
+.success-card .alert-success p {
+    margin: 0;
+    font-size: 15px;
+}
+
+/* ── HIDDEN UTILITY ── */
+.hidden {
+    display: none !important;
 }
 
 /* ── MODAL STYLES ── */
 .modal-content {
-    border: 1px solid #e2e8f0;
     border-radius: 8px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     font-family: var(--font-family-main);
@@ -235,86 +365,36 @@
     border-bottom: 1px solid #e2e8f0;
 }
 
+.modal-header.bg-secondary {
+    background-color: #64748b !important;
+}
+
+.modal-header.bg-success {
+    background-color: #22c55e !important;
+}
+
+.modal-header .btn-close-white {
+    filter: brightness(0) invert(1);
+}
+
 .modal-body {
     color: #334155;
     font-family: var(--font-family-main);
+    padding: 20px;
+}
+
+.modal-body .detail-item {
+    margin-bottom: 10px;
+}
+
+.modal-body .detail-item strong {
+    display: inline-block;
+    min-width: 120px;
 }
 
 .modal-footer {
     border-top: 1px solid #e2e8f0;
     background-color: #f8fafc;
-}
-
-/* ── UTILITY CLASSES ── */
-.hidden {
-    display: none !important;
-}
-
-.fw-bold {
-    font-weight: 700;
-}
-
-.d-flex {
-    display: flex;
-}
-
-.justify-content-between {
-    justify-content: space-between;
-}
-
-.align-items-center {
-    align-items: center;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.text-success {
-    color: #16a34a;
-}
-
-.text-muted {
-    color: #6b7a99;
-}
-
-.gap-2 {
-    gap: 12px;
-}
-
-.mt-4 {
-    margin-top: 24px;
-}
-
-.pt-3 {
-    padding-top: 16px;
-}
-
-.border-top {
-    border-top: 1px solid #e2e8f0;
-}
-
-.py-5 {
-    padding-top: 48px;
-    padding-bottom: 48px;
-}
-
-.px-4 {
-    padding-left: 24px;
-    padding-right: 24px;
-}
-
-.px-5 {
-    padding-left: 48px;
-    padding-right: 48px;
-}
-
-.mb-2 {
-    margin-bottom: 8px;
-}
-
-.mt-3 {
-    margin-top: 16px;
 }
 
 /* ── RESPONSIVE ── */
@@ -324,54 +404,67 @@
         padding-top: 70px;
     }
 
+    #content,
     #content-area {
         padding: 15px;
     }
 
-    .container-box {
+    .content-card,
+    .form-card,
+    .success-card {
         padding: 15px;
     }
 
     .page-title {
-        font-size: 24px;
+        font-size: 22px;
     }
 
-    .page-header {
+    .page-description {
+        font-size: 13px;
+    }
+
+    .header-row {
         flex-direction: column;
-        align-items: flex-start !important;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .button-row {
+        flex-direction: column;
     }
 
     .btn-create {
         width: 100%;
+        padding: 10px 16px;
     }
 
-    .table {
+    table {
         font-size: 12px;
     }
 
-    .table thead th,
-    .table tbody td {
+    thead th,
+    tbody td {
         padding: 8px 6px;
     }
 
-    .action-gap {
+    .action-buttons {
         flex-direction: column;
+        gap: 5px;
     }
 
-    .btn-update,
-    .btn-view,
-    .btn-cancel,
-    .btn-save {
+    .btn-table-action {
         width: 100%;
-        padding: 6px 8px;
+        padding: 6px 10px;
         font-size: 12px;
     }
 
-    .row.g-3 {
-        gap: 12px;
+    .form-actions {
+        flex-direction: column;
     }
 
-    .col-md-6 {
-        flex: 0 0 100%;
+    .btn-submit,
+    .btn-cancel {
+        width: 100%;
+        padding: 10px 16px;
     }
 }

@@ -6,7 +6,7 @@ let currentUserRole = "";
 let activeSubId = null; // subject currently targeted for enroll
 
 document.addEventListener('DOMContentLoaded', function () {
-    // ⭐ TAMBAH: Update sessionStorage dengan URL page ni (untuk profile return)
+    // Update sessionStorage dengan URL page ni (untuk profile return)
     sessionStorage.setItem('profile_return_url', window.location.href);
     
     // check if user is logged in
@@ -50,28 +50,33 @@ function renderTable() {
 
     const myTId = parseInt(localStorage.getItem('active_tId'));
 
+    if (subjects.length === 0) {
+        body.innerHTML = `<tr><td colspan="4" style="color: #9ca3af; font-style: italic; padding: 20px 12px; text-align: center;">No subjects found. Create one.</td></tr>`;
+        return;
+    }
+
     subjects.forEach((s) => {
-        let btns = `<button class="btn btn-view btn-sm" onclick="viewSub(${s.subId})">View</button>`;
+        let btns = `<button class="btn-table-action btn-view" onclick="viewSub(${s.subId})">View</button>`;
 
         if (currentUserRole === "Penyelaras Intervensi") {
-            btns += `<button class="btn btn-update btn-sm" onclick="showForm(${s.subId})">Update</button>`;
+            btns += `<button class="btn-table-action btn-update" onclick="showForm(${s.subId})">Update</button>`;
         } else if (currentUserRole === "Subject Teacher") {
             if (s.tId !== null && s.tId === myTId) {
-                btns += `<button class="btn btn-secondary btn-sm" disabled><i class="bi bi-check-circle"></i> Enrolled</button>`;
+                btns += `<button class="btn-table-action btn-enrolled" disabled>Enrolled</button>`;
             } else if (s.tId === null) {
-                btns += `<button class="btn btn-save btn-sm" onclick="openEnroll(${s.subId})">Enroll</button>`;
+                btns += `<button class="btn-table-action btn-enroll" onclick="openEnroll(${s.subId})">Enroll</button>`;
             } else {
-                btns += `<button class="btn btn-secondary btn-sm" disabled>Assigned</button>`;
+                btns += `<button class="btn-table-action btn-assigned" disabled>Assigned</button>`;
             }
         }
 
-        const lecturer = s.tId === null ? '<span class="text-muted">Unassigned</span>' : s.teacherName;
+        const lecturer = s.tId === null ? '<span style="color: #94a3b8;">Unassigned</span>' : s.teacherName;
 
         body.innerHTML += `<tr>
             <td>${s.subName}</td>
             <td>${s.creditHours}</td>
             <td>${lecturer}</td>
-            <td><div class="action-gap">${btns}</div></td>
+            <td><div class="action-buttons">${btns}</div></td>
         </tr>`;
     });
 }
@@ -91,12 +96,12 @@ function showForm(subId) {
 
     if (subId !== undefined) {
         const s = subjects.find(sub => sub.subId === subId);
-        document.getElementById('formTitle').innerText = "Update Subject Information";
+        document.getElementById('formTitle').innerText = "Update Subject";
         document.getElementById('subName').value = s.subName;
         document.getElementById('subCredit').value = s.creditHours;
         document.getElementById('editIdx').value = subId;
     } else {
-        document.getElementById('formTitle').innerText = "Subject Registration Form";
+        document.getElementById('formTitle').innerText = "Create Subject";
         document.getElementById('editIdx').value = "";
     }
 
@@ -127,12 +132,12 @@ function saveData() {
     if (subId === "") {
         url = "../SubjectController?action=create";
         successTitle = "Registration Successful!";
-        successMsg = "New subject added.";
+        successMsg = "New subject has been added successfully.";
     } else {
         formData.append("subId", subId);
         url = "../SubjectController?action=update";
         successTitle = "Update Successful!";
-        successMsg = "Subject updated.";
+        successMsg = "Subject has been updated successfully.";
     }
 
     fetch(url, {
@@ -167,9 +172,9 @@ function viewSub(subId) {
         : `<span class="text-success fw-bold">${s.teacherName}</span>`;
 
     document.getElementById('viewDetailBody').innerHTML = `
-        <div class="mb-2"><strong>Subject Name:</strong> ${s.subName}</div>
-        <div class="mb-2"><strong>Credit Hours:</strong> ${s.creditHours}</div>
-        <div><strong>Lecturer:</strong> ${lecturer}</div>
+        <div class="detail-item"><strong>Subject Name:</strong> ${s.subName}</div>
+        <div class="detail-item"><strong>Credit Hours:</strong> ${s.creditHours}</div>
+        <div class="detail-item"><strong>Lecturer:</strong> ${lecturer}</div>
     `;
     new bootstrap.Modal(document.getElementById('viewModal')).show();
 }
@@ -202,7 +207,7 @@ function executeEnroll() {
         if (data.status === "success") {
             const s = subjects.find(sub => sub.subId === activeSubId);
             document.getElementById('resTitle').innerText = "Enrollment Successful!";
-            document.getElementById('resMsg').innerText = "You registered for " + s.subName;
+            document.getElementById('resMsg').innerText = "You have successfully enrolled in " + s.subName;
             document.getElementById('subjectListPage').classList.add('hidden');
             document.getElementById('successPage').classList.remove('hidden');
         } else {

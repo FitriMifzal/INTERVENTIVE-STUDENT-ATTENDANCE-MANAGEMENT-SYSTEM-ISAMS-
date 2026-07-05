@@ -26,7 +26,7 @@
 
     <div class="nav-menu">
         <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
-        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item">Teacher Account</a>
+        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Teacher Accounts</a>
         <a href="../Student Class/StudentClass.html" class="nav-item">Classroom</a>
         <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
 
@@ -36,15 +36,15 @@
         </button>
         <div class="submenu">
             <!-- FOR SUBJECT TEACHER -->
-            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">Subject Details</a>
+            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher" active>Subject Enrollment</a>
             <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
             
             <!-- FOR PENYELARAS INTERVENSI -->
-            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi" active>Subject Details</a>
+            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
         </div>
 
-        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" data-role="Teacher" class="nav-item">Student Attendance</a>
-        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" data-role="Penyelaras Intervensi" class="nav-item">Absent Record</a>
+        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
+        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Absent Record</a>
     </div>
 
    <button onclick="logoutUser()" class="nav-item logout">Logout</button>
@@ -58,70 +58,72 @@
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
 
-            <div class="user-profile" onclick="toggleProfile()">
+            <div class="user-profile" onclick="window.location.href='../Profile/Profile.html'">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
         </header>
 
         <!-- MAIN CONTENT -->
-        <div id="content-area">
+        <main id="content-area">
             <!-- SUBJECT LIST PAGE -->
-            <div id="subjectListPage" class="container-box">
-                <div class="d-flex justify-content-between align-items-center page-header">
-                    <h1 class="page-title">Subject</h1>
-                    <button id="btnCreate" class="btn btn-create px-4 fw-bold" onclick="showForm()">Create New</button>
+            <div id="subjectListPage" class="content-card">
+                <h1 class="page-title">Subject Details</h1>
+                <p class="page-description">Manage all subjects and view their details. Click "Create" to add a new subject or "View" to see more information.</p>
+                <div class="title-underline"></div>
+
+                <!-- CREATE BUTTON — RIGHT ALIGNED, ABOVE TABLE -->
+                <div class="button-row">
+                    <button id="btnCreate" class="btn-create" onclick="showForm()">Create</button>
                 </div>
-                <div class="orange-bar"></div>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Subject Name</th>
-                                <th>Credit Hours</th>
-                                <th>Lecturer</th>
-                                <th class="text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="subjectTableBody"></tbody>
-                    </table>
-                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">Subject Name</th>
+                            <th style="width: 20%;">Credit Hours</th>
+                            <th style="width: 30%;">Lecturer</th>
+                            <th style="width: 20%;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subjectTableBody"></tbody>
+                </table>
             </div>
 
             <!-- FORM PAGE -->
-            <div id="formPage" class="container-box hidden">
-                <h2 class="page-title" id="formTitle">Subject Registration Form</h2>
-                <div class="orange-bar"></div>
-                <div id="globalError" class="alert alert-danger hidden"></div>
+            <div id="formPage" class="form-card hidden">
+                <h1 class="page-title" id="formTitle">Subject Registration Form</h1>
+                <p class="page-description">Enter the subject details below. All fields are required.</p>
+                <div class="title-underline"></div>
+                
                 <form id="subjectForm">
                     <input type="hidden" id="editIdx">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Subject Name</label>
-                            <input type="text" id="subName" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Credit Hours</label>
-                            <input type="number" id="subCredit" class="form-control">
-                        </div>
+                    <div class="form-group">
+                        <label for="subName">Subject Name</label>
+                        <input type="text" id="subName" class="form-control" placeholder="Enter subject name" required>
                     </div>
-                    <div class="mt-4 pt-3 border-top d-flex gap-2">
-                        <button type="button" class="btn btn-save px-5 fw-bold" onclick="saveData()">Save</button>
-                        <button type="button" class="btn btn-cancel px-4" onclick="showList()">Cancel</button>
+                    <div class="form-group">
+                        <label for="subCredit">Credit Hours</label>
+                        <input type="number" id="subCredit" class="form-control" placeholder="Enter credit hours" required>
+                    </div>
+                    <div id="globalError" class="alert alert-danger hidden"></div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="showList()">Cancel</button>
+                        <button type="button" class="btn-submit" onclick="saveData()">Save</button>
                     </div>
                 </form>
             </div>
 
             <!-- SUCCESS PAGE -->
-            <div id="successPage" class="container-box hidden text-center py-5">
-                <div class="alert alert-success d-inline-block px-5">
+            <div id="successPage" class="success-card hidden">
+                <div class="alert-success">
                     <h4 id="resTitle">Operation Successful!</h4>
                     <p id="resMsg">The database has been updated accordingly.</p>
                 </div>
                 <br>
-                <button class="btn btn-dark px-4 mt-3" onclick="showList()">Back to Subject List</button>
+                <button class="btn-create" onclick="showList()">Back to Subject List</button>
             </div>
-        </div>
+        </main>
     </div>
 
     <!-- MODALS -->
@@ -150,8 +152,8 @@
                     Are you sure you want to enroll in <strong><span id="targetSub"></span></strong>?
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-save" onclick="executeEnroll()">Yes</button>
-                    <button class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn-submit" onclick="executeEnroll()">Confirm</button>
+                    <button class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
@@ -159,7 +161,7 @@
 
     <!-- SCRIPTS -->
     <script src="../Sidebar/Sidebar.js"></script>
-     <script src="../Header/Header.js"></script>
+    <script src="../Header/Header.js"></script>
     <script src="Subject.js"></script>
 </body>
 </html>
