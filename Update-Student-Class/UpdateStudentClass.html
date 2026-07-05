@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Student Class | KV Student Management</title>
+    <title>Classroom | KV Student Management</title>
 
     <link rel="stylesheet" href="../Sidebar/Sidebar.css">
     <link rel="stylesheet" href="UpdateStudentClass.css">
@@ -68,7 +68,8 @@
 
         <main id="content">
             <div class="shadow-box">
-                <h1>Update Student Class</h1>
+                <h1 class="page-title">Classroom</h1>
+                <p class="page-description">Update classroom information to keep your records current and accurate.</p>
                 <div class="orange-bar"></div>
                 
                 <form id="updateForm">
@@ -79,8 +80,8 @@
                     <input type="text" id="className" required>
 
                     <div class="actions">
-                        <button type="button" class="btn-cancel" onclick="window.location.href='../Student Class/StudentClass.html'">Cancel</button>
-                        <button type="button" class="btn-submit" onclick="updateClass()">Confirm</button>
+                        <button type="button" class="btn-cancel" onclick="window.location.href='../Student Class/StudentClass.html'">Discard Changes</button>
+                        <button type="button" class="btn-submit" onclick="updateClass()">Save Changes</button>
                     </div>
                 </form>
             </div>

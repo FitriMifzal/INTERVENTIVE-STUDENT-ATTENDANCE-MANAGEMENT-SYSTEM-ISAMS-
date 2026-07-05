@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Class | KV Student Management</title>
+    <title>Classroom | KV Student Management</title>
     
     <!-- Sidebar CSS DULU (defines all variables) -->
     <link rel="stylesheet" href="../Sidebar/Sidebar.css">
@@ -28,7 +28,7 @@
         <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Teacher Accounts</a>
  
         <!-- STUDENT CLASS (untuk semua roles) -->
-        <a href="../Student Class/StudentClass.html" class="nav-item" active>Classroom</a>
+        <a href="../Student Class/StudentClass.html" class="nav-item">Classroom</a>
  
         <!-- STUDENT PROFILE (untuk semua roles) -->
         <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
@@ -70,11 +70,14 @@
         <!-- MAIN CONTENT -->
         <main id="content">
             <div class="content-card">
-                <div class="header-row">
-                    <h1>Student Class</h1>
+                <h1 class="page-title">Classroom</h1>
+                <p class="page-description">Manage all classrooms and view their details. Click "Create" to add a new classroom or "Edit" to update existing ones.</p>
+                <div class="orange-bar"></div>
+
+                <!-- CREATE BUTTON — RIGHT ALIGNED, ABOVE TABLE -->
+                <div class="button-row">
                     <button class="btn-create" onclick="window.location.href='../Create-Student-Class/CreateStudentClass.html'">Create</button>
                 </div>
-                <div class="orange-bar"></div>
 
                 <table>
                     <thead>

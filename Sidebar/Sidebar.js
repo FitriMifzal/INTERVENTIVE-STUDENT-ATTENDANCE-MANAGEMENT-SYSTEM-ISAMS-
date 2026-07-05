@@ -56,6 +56,7 @@
     /* ── SET ACTIVE NAV ITEM (based on current page) ── */
     function setActiveNav() {
         var currentPage = window.location.pathname.toLowerCase();
+        currentPage = decodeURIComponent(currentPage);
         
         // Remove all active classes first
         document.querySelectorAll('.nav-item').forEach(function (item) {
@@ -76,6 +77,7 @@
                 
                 // Remove "../" to get clean path (e.g., "enroll-subject/enroll-subject.html")
                 var cleanHref = href.replace(/\.\.\//g, '').replace(/^\//, '');
+                cleanHref = decodeURIComponent(cleanHref);
                 
                 // Check if current page matches this link
                 // This is more specific - won't match partial paths

@@ -179,3 +179,25 @@
         padding: 12px 20px;
     }
 }
+.page-title {
+    color: #1e293b;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+
+.page-description {
+    color: #64748b;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}
+
+.title-underline {
+    height: 4px;
+    background-color: #ff5722;
+    width: 100%;
+    margin-bottom: 25px;
+    border-radius: 2px;
+}
