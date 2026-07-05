@@ -102,8 +102,9 @@
         if (confirm('Are you sure you want to logout?')) {
             localStorage.clear();
             sessionStorage.clear();
-            window.location.href = '../Create-Account/CreateAccount.html';
+            window.location.href = '../LandingPage/LandingPage.html';
         }
+        // If user clicks Cancel, do nothing (stay on current page)
     };
 
     /* ── INIT ── */
