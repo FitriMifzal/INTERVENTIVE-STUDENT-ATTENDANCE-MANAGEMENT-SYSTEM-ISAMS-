@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Teacher | KV Student Management</title>
+    
+    <link rel="stylesheet" href="../Sidebar/Sidebar.css">
+    <link rel="stylesheet" href="ViewTeacher.css">
+</head>
+<body>
+    <div id="sidebar">
+        <div class="logo-container">
+            <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
+        </div>
+     
+        <div class="role-badge">Subject Teacher</div>
+     
+        <div class="nav-menu">
+            <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
+            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Teacher Accounts</a>
+            <a href="../Student Class/StudentClass.html" class="nav-item">Classroom</a>
+            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
+            <button class="nav-item" data-submenu>
+                Subject
+                <span class="arrow">▾</span>
+            </button>
+            <div class="submenu">
+                <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">Subject Enrollment</a>
+                <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
+                <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
+            </div>
+            <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
+            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Absent Record</a>
+        </div>
+        <button onclick="logoutUser()" class="nav-item logout">Logout</button>
+    </div>
+
+    <div id="main-wrapper">
+        <header id="header">
+            <button class="header-title" onclick="toggleSidebar()">
+                <span class="menu-icon">☰</span>
+                <span class="header-text">Intervention: Student Management System</span>
+            </button>
+            <div class="user-profile" onclick="toggleProfile()">
+                <span id="user-fullname">User Name</span>
+                <div id="user-initial" class="user-initial-icon">?</div>
+            </div>
+        </header>
+
+        <main id="content">
+            <div class="content-card">
+                <button class="btn-back" onclick="goBack()">← Back</button>
+
+                <h2 class="page-title">Teacher Details</h2>
+                <div class="title-underline"></div>
+
+                <!-- ════════════════════════════════════════════════════════
+                     PERSONAL INFORMATION SECTION
+                     ════════════════════════════════════════════════════════ -->
+                <section class="section-group">
+                    <h3 class="section-title">Personal Information</h3>
+                    <div class="section-content">
+                        <div class="info-row">
+                            <label>Full Name</label>
+                            <p id="teacherName">-</p>
+                        </div>
+                        <div class="info-row">
+                            <label>IC Number</label>
+                            <p id="teacherIC">-</p>
+                        </div>
+                        <div class="info-row">
+                            <label>Teacher ID</label>
+                            <p id="teacherId">-</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ════════════════════════════════════════════════════════
+                     CONTACT INFORMATION SECTION
+                     ════════════════════════════════════════════════════════ -->
+                <section class="section-group">
+                    <h3 class="section-title">Contact Information</h3>
+                    <div class="section-content">
+                        <div class="info-row">
+                            <label>Email Address</label>
+                            <p id="teacherEmail">-</p>
+                        </div>
+                        <div class="info-row">
+                            <label>Phone Number</label>
+                            <p id="teacherPhone">-</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ════════════════════════════════════════════════════════
+                     ROLE & STATUS SECTION
+                     ════════════════════════════════════════════════════════ -->
+                <section class="section-group">
+                    <h3 class="section-title">Role & Status</h3>
+                    <div class="section-content">
+                        <div class="info-row">
+                            <label>Role</label>
+                            <p id="teacherRole">-</p>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="../Sidebar/Sidebar.js"></script>
+    <script src="../Header/Header.js"></script>
+    <script src="ViewTeacher.js"></script>
+</body>
+</html>

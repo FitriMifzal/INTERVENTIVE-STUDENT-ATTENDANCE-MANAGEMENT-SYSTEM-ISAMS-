@@ -12,58 +12,54 @@
 </head>
 <body>
     <div id="sidebar">
-    <div class="logo-container">
-        <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
-    </div>
- 
-    <div class="role-badge">Subject Teacher</div>
- 
-    <div class="nav-menu">
-        
-        <!-- DASHBOARD (untuk semua roles) -->
-        <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
- 
-        <!-- TEACHER ACCOUNT — Hanya untuk Penyelaras Intervensi -->
-        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi" active>Teacher Accounts</a>
- 
-        <!-- STUDENT CLASS (untuk semua roles) -->
-        <a href="../Student Class/StudentClass.html" class="nav-item">Classroom</a>
- 
-        <!-- STUDENT PROFILE (untuk semua roles) -->
-        <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
- 
-        <!-- SUBJECT (dengan submenu berbeda per role) -->
-        <button class="nav-item" data-submenu>
-            Subject
-            <span class="arrow">▾</span>
-        </button>
-        <div class="submenu">
-            <!-- FOR SUBJECT TEACHER -->
-            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">Subject Enrollment</a>
-            <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
-            
-            <!-- FOR PENYELARAS INTERVENSI -->
-            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
+        <div class="logo-container">
+            <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
         </div>
- 
-        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
-        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Absent Record</a>
- 
+     
+        <div class="role-badge">Subject Teacher</div>
+     
+        <div class="nav-menu">
+            <!-- DASHBOARD -->
+            <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
+     
+            <!-- TEACHER ACCOUNT -->
+            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi" active>Teacher Accounts</a>
+     
+            <!-- STUDENT CLASS -->
+            <a href="../Student Class/StudentClass.html" class="nav-item">Classroom</a>
+     
+            <!-- STUDENT PROFILE -->
+            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
+     
+            <!-- SUBJECT -->
+            <button class="nav-item" data-submenu>
+                Subject
+                <span class="arrow">▾</span>
+            </button>
+            <div class="submenu">
+                <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">Subject Enrollment</a>
+                <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
+                <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
+            </div>
+     
+            <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
+            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Absent Record</a>
+        </div>
+        <button onclick="logoutUser()" class="nav-item logout">Logout</button>
     </div>
-   <button onclick="logoutUser()" class="nav-item logout">Logout</button>
-</div>
+
     <!-- ════════════════════════════════════════════════════════
          MAIN CONTENT AREA
          ════════════════════════════════════════════════════════ -->
     <div id="main-wrapper">
         <!-- HEADER -->
-         <header id="header">
+        <header id="header">
             <button class="header-title" onclick="toggleSidebar()">
                 <span class="menu-icon">☰</span>
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
             
-           <div class="user-profile" onclick="window.location.href='../Profile/Profile.html'">
+            <div class="user-profile" onclick="toggleProfile()">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
@@ -74,64 +70,124 @@
             <div class="content-card">
                 <div id="successMsg"><strong>Success!</strong> Account has been archived.</div>
                 
-                <h2>TEACHER ACCOUNTS</h2>
-                <p style="text-align: center; color: #666; font-size: 14px;">Select account to archive or manage.</p>
+                <!-- Layout Header -->
+                <h2 class="page-title">Teacher Accounts</h2>
+                <p class="page-description">View teacher details or archive inactive accounts. Click "View" to see complete information or "Archive" to disable an account.</p>
+                <div class="title-underline"></div>
 
-                <!-- Account List Groups -->
-                <div id="accountList">
-                    <div class="account-item" onclick="showArchiveModal('KVD001', 'Arissa Amiely')">
-                        <div class="avatar-initial">A</div>
-                        <div class="acc-info">
-                            <div class="acc-name">Arissa Amiely binti Mohammad Syahir<span class="badge-archived">ARCHIVED</span></div>
-                            <div class="acc-id">ID: KVD001 | Subject Teacher</div>
-                        </div>
-                        <i class="fa-solid fa-box-archive"></i>
-                    </div>
+                <!-- SEARCH BOX -->
+                <div class="search-box-container">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="Search by teacher name..."
+                        onkeyup="searchTeachers()">
+                </div>
 
-                    <div class="account-item" onclick="showArchiveModal('KVD002', 'Ahmad Zaki')">
-                        <div class="avatar-initial">A</div>
-                        <div class="acc-info">
-                            <div class="acc-name">Ahmad Zaki bin Md Nor<span class="badge-archived">ARCHIVED</span></div>
-                            <div class="acc-id">ID: KVD002 | Subject Teacher</div>
-                        </div>
-                        <i class="fa-solid fa-box-archive"></i>
-                    </div>
+                <!-- Table Container -->
+                <div id="accountList" class="table-container">
+                    <table class="teacher-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">No.</th>
+                                <th style="width: 50%;">Teacher Name</th>
+                                <th style="width: 20%;">Teacher ID</th>
+                                <th style="width: 20%;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Row 1 — Arissa Amiely (IC: 850324-14-5678) -->
+                            <tr class="account-row" id="row-KVD001">
+                                <td class="text-center">1</td>
+                                <td>
+                                    <div class="acc-name">Arissa Amiely binti Mohammad Syahir<span class="badge-archived">ARCHIVED</span></div>
+                                </td>
+                                <td class="text-center acc-id">KVD001</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-table-action btn-view" onclick="viewAccount('850324-14-5678')" title="View">View</button>
+                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD001', 'Arissa Amiely')" title="Archive">Archive</button>
+                                    </div>
+                                </td>
+                            </tr>
 
-                    <div class="account-item" onclick="showArchiveModal('KVD003', 'Ainnur Mardiah')">
-                        <div class="avatar-initial">A</div>
-                        <div class="acc-info">
-                            <div class="acc-name">Ainnur Mardiah binti Amiruddin<span class="badge-archived">ARCHIVED</span></div>
-                            <div class="acc-id">ID: KVD003 | Subject Teacher</div>
-                        </div>
-                        <i class="fa-solid fa-box-archive"></i>
-                    </div>
+                            <!-- Row 2 — Ahmad Zaki (IC: 880715-09-5432) -->
+                            <tr class="account-row" id="row-KVD002">
+                                <td class="text-center">2</td>
+                                <td>
+                                    <div class="acc-name">Ahmad Zaki bin Md Nor<span class="badge-archived">ARCHIVED</span></div>
+                                </td>
+                                <td class="text-center acc-id">KVD002</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-table-action btn-view" onclick="viewAccount('880715-09-5432')" title="View">View</button>
+                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD002', 'Ahmad Zaki')" title="Archive">Archive</button>
+                                    </div>
+                                </td>
+                            </tr>
 
-                    <div class="account-item" onclick="showArchiveModal('KVD004', 'Muhammad Syamel')">
-                        <div class="avatar-initial">M</div>
-                        <div class="acc-info">
-                            <div class="acc-name">Muhammad Syamel bin Kamarulzaman<span class="badge-archived">ARCHIVED</span></div>
-                            <div class="acc-id">ID: KVD004 | Subject Teacher</div>
-                        </div>
-                        <i class="fa-solid fa-box-archive"></i>
-                    </div>
+                            <!-- Row 3 — Ainnur Mardiah (IC: 900412-08-7654) -->
+                            <tr class="account-row" id="row-KVD003">
+                                <td class="text-center">3</td>
+                                <td>
+                                    <div class="acc-name">Ainnur Mardiah binti Amiruddin<span class="badge-archived">ARCHIVED</span></div>
+                                </td>
+                                <td class="text-center acc-id">KVD003</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-table-action btn-view" onclick="viewAccount('900412-08-7654')" title="View">View</button>
+                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD003', 'Ainnur Mardiah')" title="Archive">Archive</button>
+                                    </div>
+                                </td>
+                            </tr>
 
-                    <div class="account-item" onclick="showArchiveModal('KVD005', 'Nur Syahirah')">
-                        <div class="avatar-initial">N</div>
-                        <div class="acc-info">
-                            <div class="acc-name">Nur Syahirah binti Samsudin<span class="badge-archived">ARCHIVED</span></div>
-                            <div class="acc-id">ID: KVD005 | Subject Teacher</div>
-                        </div>
-                        <i class="fa-solid fa-box-archive"></i>
-                    </div>
+                            <!-- Row 4 — Muhammad Syamel (IC: 870608-12-4321) -->
+                            <tr class="account-row" id="row-KVD004">
+                                <td class="text-center">4</td>
+                                <td>
+                                    <div class="acc-name">Muhammad Syamel bin Kamarulzaman<span class="badge-archived">ARCHIVED</span></div>
+                                </td>
+                                <td class="text-center acc-id">KVD004</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-table-action btn-view" onclick="viewAccount('870608-12-4321')" title="View">View</button>
+                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD004', 'Muhammad Syamel')" title="Archive">Archive</button>
+                                    </div>
+                                </td>
+                            </tr>
 
-                    <div class="account-item" onclick="showArchiveModal('KVD006', 'Ahmad Amirulddin')">
-                        <div class="avatar-initial">A</div>
-                        <div class="acc-info">
-                            <div class="acc-name">Ahmad Amirulddin bin Khairulman<span class="badge-archived">ARCHIVED</span></div>
-                            <div class="acc-id">ID: KVD006 | Subject Teacher</div>
-                        </div>
-                        <i class="fa-solid fa-box-archive"></i>
-                    </div>
+                            <!-- Row 5 — Nur Syahirah (IC: 910125-05-8765) -->
+                            <tr class="account-row" id="row-KVD005">
+                                <td class="text-center">5</td>
+                                <td>
+                                    <div class="acc-name">Nur Syahirah binti Samsudin<span class="badge-archived">ARCHIVED</span></div>
+                                </td>
+                                <td class="text-center acc-id">KVD005</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-table-action btn-view" onclick="viewAccount('910125-05-8765')" title="View">View</button>
+                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD005', 'Nur Syahirah')" title="Archive">Archive</button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Row 6 — Ahmad Amirulddin (IC: 860930-11-3210) -->
+                            <tr class="account-row" id="row-KVD006">
+                                <td class="text-center">6</td>
+                                <td>
+                                    <div class="acc-name">Ahmad Amirulddin bin Khairulman<span class="badge-archived">ARCHIVED</span></div>
+                                </td>
+                                <td class="text-center acc-id">KVD006</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-table-action btn-view" onclick="viewAccount('860930-11-3210')" title="View">View</button>
+                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD006', 'Ahmad Amirulddin')" title="Archive">Archive</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </main>
@@ -158,10 +214,6 @@
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════
-         SCRIPTS
-         ════════════════════════════════════════════════════════ -->
-    <!-- Sidebar.js DULU (handle submenu, sidebar toggle, user profile init) -->
     <script src="../Sidebar/Sidebar.js"></script>
     <script src="../Header/Header.js"></script>
     <script src="DeleteAccount.js"></script>

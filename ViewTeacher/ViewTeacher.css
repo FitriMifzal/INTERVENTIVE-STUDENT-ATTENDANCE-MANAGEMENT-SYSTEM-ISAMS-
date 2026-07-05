@@ -1,0 +1,184 @@
+/* ============================================================
+   VIEWTEACHER.CSS — CENTERED LAYOUT
+   - Information box centered on page
+   - Better spacing
+   ============================================================ */
+
+#main-wrapper {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 70px;
+    box-sizing: border-box;
+}
+
+#main-wrapper.collapsed {
+    margin-left: 0;
+    width: 100%;
+}
+
+#content {
+    padding: 40px 30px;
+    flex: 1;
+    overflow-y: auto;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.content-card {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 700px;
+}
+
+/* ── BACK BUTTON ── */
+.btn-back {
+    background: #64748b;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 25px;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background: #475569;
+}
+
+/* ── PAGE TITLE ── */
+.page-title {
+    color: #1e293b;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    text-align: left;
+}
+
+.title-underline {
+    height: 4px;
+    background-color: #ff5722;
+    width: 100%;
+    border-radius: 2px;
+    margin-bottom: 40px;
+}
+
+/* ════════════════════════════════════════════════════════
+   PROXIMITY LAW — Group related sections together
+   ════════════════════════════════════════════════════════ */
+
+.section-group {
+    margin-bottom: 40px;
+}
+
+.section-group:last-child {
+    margin-bottom: 0;
+}
+
+.section-title {
+    color: #1e293b;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.section-content {
+    padding-left: 0;
+}
+
+/* ── INFO ROWS (grouped together via proximity) ── */
+.info-row {
+    margin-bottom: 22px;
+    padding: 0;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-row label {
+    display: block;
+    font-weight: 700;
+    color: #334155;
+    font-size: 13px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-row p {
+    color: #1e293b;
+    font-size: 18px;
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    #content {
+        padding: 20px 15px;
+    }
+
+    .content-card {
+        padding: 25px;
+        max-width: 100%;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    .section-title {
+        font-size: 16px;
+    }
+
+    .info-row p {
+        font-size: 16px;
+    }
+
+    .btn-back {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    #content {
+        padding: 15px 10px;
+    }
+
+    .content-card {
+        padding: 20px;
+    }
+
+    .page-title {
+        font-size: 20px;
+    }
+
+    .info-row label {
+        font-size: 12px;
+    }
+
+    .info-row p {
+        font-size: 15px;
+    }
+}
