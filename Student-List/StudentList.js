@@ -27,7 +27,7 @@ function loadStudents() {
     if (students.length === 0) {
         tableBody.innerHTML = `
             <tr>
-                <td colspan="5" class="no-data">No students found. <a href="../Create-Student/createStudent.html" style="color: var(--kv-orange); text-decoration: none; font-weight: 600;">Create one</a></td>
+                <td colspan="5" class="no-data">No students found. <a href="../Create-Student/createStudent.html">Create one</a></td>
             </tr>
         `;
         return;
@@ -42,9 +42,10 @@ function loadStudents() {
             <td>${student.ic}</td>
             <td>${student.cls}</td>
             <td>
-                <button class="btn-action btn-view" onclick="viewStudent('${student.ic}')">
-                    View
-                </button>
+                <div class="action-buttons">
+                    <button class="btn-table-action btn-view" onclick="viewStudent(${index})">View</button>
+                    <button class="btn-table-action btn-update" onclick="updateStudent(${index})">Update</button>
+                </div>
             </td>
         `;
         tableBody.appendChild(row);
@@ -79,18 +80,19 @@ function searchTable() {
 }
 
 /* ────────────────────────────────────────────────────────
-   VIEW STUDENT DETAILS
+   VIEW STUDENT DETAILS - Navigate to ViewStudent page
 ────────────────────────────────────────────────────────── */
 
-function viewStudent(ic) {
-    // Store selected student IC in sessionStorage
-    sessionStorage.setItem('selectedStudentIC', ic);
-    
-    // Redirect to student detail page (if exists)
-    // window.location.href = 'studentDetail.html?ic=' + ic;
-    
-    // For now, show alert
-    alert("View details for student IC: " + ic);
+function viewStudent(index) {
+    window.location.href = "../View-Student/ViewStudent.html?id=" + index;
+}
+
+/* ────────────────────────────────────────────────────────
+   UPDATE STUDENT - Navigate to UpdateStudent page
+────────────────────────────────────────────────────────── */
+
+function updateStudent(index) {
+    window.location.href = "../Update-Student/UpdateStudent.html?id=" + index;
 }
 
 /* ────────────────────────────────────────────────────────

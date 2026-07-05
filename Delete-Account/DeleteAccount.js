@@ -3,7 +3,7 @@
    ============================================================ */
 
 let selectedId = null;
-let allTeachers = []; // Store all teachers for search
+let allTeachers = [];
 const modal = document.getElementById('archiveModal');
 const successMsg = document.getElementById('successMsg');
 
@@ -25,8 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
    Fetch from TeacherController
    ════════════════════════════════════════════════════════ */
 function loadAllTeachers() {
-    var loadingMsg = document.getElementById('loadingMsg');
-    
     // Fetch teachers from database
     fetch('../TeacherController?action=getAllTeachers')
         .then(response => {
@@ -36,25 +34,14 @@ function loadAllTeachers() {
             return response.json();
         })
         .then(data => {
-            // Store all teachers for search functionality
+            // Store all teachers
             allTeachers = data.teachers || [];
             
             // Generate table rows
             generateTableRows(allTeachers);
-            
-            // Hide loading message
-            if (loadingMsg) {
-                loadingMsg.style.display = 'none';
-            }
         })
         .catch(error => {
             console.error('Error loading teachers:', error);
-            
-            // Show error message
-            if (loadingMsg) {
-                loadingMsg.textContent = 'Error loading teachers. Please refresh the page.';
-                loadingMsg.style.color = '#ef4444';
-            }
         });
 }
 
@@ -81,7 +68,6 @@ function generateTableRows(teachers) {
         var row = document.createElement('tr');
         row.className = 'account-row';
         row.id = 'row-' + teacher.T_ID;
-        row.setAttribute('data-name', teacher.T_Name.toLowerCase()); // For search
         
         row.innerHTML = `
             <td class="text-center">${index + 1}</td>
@@ -113,46 +99,6 @@ function escapeHtml(text) {
         "'": '&#039;'
     };
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-}
-
-/* ════════════════════════════════════════════════════════
-   SEARCH TEACHERS BY NAME (Real-time)
-   ════════════════════════════════════════════════════════ */
-function searchTeachers() {
-    var searchInput = document.getElementById('searchInput').value.toLowerCase();
-    var tableBody = document.getElementById('tableBody');
-    var rows = tableBody.getElementsByClassName('account-row');
-    var visibleCount = 0;
-
-    // Loop through all table rows
-    for (var i = 0; i < rows.length; i++) {
-        var row = rows[i];
-        var teacherName = row.getElementsByClassName('acc-name')[0].textContent.toLowerCase();
-
-        // Check if teacher name includes search text
-        if (teacherName.includes(searchInput)) {
-            row.style.display = '';
-            visibleCount++;
-        } else {
-            row.style.display = 'none';
-        }
-    }
-
-    // Show "no results" message if no matches found
-    var noResultsMsg = document.getElementById('noResultsMsg');
-    if (visibleCount === 0 && searchInput !== '') {
-        if (!noResultsMsg) {
-            noResultsMsg = document.createElement('tr');
-            noResultsMsg.id = 'noResultsMsg';
-            noResultsMsg.innerHTML = '<td colspan="4" class="no-results">No teachers found matching "' + searchInput + '"</td>';
-            tableBody.appendChild(noResultsMsg);
-        } else {
-            noResultsMsg.innerHTML = '<td colspan="4" class="no-results">No teachers found matching "' + searchInput + '"</td>';
-            noResultsMsg.style.display = '';
-        }
-    } else if (noResultsMsg) {
-        noResultsMsg.style.display = 'none';
-    }
 }
 
 /* ────────────────────────────────────────────────────────

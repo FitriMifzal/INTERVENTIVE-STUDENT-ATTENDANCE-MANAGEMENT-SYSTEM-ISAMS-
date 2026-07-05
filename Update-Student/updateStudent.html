@@ -72,35 +72,32 @@
 
         <!-- MAIN CONTENT -->
         <main id="content">
-            <div class="form-card">
-                <h2>Update Student Profile</h2>
-
-                <div class="form-group">
+            <div class="shadow-box">
+                <h1 class="page-title">Student Profile</h1>
+                <p class="page-description">Update student information to keep your records current and accurate.</p>
+                <div class="title-underline"></div>
+                
+                <form id="updateForm">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" placeholder="Enter student's full name">
-                </div>
+                    <input type="text" id="name" required>
 
-                <div class="form-group">
                     <label for="ic">IC Number</label>
-                    <input type="text" id="ic" placeholder="e.g. 031024045562">
-                </div>
+                    <input type="text" id="ic" required>
 
-                <div class="form-group">
                     <label for="cls">Class</label>
-                    <input type="text" id="cls" placeholder="e.g. 2 DVM CDCS266">
-                </div>
+                    <input type="text" id="cls" required>
 
-                <div class="form-group">
                     <label for="address">Home Address</label>
-                    <textarea id="address" placeholder="Enter residential address"></textarea>
-                </div>
+                    <textarea id="address" rows="3"></textarea>
 
-                <div class="form-group">
                     <label for="No">Contact No</label>
-                    <input type="text" id="No" placeholder="e.g. 0123456789">
-                </div>
+                    <input type="text" id="No" required>
 
-                <button class="submit-btn" onclick="saveUpdate()">Update Student</button>
+                    <div class="actions">
+                        <button type="button" class="btn-cancel" onclick="window.location.href='../Student-List/StudentList.html'">Discard Changes</button>
+                        <button type="button" class="btn-submit" onclick="saveUpdate()">Save Changes</button>
+                    </div>
+                </form>
             </div>
         </main>
     </div>

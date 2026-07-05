@@ -28,7 +28,7 @@
         <a href="../Student Class/StudentClass.html" class="nav-item">Classroom</a>
  
         <!-- STUDENT PROFILE (untuk semua roles) -->
-        <a href="../Student-List/StudentList.html" class="nav-item" active >Student Profile</a>
+        <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
  
         <!-- SUBJECT (dengan submenu berbeda per role) -->
         <button class="nav-item" data-submenu>
@@ -45,7 +45,7 @@
         </div>
  
         <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
-        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi" active>Absent Record</a>
+        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Absent Record</a>
  
     </div>
    <button onclick="logoutUser()" class="nav-item logout">Logout</button>
@@ -59,8 +59,7 @@
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
             
-            <!-- USER PROFILE AREA (icon + name) -->
-            <div class="user-profile" onclick="toggleProfile()">
+            <div class="user-profile" onclick="window.location.href='../Profile/Profile.html'">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
@@ -69,37 +68,43 @@
         <!-- MAIN CONTENT -->
         <main id="content">
             <div class="form-card">
-                <h2>Create Student Profile</h2>
+                <h2 class="page-title">Student Profile</h2>
+                <p class="page-description">Enter the student's personal details below. All fields are required.</p>
+                <div class="title-underline"></div>
 
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input id="name" type="text" placeholder="Enter student's full name">
-                </div>
+                <form id="createForm" onsubmit="handleForm(event)">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter student's full name" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="ic">IC Number</label>
-                    <input id="ic" type="text" placeholder="e.g. 031024045562">
-                </div>
+                    <div class="form-group">
+                        <label for="ic">IC Number</label>
+                        <input type="text" id="ic" placeholder="e.g. 031024045562" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="cls">Class</label>
-                    <input id="cls" type="text" placeholder="e.g. 2 DVM CDCS266">
-                </div>
+                    <div class="form-group">
+                        <label for="cls">Class</label>
+                        <select id="cls" required>
+                            <option value="">-- Select Class --</option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label for="address">Home Address</label>
-                    <textarea id="address" placeholder="Enter residential address"></textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="address">Home Address</label>
+                        <textarea id="address" placeholder="Enter residential address"></textarea>
+                    </div>
 
-                <div class="form-group">
-                    <label for="No">Contact No</label>
-                    <input id="No" type="text" placeholder="e.g. 0123456789">
-                </div>
+                    <div class="form-group">
+                        <label for="No">Contact No</label>
+                        <input type="text" id="No" placeholder="e.g. 0123456789" required>
+                    </div>
 
-                <div class="form-actions">
-                    <button class="submit-btn" onclick="saveStudent()">Save Profile</button>
-                    <button class="cancel-btn" type="button" onclick="window.location.href='../Student-List/StudentList.html'">Cancel</button>
-                </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="window.location.href='../Student-List/StudentList.html'">Cancel</button>
+                        <button type="submit" class="btn-submit">Confirm</button>
+                    </div>
+                </form>
             </div>
         </main>
     </div>
@@ -107,7 +112,6 @@
     <!-- ════════════════════════════════════════════════════════
          SCRIPTS
          ════════════════════════════════════════════════════════ -->
-    <!-- Sidebar.js DULU (handle submenu, sidebar toggle, user profile init) -->
     <script src="../Sidebar/Sidebar.js"></script>
     <script src="../Header/Header.js"></script>
     <script src="createStudent.js"></script>

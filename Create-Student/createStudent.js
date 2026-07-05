@@ -7,25 +7,58 @@ document.addEventListener('DOMContentLoaded', function () {
     sessionStorage.setItem('profile_return_url', window.location.href);
     // Check if user is logged in
     if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../Create-Student/CreateStudent.html";
+        window.location.href = "../Create-Student/createStudent.html";
         return;
     }
+
+    // Load classes into dropdown
+    loadClassDropdown();
 });
 
 /* ────────────────────────────────────────────────────────
-   SAVE STUDENT FUNCTION
+   LOAD CLASS DROPDOWN FROM LOCALSTORAGE
 ────────────────────────────────────────────────────────── */
 
-function saveStudent() {
+function loadClassDropdown() {
+    const classes = JSON.parse(localStorage.getItem("classes")) || [];
+    const select = document.getElementById("cls");
+    
+    // Clear existing options (keep first default option)
+    select.innerHTML = '<option value="">-- Select Class --</option>';
+    
+    if (classes.length === 0) {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "No classes available. Create one first.";
+        option.disabled = true;
+        select.appendChild(option);
+        return;
+    }
+
+    classes.forEach(cls => {
+        const option = document.createElement("option");
+        option.value = cls.classId;
+        option.textContent = cls.classId + " - " + cls.className;
+        select.appendChild(option);
+    });
+}
+
+/* ────────────────────────────────────────────────────────
+   HANDLE FORM SUBMISSION
+────────────────────────────────────────────────────────── */
+
+function handleForm(event) {
+    event.preventDefault();
+
     const name = document.getElementById("name").value.trim();
     const ic = document.getElementById("ic").value.trim();
-    const cls = document.getElementById("cls").value.trim();
+    const cls = document.getElementById("cls").value;
     const address = document.getElementById("address").value.trim();
     const contactNo = document.getElementById("No").value.trim();
 
     // Validation - check if all fields filled
-    if (!name || !ic || !cls || !address || !contactNo) {
-        alert("Error: Please fill in all student details before saving.");
+    if (!name || !ic || !cls || !contactNo) {
+        alert("Please fill in all the information!");
         return;
     }
 
@@ -44,12 +77,18 @@ function saveStudent() {
     // Get existing students array
     let students = JSON.parse(localStorage.getItem("students")) || [];
 
+    // Check for duplicate IC
+    if (students.some(s => s.ic === ic)) {
+        alert("This IC Number already exists!");
+        return;
+    }
+
     // Create new student object
     const newStudent = {
         name: name,
         ic: ic,
         cls: cls,
-        address: address,
+        address: address || "Not provided",
         No: contactNo
     };
 

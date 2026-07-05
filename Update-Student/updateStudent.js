@@ -7,6 +7,10 @@
 const params = new URLSearchParams(window.location.search);
 const studentIndex = params.get("id");
 
+// State variables
+let students = JSON.parse(localStorage.getItem("students")) || [];
+let selectedStudent = (studentIndex !== null && studentIndex >= 0 && studentIndex < students.length) ? students[studentIndex] : null;
+
 document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
     sessionStorage.setItem('profile_return_url', window.location.href);
@@ -24,22 +28,24 @@ document.addEventListener('DOMContentLoaded', function () {
 ────────────────────────────────────────────────────────── */
 
 function loadStudentData() {
-    const students = JSON.parse(localStorage.getItem("students")) || [];
-    
-    if (!studentIndex || studentIndex < 0 || studentIndex >= students.length) {
-        alert("Invalid student ID");
+    // Check if student exists
+    if (studentIndex === null || studentIndex < 0 || studentIndex >= students.length) {
+        alert("Student not found!");
         window.location.href = "../Student-List/StudentList.html";
         return;
     }
 
-    const student = students[studentIndex];
-
-    // Populate form fields
-    document.getElementById("name").value = student.name || "";
-    document.getElementById("ic").value = student.ic || "";
-    document.getElementById("cls").value = student.cls || "";
-    document.getElementById("address").value = student.address || "";
-    document.getElementById("No").value = student.No || "";
+    // If student found, populate form
+    if (selectedStudent) {
+        document.getElementById("name").value = selectedStudent.name || "";
+        document.getElementById("ic").value = selectedStudent.ic || "";
+        document.getElementById("cls").value = selectedStudent.cls || "";
+        document.getElementById("address").value = selectedStudent.address || "";
+        document.getElementById("No").value = selectedStudent.No || "";
+    } else {
+        alert("No student data found");
+        window.location.href = "../Student-List/StudentList.html";
+    }
 }
 
 /* ────────────────────────────────────────────────────────
@@ -54,8 +60,8 @@ function saveUpdate() {
     const No = document.getElementById("No").value.trim();
 
     // Validation - check if all fields filled
-    if (!name || !ic || !cls || !address || !No) {
-        alert("Error: Please fill in all student details before saving.");
+    if (!name || !ic || !cls || !No) {
+        alert("Please fill in all required fields!");
         return;
     }
 
@@ -71,25 +77,22 @@ function saveUpdate() {
         return;
     }
 
-    // Get students array
-    let students = JSON.parse(localStorage.getItem("students")) || [];
+    if (selectedStudent) {
+        // Update student data
+        selectedStudent.name = name;
+        selectedStudent.ic = ic;
+        selectedStudent.cls = cls;
+        selectedStudent.address = address || "Not provided";
+        selectedStudent.No = No;
 
-    // Update student record
-    students[studentIndex] = {
-        name: name,
-        ic: ic,
-        cls: cls,
-        address: address,
-        No: No
-    };
+        // Save to localStorage
+        localStorage.setItem("students", JSON.stringify(students));
 
-    // Save to localStorage
-    localStorage.setItem("students", JSON.stringify(students));
+        alert("Student updated successfully!");
 
-    alert("Success! Student profile has been updated.");
-
-    // Redirect to student list
-    window.location.href = "../Student-List/StudentList.html";
+        // Redirect to student list
+        window.location.href = "../Student-List/StudentList.html";
+    }
 }
 
 /* ────────────────────────────────────────────────────────

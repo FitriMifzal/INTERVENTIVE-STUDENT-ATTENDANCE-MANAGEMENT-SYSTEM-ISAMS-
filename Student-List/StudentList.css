@@ -39,12 +39,27 @@
     font-family: var(--font-family-main);
 }
 
-.table-card h2 {
-    font-size: 24px;
-    font-weight: 700;
+.page-title {
     color: #1e293b;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+
+.page-description {
+    color: #64748b;
+    font-size: 15px;
+    font-weight: 500;
     margin: 0 0 20px 0;
-    font-family: var(--font-family-main);
+    line-height: 1.5;
+}
+
+.title-underline {
+    height: 4px;
+    background-color: #ff5722;
+    width: 100%;
+    margin-bottom: 25px;
+    border-radius: 2px;
 }
 
 /* ── TOP ACTIONS ── */
@@ -57,29 +72,39 @@
     flex-wrap: wrap;
 }
 
-.search-bar {
+/* ════════════════════════════════════════════════════════
+   SEARCH BOX STYLING (Sama seperti DeleteAccount.css)
+   ════════════════════════════════════════════════════════ */
+
+.search-box-container {
+    position: relative;
     flex: 1;
     min-width: 250px;
+    max-width: 400px;
 }
 
-.search-bar input {
+.search-input {
     width: 100%;
     padding: 10px 16px;
-    border: 1px solid #cbd5e1;
+    font-size: 15px;
+    color: #1e293b;
+    border: 2px solid #cbd5e1;
     border-radius: 6px;
-    font-size: 14px;
+    transition: all 0.2s ease;
+    font-weight: 500;
     font-family: var(--font-family-main);
-    outline: none;
-    transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
-.search-bar input:focus {
-    border-color: var(--kv-orange);
+.search-input:focus {
+    outline: none;
+    border-color: #ff5722;
     box-shadow: 0 0 0 3px rgba(245, 87, 41, 0.1);
 }
 
-.search-bar input::placeholder {
+.search-input::placeholder {
     color: #94a3b8;
+    font-weight: 400;
 }
 
 /* ── BUTTONS ── */
@@ -109,34 +134,67 @@
     box-shadow: 0 4px 12px rgba(245, 87, 41, 0.3);
 }
 
+/* ════════════════════════════════════════════════════════
+   ACTION BUTTONS (Sama seperti DeleteAccount.css)
+   ════════════════════════════════════════════════════════ */
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-table-action {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    font-family: var(--font-family-main);
+}
+
 .btn-view {
-    background: var(--kv-primary);
+    background-color: #10b981;
     color: white;
-    padding: 6px 12px;
-    font-size: 12px;
 }
 
 .btn-view:hover {
-    background: #001f40;
-    transform: translateY(-1px);
+    background-color: #059669;
+}
+
+.btn-update {
+    background-color: #003366;
+    color: white;
+}
+
+.btn-update:hover {
+    background-color: #002347;
 }
 
 /* ── TABLE STYLES ── */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #cbd5e1;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
     font-family: var(--font-family-main);
 }
 
 thead th {
     padding: 12px;
     text-align: center;
-    border: 1px solid #e2e8f0;
-    background: #f1f5f9;
-    color: #475569;
+    border: 1px solid #cbd5e1;
+    background: #e2e8f0;
+    color: #0f172a;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-family: var(--font-family-main);
@@ -145,9 +203,10 @@ thead th {
 tbody td {
     padding: 12px;
     text-align: center;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #cbd5e1;
     color: #334155;
     font-family: var(--font-family-main);
+    font-size: 14px;
 }
 
 tbody tr {
@@ -158,21 +217,21 @@ tbody tr:hover {
     background-color: #f8fafc;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #fafbfc;
-}
-
-tbody tr:nth-child(even):hover {
-    background-color: #f1f5f9;
-}
-
 /* ── NO DATA MESSAGE ── */
 .no-data {
     text-align: center;
     padding: 40px 20px;
-    color: #94a3b8;
+    color: #9ca3af;
     font-size: 14px;
+    font-style: italic;
     font-family: var(--font-family-main);
+}
+
+.no-data a {
+    color: var(--kv-orange);
+    text-decoration: none;
+    font-weight: 600;
+    font-style: normal;
 }
 
 /* ── RESPONSIVE ── */
@@ -191,9 +250,12 @@ tbody tr:nth-child(even):hover {
         padding: 15px;
     }
 
-    .table-card h2 {
-        font-size: 20px;
-        margin-bottom: 15px;
+    .page-title {
+        font-size: 22px;
+    }
+
+    .page-description {
+        font-size: 13px;
     }
 
     .top-actions {
@@ -201,16 +263,29 @@ tbody tr:nth-child(even):hover {
         align-items: stretch;
     }
 
-    .search-bar {
+    .search-box-container {
         min-width: 100%;
+        max-width: 100%;
     }
 
-    .search-bar input {
+    .search-input {
         width: 100%;
     }
 
     .btn-action {
         width: 100%;
+        justify-content: center;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .btn-table-action {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 13px;
     }
 
     table {
@@ -220,10 +295,6 @@ tbody tr:nth-child(even):hover {
     thead th,
     tbody td {
         padding: 8px 6px;
-    }
-
-    .btn-view {
-        padding: 5px 10px;
-        font-size: 11px;
+        font-size: 12px;
     }
 }
