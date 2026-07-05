@@ -85,6 +85,9 @@
                         onkeyup="searchTeachers()">
                 </div>
 
+                <!-- LOADING MESSAGE -->
+                <div id="loadingMsg" class="loading-msg">Loading teachers...</div>
+
                 <!-- Table Container -->
                 <div id="accountList" class="table-container">
                     <table class="teacher-table">
@@ -97,95 +100,7 @@
                             </tr>
                         </thead>
                         <tbody id="tableBody">
-                            <!-- Row 1 — Arissa Amiely (IC: 850324-14-5678) -->
-                            <tr class="account-row" id="row-KVD001">
-                                <td class="text-center">1</td>
-                                <td>
-                                    <div class="acc-name">Arissa Amiely binti Mohammad Syahir<span class="badge-archived">ARCHIVED</span></div>
-                                </td>
-                                <td class="text-center acc-id">KVD001</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-table-action btn-view" onclick="viewAccount('850324-14-5678')" title="View">View</button>
-                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD001', 'Arissa Amiely')" title="Archive">Archive</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Row 2 — Ahmad Zaki (IC: 880715-09-5432) -->
-                            <tr class="account-row" id="row-KVD002">
-                                <td class="text-center">2</td>
-                                <td>
-                                    <div class="acc-name">Ahmad Zaki bin Md Nor<span class="badge-archived">ARCHIVED</span></div>
-                                </td>
-                                <td class="text-center acc-id">KVD002</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-table-action btn-view" onclick="viewAccount('880715-09-5432')" title="View">View</button>
-                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD002', 'Ahmad Zaki')" title="Archive">Archive</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Row 3 — Ainnur Mardiah (IC: 900412-08-7654) -->
-                            <tr class="account-row" id="row-KVD003">
-                                <td class="text-center">3</td>
-                                <td>
-                                    <div class="acc-name">Ainnur Mardiah binti Amiruddin<span class="badge-archived">ARCHIVED</span></div>
-                                </td>
-                                <td class="text-center acc-id">KVD003</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-table-action btn-view" onclick="viewAccount('900412-08-7654')" title="View">View</button>
-                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD003', 'Ainnur Mardiah')" title="Archive">Archive</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Row 4 — Muhammad Syamel (IC: 870608-12-4321) -->
-                            <tr class="account-row" id="row-KVD004">
-                                <td class="text-center">4</td>
-                                <td>
-                                    <div class="acc-name">Muhammad Syamel bin Kamarulzaman<span class="badge-archived">ARCHIVED</span></div>
-                                </td>
-                                <td class="text-center acc-id">KVD004</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-table-action btn-view" onclick="viewAccount('870608-12-4321')" title="View">View</button>
-                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD004', 'Muhammad Syamel')" title="Archive">Archive</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Row 5 — Nur Syahirah (IC: 910125-05-8765) -->
-                            <tr class="account-row" id="row-KVD005">
-                                <td class="text-center">5</td>
-                                <td>
-                                    <div class="acc-name">Nur Syahirah binti Samsudin<span class="badge-archived">ARCHIVED</span></div>
-                                </td>
-                                <td class="text-center acc-id">KVD005</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-table-action btn-view" onclick="viewAccount('910125-05-8765')" title="View">View</button>
-                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD005', 'Nur Syahirah')" title="Archive">Archive</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Row 6 — Ahmad Amirulddin (IC: 860930-11-3210) -->
-                            <tr class="account-row" id="row-KVD006">
-                                <td class="text-center">6</td>
-                                <td>
-                                    <div class="acc-name">Ahmad Amirulddin bin Khairulman<span class="badge-archived">ARCHIVED</span></div>
-                                </td>
-                                <td class="text-center acc-id">KVD006</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-table-action btn-view" onclick="viewAccount('860930-11-3210')" title="View">View</button>
-                                        <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('KVD006', 'Ahmad Amirulddin')" title="Archive">Archive</button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <!-- Teachers will be loaded dynamically from database -->
                         </tbody>
                     </table>
                 </div>
