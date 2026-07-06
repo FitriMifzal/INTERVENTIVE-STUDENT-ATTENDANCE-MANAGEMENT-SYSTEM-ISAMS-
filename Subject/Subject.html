@@ -69,7 +69,7 @@
             <!-- SUBJECT LIST PAGE -->
             <div id="subjectListPage" class="content-card">
                 <h1 class="page-title">Subject Details</h1>
-                <p class="page-description">Manage all subjects and view their details. Click "Create" to add a new subject or "View" to see more information.</p>
+                <p class="page-description">Manage all subjects and view their details. Click "Create" to add a new subject or "Update" to modify existing ones.</p>
                 <div class="title-underline"></div>
 
                 <!-- CREATE BUTTON — RIGHT ALIGNED, ABOVE TABLE -->
@@ -92,7 +92,7 @@
 
             <!-- FORM PAGE -->
             <div id="formPage" class="form-card hidden">
-                <h1 class="page-title" id="formTitle">Subject Registration Form</h1>
+                <h1 class="page-title" id="formTitle">Create Subject</h1>
                 <p class="page-description">Enter the subject details below. All fields are required.</p>
                 <div class="title-underline"></div>
                 
@@ -108,8 +108,8 @@
                     </div>
                     <div id="globalError" class="alert alert-danger hidden"></div>
                     <div class="form-actions">
-                        <button type="button" class="btn-cancel" onclick="showList()">Cancel</button>
-                        <button type="button" class="btn-submit" onclick="saveData()">Save</button>
+                        <button type="button" class="btn-cancel" onclick="showList()">Discard Changes</button>
+                        <button type="button" class="btn-submit" onclick="saveData()">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -126,22 +126,7 @@
         </main>
     </div>
 
-    <!-- MODALS -->
-    <div class="modal fade" id="viewModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-secondary text-white">
-                    <h5 class="modal-title">Subject Details</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div id="viewDetailBody" class="modal-body p-4"></div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- ENROLL MODAL sahaja -->
     <div class="modal fade" id="enrollModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">

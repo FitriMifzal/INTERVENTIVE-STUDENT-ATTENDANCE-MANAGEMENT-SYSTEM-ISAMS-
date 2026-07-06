@@ -1,9 +1,9 @@
 // SUBJECT.JS
 // User profile init handled by Sidebar.js
 
-let subjects = [];      // holds the last-fetched list, used by view/enroll modals
+let subjects = [];
 let currentUserRole = "";
-let activeSubId = null; // subject currently targeted for enroll
+let activeSubId = null;
 
 document.addEventListener('DOMContentLoaded', function () {
     // Update sessionStorage dengan URL page ni (untuk profile return)
@@ -28,19 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
     loadSubjects();
 });
 
-// load subjects from database
+// load subjects from localStorage
 function loadSubjects() {
-    fetch("../SubjectController?action=list")
-        .then(response => response.json())
-        .then(data => {
-            subjects = data;
-            renderTable();
-        })
-        .catch(error => {
-            console.error("Error loading subjects:", error);
-            document.getElementById('subjectTableBody').innerHTML =
-                `<tr><td colspan="4" class="text-center">Failed to load subjects.</td></tr>`;
-        });
+    subjects = JSON.parse(localStorage.getItem("subjects")) || [];
+    renderTable();
 }
 
 // render subject table based on user role
@@ -48,29 +39,30 @@ function renderTable() {
     const body = document.getElementById('subjectTableBody');
     body.innerHTML = '';
 
-    const myTId = parseInt(localStorage.getItem('active_tId'));
+    const myTId = localStorage.getItem('active_tId');
 
     if (subjects.length === 0) {
         body.innerHTML = `<tr><td colspan="4" style="color: #9ca3af; font-style: italic; padding: 20px 12px; text-align: center;">No subjects found. Create one.</td></tr>`;
         return;
     }
 
-    subjects.forEach((s) => {
-        let btns = `<button class="btn-table-action btn-view" onclick="viewSub(${s.subId})">View</button>`;
+    subjects.forEach((s, index) => {
+        let btns = '';
 
         if (currentUserRole === "Penyelaras Intervensi") {
-            btns += `<button class="btn-table-action btn-update" onclick="showForm(${s.subId})">Update</button>`;
+            // UPDATE button sahaja untuk Penyelaras Intervensi
+            btns += `<button class="btn-table-action btn-update" onclick="showForm(${index})">Update</button>`;
         } else if (currentUserRole === "Subject Teacher") {
             if (s.tId !== null && s.tId === myTId) {
                 btns += `<button class="btn-table-action btn-enrolled" disabled>Enrolled</button>`;
-            } else if (s.tId === null) {
-                btns += `<button class="btn-table-action btn-enroll" onclick="openEnroll(${s.subId})">Enroll</button>`;
+            } else if (s.tId === null || s.tId === "") {
+                btns += `<button class="btn-table-action btn-enroll" onclick="openEnroll(${index})">Enroll</button>`;
             } else {
                 btns += `<button class="btn-table-action btn-assigned" disabled>Assigned</button>`;
             }
         }
 
-        const lecturer = s.tId === null ? '<span style="color: #94a3b8;">Unassigned</span>' : s.teacherName;
+        const lecturer = (s.tId === null || s.tId === "") ? '<span style="color: #94a3b8;">Unassigned</span>' : (s.teacherName || 'Assigned');
 
         body.innerHTML += `<tr>
             <td>${s.subName}</td>
@@ -90,16 +82,16 @@ function showList() {
 }
 
 // show form page for create/update
-function showForm(subId) {
+function showForm(index) {
     document.getElementById('subjectForm').reset();
     document.getElementById('globalError').classList.add('hidden');
 
-    if (subId !== undefined) {
-        const s = subjects.find(sub => sub.subId === subId);
+    if (index !== undefined && index !== null && index !== "") {
+        const s = subjects[index];
         document.getElementById('formTitle').innerText = "Update Subject";
         document.getElementById('subName').value = s.subName;
         document.getElementById('subCredit').value = s.creditHours;
-        document.getElementById('editIdx').value = subId;
+        document.getElementById('editIdx').value = index;
     } else {
         document.getElementById('formTitle').innerText = "Create Subject";
         document.getElementById('editIdx').value = "";
@@ -113,7 +105,7 @@ function showForm(subId) {
 function saveData() {
     const name = document.getElementById('subName').value.trim();
     const credit = document.getElementById('subCredit').value.trim();
-    const subId = document.getElementById('editIdx').value;
+    const index = document.getElementById('editIdx').value;
 
     document.getElementById('globalError').classList.add('hidden');
 
@@ -123,66 +115,47 @@ function saveData() {
         return;
     }
 
-    const formData = new URLSearchParams();
-    formData.append("subName", name);
-    formData.append("creditHours", credit);
+    let successTitle, successMsg;
 
-    let url, successTitle, successMsg;
-
-    if (subId === "") {
-        url = "../SubjectController?action=create";
+    if (index === "") {
+        // Create new subject
+        const newSubject = {
+            subName: name,
+            creditHours: credit,
+            tId: null,
+            teacherName: null
+        };
+        subjects.push(newSubject);
         successTitle = "Registration Successful!";
         successMsg = "New subject has been added successfully.";
     } else {
-        formData.append("subId", subId);
-        url = "../SubjectController?action=update";
-        successTitle = "Update Successful!";
-        successMsg = "Subject has been updated successfully.";
-    }
-
-    fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formData.toString()
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === "success") {
-            document.getElementById('resTitle').innerText = successTitle;
-            document.getElementById('resMsg').innerText = successMsg;
-            document.getElementById('formPage').classList.add('hidden');
-            document.getElementById('successPage').classList.remove('hidden');
+        // Update existing subject - pastikan index adalah number
+        const idx = parseInt(index);
+        if (!isNaN(idx) && idx >= 0 && idx < subjects.length) {
+            subjects[idx].subName = name;
+            subjects[idx].creditHours = credit;
+            successTitle = "Update Successful!";
+            successMsg = "Subject has been updated successfully.";
         } else {
             document.getElementById('globalError').classList.remove('hidden');
-            document.getElementById('globalError').innerText = data.message;
+            document.getElementById('globalError').innerText = "Invalid subject index!";
+            return;
         }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        document.getElementById('globalError').classList.remove('hidden');
-        document.getElementById('globalError').innerText = "Failed to connect to server.";
-    });
-}
+    }
 
-// view subject details in modal
-function viewSub(subId) {
-    const s = subjects.find(sub => sub.subId === subId);
-    const lecturer = s.tId === null
-        ? '<span class="text-muted">Not Assigned</span>'
-        : `<span class="text-success fw-bold">${s.teacherName}</span>`;
+    // Save to localStorage
+    localStorage.setItem("subjects", JSON.stringify(subjects));
 
-    document.getElementById('viewDetailBody').innerHTML = `
-        <div class="detail-item"><strong>Subject Name:</strong> ${s.subName}</div>
-        <div class="detail-item"><strong>Credit Hours:</strong> ${s.creditHours}</div>
-        <div class="detail-item"><strong>Lecturer:</strong> ${lecturer}</div>
-    `;
-    new bootstrap.Modal(document.getElementById('viewModal')).show();
+    document.getElementById('resTitle').innerText = successTitle;
+    document.getElementById('resMsg').innerText = successMsg;
+    document.getElementById('formPage').classList.add('hidden');
+    document.getElementById('successPage').classList.remove('hidden');
 }
 
 // open enrollment confirmation modal
-function openEnroll(subId) {
-    activeSubId = subId;
-    const s = subjects.find(sub => sub.subId === subId);
+function openEnroll(index) {
+    activeSubId = index;
+    const s = subjects[index];
     document.getElementById('targetSub').innerText = s.subName;
     new bootstrap.Modal(document.getElementById('enrollModal')).show();
 }
@@ -190,33 +163,24 @@ function openEnroll(subId) {
 // execute enrollment - claims the subject for the logged-in teacher
 function executeEnroll() {
     const tId = localStorage.getItem('active_tId');
+    const teacherName = localStorage.getItem('active_name') || 'Teacher';
 
-    const formData = new URLSearchParams();
-    formData.append("subId", activeSubId);
-    formData.append("tId", tId);
+    if (activeSubId !== null && activeSubId !== undefined) {
+        const idx = parseInt(activeSubId);
+        if (!isNaN(idx) && idx >= 0 && idx < subjects.length) {
+            subjects[idx].tId = tId;
+            subjects[idx].teacherName = teacherName;
 
-    fetch("../SubjectController?action=enroll", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formData.toString()
-    })
-    .then(response => response.json())
-    .then(data => {
-        bootstrap.Modal.getInstance(document.getElementById('enrollModal')).hide();
+            // Save to localStorage
+            localStorage.setItem("subjects", JSON.stringify(subjects));
 
-        if (data.status === "success") {
-            const s = subjects.find(sub => sub.subId === activeSubId);
+            bootstrap.Modal.getInstance(document.getElementById('enrollModal')).hide();
+
+            const s = subjects[idx];
             document.getElementById('resTitle').innerText = "Enrollment Successful!";
             document.getElementById('resMsg').innerText = "You have successfully enrolled in " + s.subName;
             document.getElementById('subjectListPage').classList.add('hidden');
             document.getElementById('successPage').classList.remove('hidden');
-        } else {
-            alert("Something went wrong: " + data.message);
         }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        bootstrap.Modal.getInstance(document.getElementById('enrollModal')).hide();
-        alert("Failed to connect to server. Please try again.");
-    });
+    }
 }

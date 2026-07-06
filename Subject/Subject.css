@@ -38,17 +38,8 @@
     box-sizing: border-box;
 }
 
-/* ── HEADER ROW ── */
-.header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
 /* ════════════════════════════════════════════════════════
    Page title, description, and underline styling
-   (Sama dengan StudentClass.css)
    ════════════════════════════════════════════════════════ */
 
 .page-title {
@@ -101,10 +92,7 @@
     transform: none;
 }
 
-/* ════════════════════════════════════════════════════════
-   ADDED: Button row — Right aligned, above table
-   ════════════════════════════════════════════════════════ */
-
+/* ── BUTTON ROW ── */
 .button-row {
     display: flex;
     justify-content: flex-end;
@@ -166,22 +154,20 @@ tbody tr:hover {
 }
 
 /* ════════════════════════════════════════════════════════
-   UPDATED: Action buttons (Sama dengan StudentList.css)
+   ACTION BUTTONS 
    ════════════════════════════════════════════════════════ */
-
-.btn-view {
-    background: #10b981;
-    color: white;
-}
-
-.btn-view:hover {
-    background: #059669;
-    transform: translateY(-1px);
-}
 
 .btn-update {
     background: #003366;
     color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    font-family: var(--font-family-main);
 }
 
 .btn-update:hover {
@@ -191,18 +177,18 @@ tbody tr:hover {
 }
 
 .btn-enroll {
-    background: #22c55e;
+    background: #28a745;
     color: white;
 }
 
 .btn-enroll:hover {
-    background: #16a34a;
+    background: #218838;
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
 }
 
 .btn-enrolled {
-    background: #94a3b8;
+    background: #6c757d;
     color: white;
     cursor: not-allowed;
     opacity: 0.7;
@@ -213,7 +199,7 @@ tbody tr:hover {
 }
 
 .btn-assigned {
-    background: #94a3b8;
+    background: #6c757d;
     color: white;
     cursor: not-allowed;
     opacity: 0.7;
@@ -273,6 +259,21 @@ tbody tr td[colspan] {
     background-color: white;
 }
 
+/* ── ERROR MESSAGE ── */
+.alert {
+    border-radius: 8px;
+    font-family: var(--font-family-main);
+}
+
+.alert-danger {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    padding: 12px;
+    margin-bottom: 15px;
+}
+
+/* ── FORM ACTIONS ── */
 .form-actions {
     display: flex;
     justify-content: flex-end;
@@ -280,6 +281,10 @@ tbody tr td[colspan] {
     margin-top: 20px;
     flex-wrap: wrap;
 }
+
+/* ════════════════════════════════════════════════════════
+   FORM BUTTONS - Sama dengan UpdateStudentClass
+   ════════════════════════════════════════════════════════ */
 
 .btn-submit {
     background: #22c55e;
@@ -365,12 +370,8 @@ tbody tr td[colspan] {
     border-bottom: 1px solid #e2e8f0;
 }
 
-.modal-header.bg-secondary {
-    background-color: #64748b !important;
-}
-
 .modal-header.bg-success {
-    background-color: #22c55e !important;
+    background-color: #28a745 !important;
 }
 
 .modal-header .btn-close-white {
@@ -381,15 +382,6 @@ tbody tr td[colspan] {
     color: #334155;
     font-family: var(--font-family-main);
     padding: 20px;
-}
-
-.modal-body .detail-item {
-    margin-bottom: 10px;
-}
-
-.modal-body .detail-item strong {
-    display: inline-block;
-    min-width: 120px;
 }
 
 .modal-footer {
@@ -421,12 +413,6 @@ tbody tr td[colspan] {
 
     .page-description {
         font-size: 13px;
-    }
-
-    .header-row {
-        flex-direction: column;
-        gap: 12px;
-        align-items: flex-start;
     }
 
     .button-row {
