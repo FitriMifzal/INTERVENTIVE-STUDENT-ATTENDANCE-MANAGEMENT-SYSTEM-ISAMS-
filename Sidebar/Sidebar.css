@@ -94,9 +94,11 @@ body {
     flex-direction: column;
     gap: 4px;
     flex: 1;
-    overflow-y: auto;
+    overflow-y: hidden;  /* BUANG SCROLLBAR */
 }
 
+/* BUANG SCROLLBAR STYLING - TAK PERLU LAGI */
+/* 
 .nav-menu::-webkit-scrollbar {
     width: 6px;
 }
@@ -114,6 +116,7 @@ body {
 .nav-menu::-webkit-scrollbar-thumb:hover {
     background: rgba(255,255,255,0.3);
 }
+*/
 
 /* ── NAV ITEM ── */
 .nav-item {
