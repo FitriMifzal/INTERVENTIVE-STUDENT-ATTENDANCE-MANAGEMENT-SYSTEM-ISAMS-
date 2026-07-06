@@ -52,8 +52,8 @@ function addRowToTable(item) {
     if (item.isBarred) {
         actionHTML = `
             <div class="letter-actions">
-                <button class="btn-letter btn-warning" onclick="generateLetterPDF('warning', '${item.name}', '${item.id}', '${item.code}', ${item.attended}, ${item.absent}, ${item.rate})">⚠️ Warning Letter</button>
-                <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervention', '${item.name}', '${item.id}', '${item.code}', ${item.attended}, ${item.absent}, ${item.rate})">📩 Intervention</button>
+                <button class="btn-letter btn-warning" onclick="generateLetterPDF('warning', '${item.name}', '${item.id}', '${item.code}', ${item.attended}, ${item.absent}, ${item.rate})">Warning Letter</button>
+                <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervention', '${item.name}', '${item.id}', '${item.code}', ${item.attended}, ${item.absent}, ${item.rate})">Intervention</button>
             </div>`;
     } else {
         actionHTML = `<span class="txt-disabled">No Action Needed</span>`;
@@ -81,14 +81,14 @@ function searchStudent() {
     selectedStudent = studentDatabase.find(s => s.id === inputID);
 
     if (selectedStudent) {
-        msgElement.style.color = "#28a745";
+        msgElement.className = "search-message success";
         msgElement.innerHTML = `✅ Student Found: ${selectedStudent.name}`;
         document.getElementById("targetStudentName").textContent = selectedStudent.name;
         inputSection.style.display = "block";
         document.getElementById("hoursAbsent").value = "";
         document.getElementById("totalContactHours").value = "";
     } else {
-        msgElement.style.color = "#e53e3e";
+        msgElement.className = "search-message error";
         msgElement.innerHTML = "❌ Error: Student ID does not exist in the system. Please try again.";
         inputSection.style.display = "none";
     }
@@ -126,8 +126,8 @@ function processSelectedCalculation() {
     if (isBarred) {
         actionHTML = `
             <div class="letter-actions">
-                <button class="btn-letter btn-warning" onclick="generateLetterPDF('warning', '${selectedStudent.name}', '${selectedStudent.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">⚠️ Warning Letter</button>
-                <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervention', '${selectedStudent.name}', '${selectedStudent.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">📩 Intervention</button>
+                <button class="btn-letter btn-warning" onclick="generateLetterPDF('warning', '${selectedStudent.name}', '${selectedStudent.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">Warning Letter</button>
+                <button class="btn-letter btn-intervention" onclick="generateLetterPDF('intervention', '${selectedStudent.name}', '${selectedStudent.id}', '${courseCode}', ${attendedHours}, ${absentHours}, ${attendancePercentage})">Intervention</button>
             </div>`;
     } else {
         actionHTML = `<span class="txt-disabled">No Action Needed</span>`;
