@@ -50,7 +50,7 @@ function handleForm(event) {
     // Save to localStorage
     localStorage.setItem("classes", JSON.stringify(classes));
 
-    alert("Class successfully registered!");
+    alert("Classroom successfully registered!");
 
     // Redirect to student class list
     window.location.href = "../Student Class/StudentClass.html";
