@@ -31,9 +31,9 @@ function handleForm(event) {
     // Get existing classes
     let classes = JSON.parse(localStorage.getItem("classes")) || [];
 
-    // Check for duplicate Class ID
+    // Check for duplicate Class Code
     if (classes.some(c => c.classId.toLowerCase() === classId.toLowerCase())) {
-        alert("This Class ID already exists!");
+        alert("This Class Code already exists!");
         return;
     }
 
