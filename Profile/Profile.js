@@ -8,11 +8,6 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = '../Create-Account/CreateAccount.html';
-        return;
-    }
-
     loadProfileData();
 });
 

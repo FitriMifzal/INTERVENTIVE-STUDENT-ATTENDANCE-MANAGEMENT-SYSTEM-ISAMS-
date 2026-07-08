@@ -281,11 +281,6 @@ function toggleProfile() {
 
 document.addEventListener('DOMContentLoaded', function () {
     sessionStorage.setItem('profile_return_url', window.location.href);
-    // Check if user is logged in
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../Create-Student-Attendance/CreateStudentAttendance.html";
-        return;
-    }
 
     // Set up the class/subject/session selection form
     initSelectForm();

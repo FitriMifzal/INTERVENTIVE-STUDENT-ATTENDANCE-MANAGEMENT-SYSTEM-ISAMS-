@@ -4,11 +4,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     sessionStorage.setItem('profile_return_url', window.location.href);
     
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../Create-Account/CreateAccount.html";
-        return;
-    }
-
     // Load statistics from database
     loadDashboardStatistics();
 });

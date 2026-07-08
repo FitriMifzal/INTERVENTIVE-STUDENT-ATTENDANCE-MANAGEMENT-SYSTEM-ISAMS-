@@ -14,11 +14,6 @@ let selectedStudent = (studentIndex !== null && studentIndex >= 0 && studentInde
 document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
     sessionStorage.setItem('profile_return_url', window.location.href);
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../Update-Student/UpdateStudent.html";
-        return;
-    }
-
     // Load student data for editing
     loadStudentData();
 });

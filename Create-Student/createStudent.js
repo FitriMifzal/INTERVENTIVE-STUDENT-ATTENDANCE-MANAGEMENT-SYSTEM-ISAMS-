@@ -5,12 +5,6 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     sessionStorage.setItem('profile_return_url', window.location.href);
-    // Check if user is logged in
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../Create-Student/createStudent.html";
-        return;
-    }
-
     // Load classes into dropdown
     loadClassDropdown();
 });

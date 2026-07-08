@@ -27,12 +27,7 @@ let workingEnrolled = [];
 document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
     sessionStorage.setItem('profile_return_url', window.location.href);
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../Enroll-Subject/EnrollSubject.html";
-        return;
-    }
-
-    // Initialize page
+      // Initialize page
     renderSummary();
 });
 

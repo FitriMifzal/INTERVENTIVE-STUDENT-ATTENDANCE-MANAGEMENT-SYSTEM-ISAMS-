@@ -63,57 +63,95 @@ const SAMPLE_TEACHERS = [
     }
 ];
 
+// Store reference to current page URL for profile navigation
+const CURRENT_PAGE_URL = window.location.href;
+
 document.addEventListener('DOMContentLoaded', function () {
-    // Save current page URL for profile return
-    sessionStorage.setItem('profile_return_url', window.location.href);
+    // Store current page URL for profile return
+    sessionStorage.setItem('profile_return_url', CURRENT_PAGE_URL);
     
     // Load all teachers (from localStorage + fallback to sample)
     loadAllTeachers();
+    
+    // Handle profile toggle from header
+    setupProfileToggle();
 });
+
+/* ════════════════════════════════════════════════════════
+   SETUP PROFILE TOGGLE
+   ════════════════════════════════════════════════════════ */
+function setupProfileToggle() {
+    // Remove any existing click listeners to prevent duplicates
+    const profileElement = document.querySelector('.user-profile');
+    if (profileElement) {
+        // Replace the onclick attribute with our custom handler
+        profileElement.removeAttribute('onclick');
+        profileElement.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleProfile(e);
+        });
+    }
+}
+
+/* ════════════════════════════════════════════════════════
+   TOGGLE PROFILE - Custom implementation
+   ════════════════════════════════════════════════════════ */
+function toggleProfile(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    
+    // Check if we're already on profile page
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('Profile-Details')) {
+        // If already on profile, go back to previous page
+        const returnUrl = sessionStorage.getItem('profile_return_url') || '../delete-account/DeleteAccount.html';
+        window.location.href = returnUrl;
+        return;
+    }
+    
+    // Store current page URL before navigating to profile
+    sessionStorage.setItem('profile_return_url', CURRENT_PAGE_URL);
+    
+    // Navigate to profile page
+    window.location.href = '../Profile-Details/Profile-Details.html';
+}
 
 /* ════════════════════════════════════════════════════════
    LOAD ALL TEACHERS (FROM LOCALSTORAGE + HARDCODED FALLBACK)
    ════════════════════════════════════════════════════════ */
 function loadAllTeachers() {
-    // Load from localStorage (data saved by CreateAccount.js)
     let localTeachers = JSON.parse(localStorage.getItem("teachers")) || [];
     
     if (localTeachers.length > 0) {
-        // Use data from localStorage (newly created accounts)
         allTeachers = localTeachers;
     } else {
-        // Fallback to sample data if localStorage is empty
         allTeachers = SAMPLE_TEACHERS;
     }
     
-    // Generate table rows
     generateTableRows(allTeachers);
 }
 
 /* ════════════════════════════════════════════════════════
    GENERATE TABLE ROWS DYNAMICALLY
-   Create rows from teacher data (handles both field name formats)
    ════════════════════════════════════════════════════════ */
 function generateTableRows(teachers) {
     var tableBody = document.getElementById('tableBody');
-    
-    // Clear existing rows
     tableBody.innerHTML = '';
     
     if (teachers.length === 0) {
-        // Show "no teachers" message
         var row = document.createElement('tr');
         row.innerHTML = '<td colspan="4" class="no-results">No teachers found in the system.</td>';
         tableBody.appendChild(row);
         return;
     }
     
-    // Create row for each teacher
     teachers.forEach((teacher, index) => {
         var row = document.createElement('tr');
         row.className = 'account-row';
         
-        // Handle both field name formats (uppercase from sample data OR lowercase from CreateAccount)
         const teacherId = teacher.T_ID || teacher.t_id || 'N/A';
         const teacherName = teacher.T_Name || teacher.t_name || 'Unknown';
         
@@ -136,9 +174,6 @@ function generateTableRows(teachers) {
     });
 }
 
-/* ════════════════════════════════════════════════════════
-   ESCAPE HTML (prevent XSS)
-   ════════════════════════════════════════════════════════ */
 function escapeHtml(text) {
     var map = {
         '&': '&amp;',
@@ -152,9 +187,10 @@ function escapeHtml(text) {
 
 /* ────────────────────────────────────────────────────────
    GO TO CREATE ACCOUNT PAGE
-   Navigate to CreateAccount.html
 ────────────────────────────────────────────────────────── */
-function goToCreateAccount() {
+function goToCreateAccount(event) {
+    event.preventDefault();
+    event.stopPropagation();
     window.location.href = '../Create-Account/CreateAccount.html';
 }
 
@@ -199,17 +235,20 @@ function executeArchive() {
         }
     }
 
-    // Hide success message after 3 seconds
     setTimeout(() => {
         successMsg.style.display = 'none';
     }, 3000);
 }
 
-/* ────────────────────────────────────────────────────────
-   CLOSE MODAL ON OUTSIDE CLICK
-────────────────────────────────────────────────────────── */
+// Click outside modal to close
 window.onclick = function(event) {
     if (event.target === modal) {
         closeModal();
     }
 }
+
+// Prevent any accidental navigation or refresh
+window.addEventListener('beforeunload', function(e) {
+    // Store current URL before leaving
+    sessionStorage.setItem('last_page_url', window.location.href);
+});

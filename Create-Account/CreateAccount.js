@@ -5,13 +5,23 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     sessionStorage.setItem('profile_return_url', window.location.href);
-    
-    // Check if user is logged in
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../delete-account/DeleteAccount.html";
-        return;
-    }
 });
+
+/* ────────────────────────────────────────────────────────
+   TOGGLE PROFILE - Navigate to profile page or back
+────────────────────────────────────────────────────────── */
+function toggleProfile(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    
+    // Store current page URL before navigating
+    sessionStorage.setItem('profile_return_url', window.location.href);
+    
+    // Navigate to profile page
+    window.location.href = '../Profile-Details/Profile-Details.html';
+}
 
 /* ────────────────────────────────────────────────────────
    HANDLE FORM SUBMISSION
