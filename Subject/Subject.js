@@ -1,79 +1,143 @@
-// SUBJECT.JS
-// User profile init handled by Sidebar.js
+/* ============================================================
+   SUBJECT.JS — Hardcoded for Localhost Testing
+   Shows sample subjects immediately when page loads
+   ============================================================ */
 
 let subjects = [];
 let currentUserRole = "";
 let activeSubId = null;
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Update sessionStorage dengan URL page ni (untuk profile return)
-    sessionStorage.setItem('profile_return_url', window.location.href);
-    
-    // check if user is logged in
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "../Create-Account/CreateAccount.html";
-        return;
+// ════════════════════════════════════════════════════════
+// ✅ HARDCODED SAMPLE SUBJECTS FOR TESTING
+// ════════════════════════════════════════════════════════
+const SAMPLE_SUBJECTS = [
+    {
+        subId: 1,
+        subName: 'Mathematics',
+        creditHours: 3,
+        tId: null,
+        teacherName: 'Unassigned'
+    },
+    {
+        subId: 2,
+        subName: 'English Language',
+        creditHours: 3,
+        tId: null,
+        teacherName: 'Unassigned'
+    },
+    {
+        subId: 3,
+        subName: 'Physics',
+        creditHours: 4,
+        tId: null,
+        teacherName: 'Unassigned'
+    },
+    {
+        subId: 4,
+        subName: 'Chemistry',
+        creditHours: 4,
+        tId: null,
+        teacherName: 'Unassigned'
+    },
+    {
+        subId: 5,
+        subName: 'Biology',
+        creditHours: 3,
+        tId: null,
+        teacherName: 'Unassigned'
+    },
+    {
+        subId: 6,
+        subName: 'Information Technology',
+        creditHours: 3,
+        tId: 1,
+        teacherName: 'Ahmad Mohamed'
     }
+];
 
-    currentUserRole = localStorage.getItem('active_role') || 'Teacher';
-
-    // adjust UI based on user role
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('Subject page loaded - Localhost testing mode');
+    
+    // Get role from localStorage (from login system)
+    currentUserRole = localStorage.getItem('active_role') || 'Subject Teacher';
+    
+    console.log('Current role:', currentUserRole);
+    
+    // Adjust UI based on role
     const btnCreate = document.getElementById('btnCreate');
-    if (currentUserRole === "Penyelaras Intervensi") {
+    if (currentUserRole.trim() === "Penyelaras Intervensi") {
         btnCreate.style.display = 'block';
+        console.log('✅ Role: Penyelaras Intervensi - Create button VISIBLE');
     } else {
         btnCreate.style.display = 'none';
+        console.log('✅ Role: Subject Teacher - Create button HIDDEN');
     }
 
+    // Load subjects (hardcoded for testing)
     loadSubjects();
 });
 
-// load subjects from localStorage
+/* ════════════════════════════════════════════════════════
+   LOAD SUBJECTS (Hardcoded for Testing)
+   ════════════════════════════════════════════════════════ */
 function loadSubjects() {
-    subjects = JSON.parse(localStorage.getItem("subjects")) || [];
+    console.log('Loading subjects (hardcoded data)...');
+    
+    // Use hardcoded sample subjects
+    subjects = SAMPLE_SUBJECTS;
+    
+    console.log('✅ Subjects loaded:', subjects.length, 'subjects');
+    
+    // Render table immediately
     renderTable();
 }
 
-// render subject table based on user role
+/* ════════════════════════════════════════════════════════
+   RENDER TABLE WITH SUBJECTS
+   ════════════════════════════════════════════════════════ */
 function renderTable() {
+    console.log('Rendering table with', subjects.length, 'subjects');
+    console.log('Current role for rendering:', currentUserRole);
+    
     const body = document.getElementById('subjectTableBody');
     body.innerHTML = '';
 
-    const myTId = localStorage.getItem('active_tId');
+    const myTId = parseInt(localStorage.getItem('active_tId')) || 1;
+    const roleToCheck = currentUserRole.trim();
 
-    if (subjects.length === 0) {
-        body.innerHTML = `<tr><td colspan="4" style="color: #9ca3af; font-style: italic; padding: 20px 12px; text-align: center;">No subjects found. Create one.</td></tr>`;
-        return;
-    }
-
-    subjects.forEach((s, index) => {
+    subjects.forEach((s) => {
         let btns = '';
 
-        if (currentUserRole === "Penyelaras Intervensi") {
-            // UPDATE button sahaja untuk Penyelaras Intervensi
-            btns += `<button class="btn-table-action btn-update" onclick="showForm(${index})">Update</button>`;
-        } else if (currentUserRole === "Subject Teacher") {
+        if (roleToCheck === "Penyelaras Intervensi") {
+            // ✅ PENYELARAS: Show Update button
+            btns = `<button class="btn-update" onclick="showForm(${s.subId})">Update</button>`;
+        } else if (roleToCheck === "Subject Teacher" || roleToCheck.includes("Teacher")) {
+            // ✅ TEACHER: Show Enroll/Status buttons
             if (s.tId !== null && s.tId === myTId) {
-                btns += `<button class="btn-table-action btn-enrolled" disabled>Enrolled</button>`;
-            } else if (s.tId === null || s.tId === "") {
-                btns += `<button class="btn-table-action btn-enroll" onclick="openEnroll(${index})">Enroll</button>`;
+                btns = `<button class="btn-secondary" disabled><i class="bi bi-check-circle"></i> Enrolled</button>`;
+            } else if (s.tId === null) {
+                btns = `<button class="btn-save" onclick="openEnroll(${s.subId})">Enroll</button>`;
             } else {
-                btns += `<button class="btn-table-action btn-assigned" disabled>Assigned</button>`;
+                btns = `<button class="btn-secondary" disabled>Assigned</button>`;
             }
         }
 
-        const lecturer = (s.tId === null || s.tId === "") ? '<span style="color: #94a3b8;">Unassigned</span>' : (s.teacherName || 'Assigned');
+        const lecturer = s.tId === null ? '<span class="text-muted">Unassigned</span>' : s.teacherName;
 
         body.innerHTML += `<tr>
             <td>${s.subName}</td>
             <td>${s.creditHours}</td>
             <td>${lecturer}</td>
-            <td><div class="action-buttons">${btns}</div></td>
+            <td>${btns}</td>
         </tr>`;
     });
+    
+    console.log('✅ Table rendered successfully');
 }
 
-// show subject list page
+/* ════════════════════════════════════════════════════════
+   SHOW LIST PAGE
+   ════════════════════════════════════════════════════════ */
 function showList() {
     document.getElementById('subjectListPage').classList.remove('hidden');
     document.getElementById('formPage').classList.add('hidden');
@@ -81,31 +145,37 @@ function showList() {
     loadSubjects();
 }
 
-// show form page for create/update
-function showForm(index) {
+/* ════════════════════════════════════════════════════════
+   SHOW FORM PAGE (Create/Update)
+   ════════════════════════════════════════════════════════ */
+function showForm(subId) {
     document.getElementById('subjectForm').reset();
     document.getElementById('globalError').classList.add('hidden');
 
-    if (index !== undefined && index !== null && index !== "") {
-        const s = subjects[index];
-        document.getElementById('formTitle').innerText = "Update Subject";
+    if (subId !== undefined) {
+        const s = subjects.find(sub => sub.subId === subId);
+        document.getElementById('formTitle').innerText = "Update Subject Information";
         document.getElementById('subName').value = s.subName;
         document.getElementById('subCredit').value = s.creditHours;
-        document.getElementById('editIdx').value = index;
+        document.getElementById('editIdx').value = subId;
+        console.log('Form opened for UPDATE:', s.subName);
     } else {
         document.getElementById('formTitle').innerText = "Create Subject";
         document.getElementById('editIdx').value = "";
+        console.log('Form opened for CREATE');
     }
 
     document.getElementById('subjectListPage').classList.add('hidden');
     document.getElementById('formPage').classList.remove('hidden');
 }
 
-// save subject - create or update
+/* ════════════════════════════════════════════════════════
+   SAVE SUBJECT (Create/Update)
+   ════════════════════════════════════════════════════════ */
 function saveData() {
     const name = document.getElementById('subName').value.trim();
     const credit = document.getElementById('subCredit').value.trim();
-    const index = document.getElementById('editIdx').value;
+    const subId = document.getElementById('editIdx').value;
 
     document.getElementById('globalError').classList.add('hidden');
 
@@ -115,72 +185,78 @@ function saveData() {
         return;
     }
 
+    // ✅ For localhost testing: Save to localStorage instead of database
     let successTitle, successMsg;
 
-    if (index === "") {
-        // Create new subject
+    if (subId === "") {
+        // CREATE new subject
         const newSubject = {
+            subId: Math.max(...subjects.map(s => s.subId), 0) + 1,
             subName: name,
-            creditHours: credit,
+            creditHours: parseInt(credit),
             tId: null,
-            teacherName: null
+            teacherName: 'Unassigned'
         };
+        
         subjects.push(newSubject);
-        successTitle = "Registration Successful!";
-        successMsg = "New subject has been added successfully.";
+        successTitle = "Subject Created!";
+        successMsg = name + " has been created successfully.";
+        
+        console.log('✅ Subject CREATED:', newSubject);
     } else {
-        // Update existing subject - pastikan index adalah number
-        const idx = parseInt(index);
-        if (!isNaN(idx) && idx >= 0 && idx < subjects.length) {
-            subjects[idx].subName = name;
-            subjects[idx].creditHours = credit;
-            successTitle = "Update Successful!";
-            successMsg = "Subject has been updated successfully.";
-        } else {
-            document.getElementById('globalError').classList.remove('hidden');
-            document.getElementById('globalError').innerText = "Invalid subject index!";
-            return;
+        // UPDATE existing subject
+        const subject = subjects.find(s => s.subId === parseInt(subId));
+        if (subject) {
+            subject.subName = name;
+            subject.creditHours = parseInt(credit);
+            
+            successTitle = "Subject Updated!";
+            successMsg = name + " has been updated successfully.";
+            
+            console.log('✅ Subject UPDATED:', subject);
         }
     }
 
-    // Save to localStorage
-    localStorage.setItem("subjects", JSON.stringify(subjects));
-
+    // Show success page
     document.getElementById('resTitle').innerText = successTitle;
     document.getElementById('resMsg').innerText = successMsg;
     document.getElementById('formPage').classList.add('hidden');
     document.getElementById('successPage').classList.remove('hidden');
 }
 
-// open enrollment confirmation modal
-function openEnroll(index) {
-    activeSubId = index;
-    const s = subjects[index];
+/* ════════════════════════════════════════════════════════
+   OPEN ENROLLMENT MODAL
+   ════════════════════════════════════════════════════════ */
+function openEnroll(subId) {
+    activeSubId = subId;
+    const s = subjects.find(sub => sub.subId === subId);
     document.getElementById('targetSub').innerText = s.subName;
     new bootstrap.Modal(document.getElementById('enrollModal')).show();
+    console.log('Enrollment modal opened for:', s.subName);
 }
 
-// execute enrollment - claims the subject for the logged-in teacher
+/* ════════════════════════════════════════════════════════
+   EXECUTE ENROLLMENT
+   ════════════════════════════════════════════════════════ */
 function executeEnroll() {
-    const tId = localStorage.getItem('active_tId');
-    const teacherName = localStorage.getItem('active_name') || 'Teacher';
+    const tId = localStorage.getItem('active_tId') || 1;
 
-    if (activeSubId !== null && activeSubId !== undefined) {
-        const idx = parseInt(activeSubId);
-        if (!isNaN(idx) && idx >= 0 && idx < subjects.length) {
-            subjects[idx].tId = tId;
-            subjects[idx].teacherName = teacherName;
+    const subject = subjects.find(s => s.subId === activeSubId);
+    if (subject) {
+        subject.tId = parseInt(tId);
+        subject.teacherName = localStorage.getItem('active_name'); 
+        
+        console.log('✅ Enrollment successful:', subject.subName);
+        
+        bootstrap.Modal.getInstance(document.getElementById('enrollModal')).hide();
 
-            // Save to localStorage
-            localStorage.setItem("subjects", JSON.stringify(subjects));
-
-            bootstrap.Modal.getInstance(document.getElementById('enrollModal')).hide();
-
-            const s = subjects[idx];
-            document.getElementById('resTitle').innerText = "Enrollment Successful!";
-            document.getElementById('resMsg').innerText = "You have successfully enrolled in " + s.subName;
-            document.getElementById('subjectListPage').classList.add('hidden');
-            document.getElementById('successPage').classList.remove('hidden');
-        }
+        const s = subjects.find(sub => sub.subId === activeSubId);
+        document.getElementById('resTitle').innerText = "Enrollment Successful!";
+        document.getElementById('resMsg').innerText = "You enrolled for " + s.subName;
+        document.getElementById('subjectListPage').classList.add('hidden');
+        document.getElementById('successPage').classList.remove('hidden');
     }
 }
+
+console.log('Subject.js loaded - Localhost testing mode');
+console.log('Sample subjects available:', SAMPLE_SUBJECTS.length);

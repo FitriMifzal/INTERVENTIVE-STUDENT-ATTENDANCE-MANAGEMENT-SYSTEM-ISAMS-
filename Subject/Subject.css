@@ -1,5 +1,5 @@
 /* ============================================================
-   SUBJECT.CSS — Content area styling
+   SUBJECT.CSS — Content area styling (Matching Classroom Design)
    Letakkan di <head> SELEPAS sidebar.css
    ============================================================ */
 
@@ -21,7 +21,6 @@
     width: 100%;
 }
 
-#content,
 #content-area {
     padding: 30px;
     flex: 1;
@@ -39,7 +38,7 @@
 }
 
 /* ════════════════════════════════════════════════════════
-   Page title, description, and underline styling
+   PAGE TITLE & DESCRIPTION (Same as Classroom)
    ════════════════════════════════════════════════════════ */
 
 .page-title {
@@ -57,12 +56,30 @@
     line-height: 1.5;
 }
 
+/* ── ORANGE BAR (Same as Classroom) ── */
+.orange-bar {
+    width: 100%;
+    height: 4px;
+    background-color: var(--kv-orange);
+    margin: 0 0 20px 0;
+}
+
 .title-underline {
     height: 4px;
     background-color: #ff5722;
     width: 100%;
     margin-bottom: 25px;
     border-radius: 2px;
+}
+
+/* ════════════════════════════════════════════════════════
+   BUTTON ROW — Right aligned, above table (Same as Classroom)
+   ════════════════════════════════════════════════════════ */
+
+.button-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
 }
 
 /* ── CREATE BUTTON ── */
@@ -92,14 +109,7 @@
     transform: none;
 }
 
-/* ── BUTTON ROW ── */
-.button-row {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-}
-
-/* ── TABLE STYLES ── */
+/* ── TABLE STYLES (Same as Classroom) ── */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -134,7 +144,18 @@ tbody tr:hover {
     background-color: #f8fafc;
 }
 
-/* ── ACTION BUTTONS ── */
+/* ── NO DATA MESSAGE ── */
+tbody tr td[colspan] {
+    color: #9ca3af;
+    font-style: italic;
+    padding: 20px 12px;
+    text-align: center;
+}
+
+/* ════════════════════════════════════════════════════════
+   ACTION BUTTONS 
+   ════════════════════════════════════════════════════════ */
+
 .action-buttons {
     display: flex;
     gap: 8px;
@@ -153,10 +174,7 @@ tbody tr:hover {
     font-family: var(--font-family-main);
 }
 
-/* ════════════════════════════════════════════════════════
-   ACTION BUTTONS 
-   ════════════════════════════════════════════════════════ */
-
+/* ── UPDATE BUTTON — Navy #003366 ── */
 .btn-update {
     background: #003366;
     color: white;
@@ -176,57 +194,43 @@ tbody tr:hover {
     box-shadow: 0 2px 8px rgba(0, 35, 71, 0.3);
 }
 
-.btn-enroll {
+/* ── ENROLL BUTTON — Green #28a745 ── */
+.btn-save {
     background: #28a745;
     color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    font-family: var(--font-family-main);
 }
 
-.btn-enroll:hover {
+.btn-save:hover {
     background: #218838;
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 2px 8px rgba(33, 136, 56, 0.3);
 }
 
-.btn-enrolled {
+/* ── DISABLED BUTTONS ── */
+.btn-secondary {
     background: #6c757d;
     color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
     cursor: not-allowed;
+    font-weight: 600;
+    font-size: 13px;
     opacity: 0.7;
+    font-family: var(--font-family-main);
 }
 
-.btn-enrolled:hover {
-    transform: none;
-}
-
-.btn-assigned {
-    background: #6c757d;
-    color: white;
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-
-.btn-assigned:hover {
-    transform: none;
-}
-
-/* ── NO DATA MESSAGE ── */
-tbody tr td[colspan] {
-    color: #9ca3af;
-    font-style: italic;
-    padding: 20px 12px;
-    text-align: center;
-}
-
-/* ── FORM PAGE ── */
-.form-card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 30px;
-    box-sizing: border-box;
-    max-width: 800px;
-    margin: 0 auto;
-}
+/* ────────────────────────────────────────────────────────
+   FORM PAGE STYLES
+────────────────────────────────────────────────────────── */
 
 .form-group {
     margin-bottom: 20px;
@@ -283,7 +287,7 @@ tbody tr td[colspan] {
 }
 
 /* ════════════════════════════════════════════════════════
-   FORM BUTTONS - Sama dengan UpdateStudentClass
+   FORM BUTTONS
    ════════════════════════════════════════════════════════ */
 
 .btn-submit {
@@ -324,7 +328,10 @@ tbody tr td[colspan] {
     box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
-/* ── SUCCESS PAGE ── */
+/* ────────────────────────────────────────────────────────
+   SUCCESS PAGE STYLES
+────────────────────────────────────────────────────────── */
+
 .success-card {
     background: white;
     border-radius: 8px;
@@ -389,20 +396,20 @@ tbody tr td[colspan] {
     background-color: #f8fafc;
 }
 
-/* ── RESPONSIVE ── */
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ════════════════════════════════════════════════════════ */
+
 @media (max-width: 768px) {
-    #main-wrapper,
-    #main-content {
+    #main-wrapper {
         padding-top: 70px;
     }
 
-    #content,
     #content-area {
         padding: 15px;
     }
 
     .content-card,
-    .form-card,
     .success-card {
         padding: 15px;
     }
@@ -438,7 +445,10 @@ tbody tr td[colspan] {
         gap: 5px;
     }
 
-    .btn-table-action {
+    .btn-table-action,
+    .btn-update,
+    .btn-save,
+    .btn-secondary {
         width: 100%;
         padding: 6px 10px;
         font-size: 12px;

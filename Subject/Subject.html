@@ -16,57 +16,57 @@
     <link rel="stylesheet" href="Subject.css">
 </head>
 <body>
+    <!-- SIDEBAR -->
     <div id="sidebar">
-    <div class="logo-container">
-        <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
-    </div>
- 
-    <div class="role-badge">Subject Teacher</div>
- 
-    <div class="nav-menu">
-        
-        <!-- DASHBOARD (untuk semua roles) -->
-        <a class="nav-item" href="../Dashboard/Dashboard.html">Dashboard</a>
- 
-        <!-- TEACHER ACCOUNT — Hanya untuk Penyelaras Intervensi -->
-        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Teacher Accounts</a>
- 
-        <!-- STUDENT CLASS (untuk semua roles) -->
-        <a href="../Student Class/StudentClass.html" class="nav-item" data-role="Penyelaras Intervensi">Classroom</a>
- 
-        <!-- STUDENT PROFILE (untuk semua roles) -->
-        <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
- 
-        <!-- SUBJECT (dengan submenu berbeda per role) -->
-        <button class="nav-item" data-submenu>
-            Subject
-            <span class="arrow">▾</span>
-        </button>
-        <div class="submenu">
-            <!-- FOR SUBJECT TEACHER -->
-            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">Subject Enrollment</a>
-            <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
-            
-            <!-- FOR PENYELARAS INTERVENSI -->
-            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
+        <div class="logo-container">
+            <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
         </div>
- 
-        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
-        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Absent Record</a>
- 
+
+        <div class="role-badge">Subject Teacher</div>
+
+        <div class="nav-menu">
+            <!-- DASHBOARD -->
+            <a class="nav-item" href="../Dashboard/Dashboard.html">Dashboard</a>
+
+            <!-- TEACHER ACCOUNTS -->
+            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Teacher Accounts</a>
+
+            <!-- CLASSROOM -->
+            <a href="../Student Class/StudentClass.html" class="nav-item" data-role="Penyelaras Intervensi">Classroom</a>
+
+            <!-- STUDENT PROFILE -->
+            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
+
+            <!-- SUBJECT -->
+            <button class="nav-item" data-submenu>
+                Subject
+                <span class="arrow">▾</span>
+            </button>
+            <div class="submenu">
+                <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">Subject Enrollment</a>
+                <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
+                <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
+            </div>
+
+            <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
+            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Absent Record</a>
+        </div>
+
+        <button onclick="logoutUser()" class="nav-item logout">Logout</button>
     </div>
-   <button onclick="logoutUser()" class="nav-item logout">Logout</button>
-</div>
 
     <!-- MAIN CONTENT AREA -->
     <div id="main-wrapper">
+        <!-- HEADER -->
         <header id="header">
             <button class="header-title" onclick="toggleSidebar()">
                 <span class="menu-icon">☰</span>
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
 
-            <div class="user-profile" onclick="window.location.href='../Profile/Profile.html'">
+            <!-- ✅ PROFILE ICON — Uses toggleProfile() from Header.js -->
+            <!-- Saves URL + Navigates to Profile page -->
+            <div class="user-profile" onclick="toggleProfile()">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
@@ -76,11 +76,11 @@
         <main id="content-area">
             <!-- SUBJECT LIST PAGE -->
             <div id="subjectListPage" class="content-card">
-                <h1 class="page-title">Subject Details</h1>
+                <h1 class="page-title">Subject</h1>
                 <p class="page-description">Manage all subjects and view their details. Click "Create" to add a new subject or "Update" to modify existing ones.</p>
-                <div class="title-underline"></div>
+                
+                <div class="orange-bar"></div>
 
-                <!-- CREATE BUTTON — RIGHT ALIGNED, ABOVE TABLE -->
                 <div class="button-row">
                     <button id="btnCreate" class="btn-create" onclick="showForm()">Create</button>
                 </div>
@@ -88,10 +88,10 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 30%;">Subject Name</th>
-                            <th style="width: 20%;">Credit Hours</th>
-                            <th style="width: 30%;">Lecturer</th>
-                            <th style="width: 20%;">Actions</th>
+                            <th>Subject Name</th>
+                            <th>Credit Hours</th>
+                            <th>Lecturer</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="subjectTableBody"></tbody>
@@ -99,10 +99,10 @@
             </div>
 
             <!-- FORM PAGE -->
-            <div id="formPage" class="form-card hidden">
+            <div id="formPage" class="content-card hidden">
                 <h1 class="page-title" id="formTitle">Create Subject</h1>
                 <p class="page-description">Enter the subject details below. All fields are required.</p>
-                <div class="title-underline"></div>
+                <div class="orange-bar"></div>
                 
                 <form id="subjectForm">
                     <input type="hidden" id="editIdx">
@@ -134,7 +134,7 @@
         </main>
     </div>
 
-    <!-- ENROLL MODAL sahaja -->
+    <!-- ENROLLMENT MODAL -->
     <div class="modal fade" id="enrollModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -153,7 +153,9 @@
     </div>
 
     <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../Sidebar/Sidebar.js"></script>
+    <!-- ✅ Header.js with toggleProfile() function (works on all pages now) -->
     <script src="../Header/Header.js"></script>
     <script src="Subject.js"></script>
 </body>

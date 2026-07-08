@@ -1,7 +1,10 @@
-
 (function () {
 
-    /* ── INIT USER PROFILE ── */
+    /* ════════════════════════════════════════════════════════
+       FUNCTION 1: INIT USER PROFILE
+       Display user name dan calculate initials
+       ════════════════════════════════════════════════════════ */
+    
     function initUserProfile() {
         var userNameEl = document.getElementById('user-fullname');
         var userInitialEl = document.getElementById('user-initial');
@@ -15,7 +18,9 @@
             var userName = userNameEl.textContent.trim();
             var initials = userName
                 .split(' ')
-                .map(function (word) { return word.charAt(0).toUpperCase(); })
+                .map(function (word) { 
+                    return word.charAt(0).toUpperCase(); 
+                })
                 .join('')
                 .substring(0, 2);
 
@@ -23,7 +28,11 @@
         }
     }
 
-    /* ── TOGGLE SIDEBAR ── */
+    /* ════════════════════════════════════════════════════════
+       FUNCTION 2: TOGGLE SIDEBAR (Hamburger Menu ☰)
+       Click hamburger icon → sidebar slide in/out
+       ════════════════════════════════════════════════════════ */
+    
     window.toggleSidebar = function () {
         var sidebar = document.getElementById('sidebar');
         var mainWrapper = document.getElementById('main-wrapper');
@@ -34,30 +43,57 @@
         if (header) header.classList.toggle('collapsed');
     };
 
-    /* ── TOGGLE PROFILE ── */
+    /* ════════════════════════════════════════════════════════
+       FUNCTION 3: TOGGLE PROFILE (User Profile Icon ?)
+       
+       ✅ NOW WORKS ON ALL PAGES (NO EXCEPTIONS!)
+       
+       Behavior:
+       - From any page: Click profile icon → Go to Profile page
+       - From Profile page: Click profile icon → Return to previous page
+       - Saves URL using sessionStorage
+       
+       ════════════════════════════════════════════════════════ */
+    
     window.toggleProfile = function () {
-        var isOnProfilePage = window.location.pathname
-            .toLowerCase()
-            .indexOf('/profile/profile.html') !== -1;
+        var currentPage = window.location.pathname.toLowerCase();
+        
+        // Check if already on Profile page
+        var isOnProfilePage = currentPage.indexOf('/profile/profile.html') !== -1;
 
         if (isOnProfilePage) {
+            // User is on Profile page → Go back to previous page
             var returnUrl = sessionStorage.getItem('profile_return_url');
+            
             if (returnUrl) {
                 window.location.href = returnUrl;
             } else {
+                // If no previous URL saved, go to Dashboard
                 window.location.href = '../Dashboard/Dashboard.html';
             }
         } else {
+            // User is NOT on Profile page → Go to Profile page
+            // Save current URL first (so user can return later)
             sessionStorage.setItem('profile_return_url', window.location.href);
+            
+            // Navigate to Profile page
             window.location.href = '../Profile/Profile.html';
         }
     };
 
-    /* ── INIT ── */
+    /* ════════════════════════════════════════════════════════
+       FUNCTION 4: INIT (Initialize)
+       Call initUserProfile() when page loads
+       ════════════════════════════════════════════════════════ */
+    
     function init() {
         initUserProfile();
     }
 
+    /* ════════════════════════════════════════════════════════
+       RUN INIT ON PAGE LOAD
+       ════════════════════════════════════════════════════════ */
+    
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
