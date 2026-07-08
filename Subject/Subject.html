@@ -99,7 +99,7 @@
 
             <!-- FORM PAGE -->
             <div id="formPage" class="content-card hidden">
-                <h1 class="page-title" id="formTitle">Create Subject</h1>
+                <h1 class="page-title" id="formTitle">Subject Details</h1>
                 <p class="page-description">Enter the subject details below. All fields are required.</p>
                 <div class="orange-bar"></div>
                 
@@ -115,9 +115,18 @@
                     </div>
                     <div id="globalError" class="alert alert-danger hidden"></div>
                     <div class="form-actions">
-                        <button type="button" class="btn-cancel" onclick="showList()">Discard Changes</button>
-                        <button type="button" class="btn-submit" onclick="saveData()">Save Changes</button>
+                    <!-- CREATE SUBJECT BUTTONS -->
+                    <div id="createButtons" class="hidden">
+                    <button type="button" class="btn-cancel" onclick="showList()">Cancel</button>
+                    <button type="button" class="btn-submit" onclick="saveData()">Confirm</button>
                     </div>
+    
+                    <!-- UPDATE SUBJECT BUTTONS -->
+                    <div id="updateButtons" class="hidden">
+                    <button type="button" class="btn-cancel" onclick="showList()">Discard Changes</button>
+                    <button type="button" class="btn-submit" onclick="saveData()">Save Changes</button>
+                     </div>
+                </div>
                 </form>
             </div>
 

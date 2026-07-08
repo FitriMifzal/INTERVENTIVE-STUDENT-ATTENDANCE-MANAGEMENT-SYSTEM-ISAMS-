@@ -175,15 +175,27 @@ function showForm(subId) {
     document.getElementById('globalError').classList.add('hidden');
 
     if (subId !== undefined) {
+        // UPDATE MODE
         const s = subjects.find(sub => sub.subId === subId);
-        document.getElementById('formTitle').innerText = "Update Subject Information";
+        document.getElementById('formTitle').innerText = "Subject Details";  // ← CHANGE THIS LINE
         document.getElementById('subName').value = s.subName;
         document.getElementById('subCredit').value = s.creditHours;
         document.getElementById('editIdx').value = subId;
+        
+        // ✅ ADD THESE 2 LINES:
+        document.getElementById('updateButtons').classList.remove('hidden');
+        document.getElementById('createButtons').classList.add('hidden');
+        
         console.log('Form opened for UPDATE:', s.subName);
     } else {
+        // CREATE MODE
         document.getElementById('formTitle').innerText = "Create Subject";
         document.getElementById('editIdx').value = "";
+        
+        // ✅ ADD THESE 2 LINES:
+        document.getElementById('createButtons').classList.remove('hidden');
+        document.getElementById('updateButtons').classList.add('hidden');
+        
         console.log('Form opened for CREATE');
     }
 
@@ -240,10 +252,9 @@ function saveData() {
     }
 
     // Show success page
-    document.getElementById('resTitle').innerText = successTitle;
-    document.getElementById('resMsg').innerText = successMsg;
+    document.getElementById('successMsg').innerText = successMsg;
     document.getElementById('formPage').classList.add('hidden');
-    document.getElementById('successPage').classList.remove('hidden');
+    new bootstrap.Modal(document.getElementById('successModal')).show(); 
 }
 
 /* ════════════════════════════════════════════════════════
@@ -284,6 +295,23 @@ function executeEnroll() {
 function closeSuccessModal() {
     bootstrap.Modal.getInstance(document.getElementById('successModal')).hide();
     renderTable();  // Reload table to show teacher name assigned
+}
+
+/* ════════════════════════════════════════════════════════
+   CLOSE SUCCESS MODAL AND RETURN TO LIST
+   ════════════════════════════════════════════════════════ */
+function closeSuccessModal() {
+    // Hide success modal
+    bootstrap.Modal.getInstance(document.getElementById('successModal')).hide();
+    
+    // ✅ IMPORTANT: Show list page and hide form page
+    document.getElementById('subjectListPage').classList.remove('hidden');
+    document.getElementById('formPage').classList.add('hidden');
+    
+    // Reload table with updated data
+    renderTable();
+    
+    console.log('✅ Success modal closed - returned to Subject Details');
 }
 
 console.log('Subject.js loaded - Localhost testing mode');

@@ -59,7 +59,7 @@
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
             
-            <div class="user-profile" onclick="window.location.href='../Profile/Profile.html'">
+            <div class="user-profile" onclick="toggleProfile()">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
@@ -72,8 +72,13 @@
                 
                 <!-- Layout Header -->
                 <h2 class="page-title">Teacher Accounts</h2>
-                <p class="page-description">View teacher details or archive inactive accounts. Click "View" to see complete information or "Archive" to disable an account.</p>
+                <p class="page-description">View teacher accounts and manage them. Click "Create" to add a new teacher account or "Archive" to disable an account.</p>
                 <div class="title-underline"></div>
+
+                <!-- ✅ CREATE BUTTON (Following Subject Design) -->
+                <div class="button-row">
+                    <button id="btnCreate" class="btn-create" onclick="goToCreateAccount()">Create</button>
+                    </div>
 
                 <!-- Table Container -->
                 <div id="accountList" class="table-container">
@@ -110,8 +115,8 @@
             </div>
             
             <div class="btn-group">
-                <button class="btn-confirm" onclick="executeArchive()">Confirm Archive</button>
                 <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-confirm" onclick="executeArchive()">Confirm Archive</button>
             </div>
         </div>
     </div>
