@@ -52,7 +52,7 @@ function updateClass() {
         // Save to localStorage
         localStorage.setItem("classes", JSON.stringify(classes));
 
-        alert("Class updated successfully!");
+        alert("Classroom updated successfully!");
 
         // Redirect to class list
         window.location.href = "../Student Class/StudentClass.html";

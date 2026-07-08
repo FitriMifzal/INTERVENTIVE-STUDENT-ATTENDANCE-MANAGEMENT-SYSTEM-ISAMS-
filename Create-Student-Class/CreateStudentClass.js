@@ -31,9 +31,9 @@ function handleForm(event) {
     // Get existing classes
     let classes = JSON.parse(localStorage.getItem("classes")) || [];
 
-    // Check for duplicate Class ID
+    // Check for duplicate Class Code
     if (classes.some(c => c.classId.toLowerCase() === classId.toLowerCase())) {
-        alert("This Class ID already exists!");
+        alert("This Class Code already exists!");
         return;
     }
 
@@ -50,7 +50,7 @@ function handleForm(event) {
     // Save to localStorage
     localStorage.setItem("classes", JSON.stringify(classes));
 
-    alert("Class successfully registered!");
+    alert("Classroom successfully registered!");
 
     // Redirect to student class list
     window.location.href = "../Student Class/StudentClass.html";
