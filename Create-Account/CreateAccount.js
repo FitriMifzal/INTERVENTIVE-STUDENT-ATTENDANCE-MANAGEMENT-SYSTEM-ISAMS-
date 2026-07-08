@@ -1,116 +1,103 @@
-function showRegistration() {
-    document.getElementById('login-section').style.display = 'none';
-    document.getElementById('registration-section').style.display = 'block';
-    document.getElementById('backBtn').style.display = 'block'; 
-}
+/* ============================================================
+   CREATEACCOUNT.JS — Create Teacher Account Logic
+   Handles form submission and validation (SAME PATTERN AS CREATESTUDENT)
+   ============================================================ */
 
-function showLogin() {
-    document.getElementById('registration-section').style.display = 'none';
-    document.getElementById('login-section').style.display = 'block';
-    document.getElementById('backBtn').style.display = 'none'; 
-}
-
-function askConfirmation() { 
-    const ic = document.getElementById('regIC').value.trim();
-    const name = document.getElementById('regName').value.trim();
-    const pass = document.getElementById('regPass').value;
-    if(!ic || !pass || !name) { 
-        alert("Please fill in IC Number, Name and Password!"); 
-        return; 
-    }
-    document.getElementById('confirmModal').style.display = 'block'; 
-}
-
-function processConfirm() {
-    const ic = document.getElementById('regIC').value.trim();
-    const name = document.getElementById('regName').value.trim();
-    const phone = document.getElementById('regPhone').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const pass = document.getElementById('regPass').value;
+document.addEventListener('DOMContentLoaded', function () {
+    sessionStorage.setItem('profile_return_url', window.location.href);
     
-    // Simpan semua data ke localStorage
-    localStorage.setItem('reg_ic', ic);
-    localStorage.setItem('reg_name', name);
-    localStorage.setItem('reg_phone', phone);
-    localStorage.setItem('reg_email', email);
-    localStorage.setItem('reg_pass', pass);
+    // Check if user is logged in
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "../delete-account/DeleteAccount.html";
+        return;
+    }
+});
+
+/* ────────────────────────────────────────────────────────
+   HANDLE FORM SUBMISSION
+────────────────────────────────────────────────────────── */
+
+function handleForm(event) {
+    event.preventDefault();
+
+    const t_name = document.getElementById("t_name").value.trim();
+    const t_ic = document.getElementById("t_ic").value.trim();
+    const t_email = document.getElementById("t_email").value.trim();
+    const t_phonenum = document.getElementById("t_phonenum").value.trim();
+    const t_pass = document.getElementById("t_pass").value.trim();
+
+    // VALIDATION - Check each required field specifically
+    if (!t_name) {
+        alert("Please fill in the Full Name field!");
+        return;
+    }
+    if (!t_ic) {
+        alert("Please fill in the IC Number field!");
+        return;
+    }
+    if (!t_email) {
+        alert("Please fill in the Email Address field!");
+        return;
+    }
+    if (!t_pass) {
+        alert("Please fill in the Password field!");
+        return;
+    }
+
+    // VALIDATION - IC Number must be numeric only and 10-20 digits
+    if (isNaN(t_ic) || t_ic.length < 10 || t_ic.length > 20) {
+        alert("Error: IC Number must contain only numbers, between 10-20 digits.");
+        return;
+    }
+
+    // VALIDATION - Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(t_email)) {
+        alert("Error: Please enter a valid email address.");
+        return;
+    }
+
+    // VALIDATION - Phone number (if provided) must be numeric
+    if (t_phonenum && (isNaN(t_phonenum) || t_phonenum.length < 10)) {
+        alert("Error: Contact number must contain only numbers, minimum 10 digits.");
+        return;
+    }
+
+    // VALIDATION - Password minimum 6 characters
+    if (t_pass.length < 6) {
+        alert("Error: Password must be at least 6 characters long.");
+        return;
+    }
+
+    // Get existing teachers array
+    let teachers = JSON.parse(localStorage.getItem("teachers")) || [];
+
+    // VALIDATION - Check for duplicate IC
+    if (teachers.some(t => t.t_ic === t_ic)) {
+        alert("This IC Number already exists!");
+        return;
+    }
+
+    // Create new teacher object
+    const newTeacher = {
+        t_id: 'T' + (teachers.length + 1).toString().padStart(3, '0'),
+        t_name: t_name,
+        t_ic: t_ic,
+        t_email: t_email,
+        t_phonenum: t_phonenum || "Not provided",
+        t_pass: t_pass,
+        pi_id: null
+    };
+
+    // Add to array
+    teachers.push(newTeacher);
+
+    // Save to localStorage
+    localStorage.setItem("teachers", JSON.stringify(teachers));
+
+    // Success message
+    alert("Teacher account created successfully!");
     
-    alert("Account created successfully!");
-    document.getElementById('confirmModal').style.display = 'none';
-    showLogin();
-}
-
-// Menukar label input mengikut pilihan Radio Button
-function handleRoleChange() {
-    const selectedRole = document.querySelector('input[name="loginRole"]:checked').value;
-    const loginIDLabel = document.getElementById('loginIDLabel');
-    const loginIDInput = document.getElementById('loginID');
-
-    if (selectedRole === "Penyelaras Intervensi") {
-        loginIDLabel.textContent = "ID Number";
-        loginIDInput.placeholder = "Enter your ID Number";
-    } else {
-        loginIDLabel.textContent = "IC Number";
-        loginIDInput.placeholder = "Enter your IC Number";
-    }
-}
-
-// ── LOGIK LOG IN/OUT IKON MATA BERIKUTAN IMEJ SVG YANG DIMINTA ──
-function togglePasswordVisibility(inputId, buttonId) {
-    const passInput = document.getElementById(inputId);
-    const buttonEl = document.getElementById(buttonId);
-    
-    if (passInput.type === "password") {
-        passInput.type = "text";
-        // MASUKKAN IKON MATA TERBUKA BERSIH (Bila teks password kelihatan)
-        buttonEl.innerHTML = `
-            <svg viewBox="0 0 24 24">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-        `;
-    } else {
-        passInput.type = "password";
-        // MASUKKAN IKON MATA BERGARIS/PANGKAH (Bila teks disembunyikan semula menjadi ****)
-        buttonEl.innerHTML = `
-            <svg viewBox="0 0 24 24">
-                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                <line x1="1" y1="1" x2="23" y2="23"></line>
-            </svg>
-        `;
-    }
-}
-
-function checkLogin() {
-    const inputID = document.getElementById('loginID').value.trim();
-    const inputPass = document.getElementById('loginPass').value;
-    const selectedRole = document.querySelector('input[name="loginRole"]:checked').value;
-
-    if (selectedRole === "Penyelaras Intervensi") {
-        if (inputID.toUpperCase() === "ADMIN123" && inputPass === "PASSWORD123") {
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('active_role', "Penyelaras Intervensi");
-            localStorage.setItem('active_name', "Admin Penyelaras");
-            window.location.href = "../Dashboard/Dashboard.html";
-        } else { 
-            alert("Invalid Admin Credentials!"); 
-        }
-    } else {
-        const storedIC = localStorage.getItem('reg_ic');
-        const storedPass = localStorage.getItem('reg_pass');
-        const storedName = localStorage.getItem('reg_name');
-
-        if (storedIC && inputID === storedIC && inputPass === storedPass) {
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('active_role', "Teacher");
-            localStorage.setItem('active_name', storedName);
-            window.location.href = "../Dashboard/Dashboard.html";
-        } else { 
-            alert("Invalid Teacher Credentials!"); 
-        }
-    }
-}
-
-function processCancel() { 
-    document.getElementById('confirmModal').style.display = 'none'; 
+    // Redirect to teacher accounts page
+    window.location.href = "../delete-account/DeleteAccount.html";
 }

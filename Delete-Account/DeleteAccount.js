@@ -1,7 +1,6 @@
 /* ============================================================
-   DELETEACCOUNT.JS — HARDCODED FOR LOCALHOST TESTING
-   Shows sample teachers immediately when page loads
-   ONLY Archive button (View button removed)
+   DELETEACCOUNT.JS 
+   Reads from localStorage to display newly created teacher accounts
    ============================================================ */
 
 let selectedId = null;
@@ -10,7 +9,7 @@ const modal = document.getElementById('archiveModal');
 const successMsg = document.getElementById('successMsg');
 
 // ════════════════════════════════════════════════════════
-// ✅ HARDCODED SAMPLE TEACHERS FOR TESTING
+// HARDCODED SAMPLE TEACHERS FOR TESTING (fallback only)
 // ════════════════════════════════════════════════════════
 const SAMPLE_TEACHERS = [
     {
@@ -65,25 +64,27 @@ const SAMPLE_TEACHERS = [
 ];
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('DeleteAccount page loaded - Localhost testing mode');
-    
     // Save current page URL for profile return
     sessionStorage.setItem('profile_return_url', window.location.href);
     
-    // Load all teachers from HARDCODED data
+    // Load all teachers (from localStorage + fallback to sample)
     loadAllTeachers();
 });
 
 /* ════════════════════════════════════════════════════════
-   LOAD ALL TEACHERS (Hardcoded for Testing)
+   LOAD ALL TEACHERS (FROM LOCALSTORAGE + HARDCODED FALLBACK)
    ════════════════════════════════════════════════════════ */
 function loadAllTeachers() {
-    console.log('Loading teachers (hardcoded data)...');
+    // Load from localStorage (data saved by CreateAccount.js)
+    let localTeachers = JSON.parse(localStorage.getItem("teachers")) || [];
     
-    // Use hardcoded sample teachers
-    allTeachers = SAMPLE_TEACHERS;
-    
-    console.log('✅ Teachers loaded:', allTeachers.length, 'teachers');
+    if (localTeachers.length > 0) {
+        // Use data from localStorage (newly created accounts)
+        allTeachers = localTeachers;
+    } else {
+        // Fallback to sample data if localStorage is empty
+        allTeachers = SAMPLE_TEACHERS;
+    }
     
     // Generate table rows
     generateTableRows(allTeachers);
@@ -91,7 +92,7 @@ function loadAllTeachers() {
 
 /* ════════════════════════════════════════════════════════
    GENERATE TABLE ROWS DYNAMICALLY
-   Create rows from teacher data (NO View button - only Archive)
+   Create rows from teacher data (handles both field name formats)
    ════════════════════════════════════════════════════════ */
 function generateTableRows(teachers) {
     var tableBody = document.getElementById('tableBody');
@@ -111,25 +112,28 @@ function generateTableRows(teachers) {
     teachers.forEach((teacher, index) => {
         var row = document.createElement('tr');
         row.className = 'account-row';
-        row.id = 'row-' + teacher.T_ID;
+        
+        // Handle both field name formats (uppercase from sample data OR lowercase from CreateAccount)
+        const teacherId = teacher.T_ID || teacher.t_id || 'N/A';
+        const teacherName = teacher.T_Name || teacher.t_name || 'Unknown';
+        
+        row.id = 'row-' + teacherId;
         
         row.innerHTML = `
             <td class="text-center">${index + 1}</td>
             <td>
-                <div class="acc-name">${escapeHtml(teacher.T_Name)}</div>
+                <div class="acc-name">${escapeHtml(teacherName)}</div>
             </td>
-            <td class="text-center acc-id">${teacher.T_ID}</td>
+            <td class="text-center acc-id">${teacherId}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('${teacher.T_ID}', '${escapeHtml(teacher.T_Name)}')" title="Archive">Archive</button>
+                    <button class="btn-table-action btn-archive-row" onclick="showArchiveModal('${teacherId}', '${escapeHtml(teacherName)}')" title="Archive">Archive</button>
                 </div>
             </td>
         `;
         
         tableBody.appendChild(row);
     });
-    
-    console.log('✅ Table rows generated successfully');
 }
 
 /* ════════════════════════════════════════════════════════
@@ -151,7 +155,6 @@ function escapeHtml(text) {
    Navigate to CreateAccount.html
 ────────────────────────────────────────────────────────── */
 function goToCreateAccount() {
-    console.log('Create button clicked - navigating to CreateAccount');
     window.location.href = '../Create-Account/CreateAccount.html';
 }
 
@@ -159,12 +162,9 @@ function goToCreateAccount() {
    SHOW ARCHIVE MODAL
 ────────────────────────────────────────────────────────── */
 function showArchiveModal(id, name) {
-    console.log('Archive button clicked for ID:', id, 'Name:', name);
-    
     const targetRow = document.getElementById('row-' + id);
     
     if (targetRow && targetRow.classList.contains('archived')) {
-        console.log('Already archived - cannot archive again');
         return;
     }
 
@@ -172,15 +172,12 @@ function showArchiveModal(id, name) {
     document.getElementById('targetAccount').innerText = "ID: " + id + " | Name: " + name;
     modal.classList.add('show');
     successMsg.style.display = 'none';
-    
-    console.log('✅ Archive modal opened');
 }
 
 /* ────────────────────────────────────────────────────────
    CLOSE MODAL
 ────────────────────────────────────────────────────────── */
 function closeModal() {
-    console.log('Closing modal');
     modal.classList.remove('show');
 }
 
@@ -188,8 +185,6 @@ function closeModal() {
    EXECUTE ARCHIVE
 ────────────────────────────────────────────────────────── */
 function executeArchive() {
-    console.log('Confirming archive for ID:', selectedId);
-    
     modal.classList.remove('show');
     successMsg.style.display = 'block';
     
@@ -202,14 +197,11 @@ function executeArchive() {
             archiveBtn.innerText = 'Archived';
             archiveBtn.disabled = true;
         }
-        
-        console.log('✅ Teacher archived successfully');
     }
 
     // Hide success message after 3 seconds
     setTimeout(() => {
         successMsg.style.display = 'none';
-        console.log('Success message hidden');
     }, 3000);
 }
 
@@ -221,6 +213,3 @@ window.onclick = function(event) {
         closeModal();
     }
 }
-
-console.log('DeleteAccount.js loaded - Localhost testing mode');
-console.log('Sample teachers available:', SAMPLE_TEACHERS.length);
