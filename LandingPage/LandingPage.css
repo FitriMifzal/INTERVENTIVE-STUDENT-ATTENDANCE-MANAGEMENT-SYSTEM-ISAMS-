@@ -24,6 +24,32 @@ body {
     color: var(--text-color);
     background-color: var(--bg-color);
     line-height: 1.6;
+    position: relative;
+}
+
+/* ── Background Image with Low Opacity ── */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('kv_pic_5(1).jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Ensure all content stays above background */
+.landing-header,
+.landing-main,
+.landing-footer {
+    position: relative;
+    z-index: 1;
 }
 
 /* ============================================================
@@ -241,6 +267,7 @@ body {
 .hero-image-wrapper {
     position: relative;
     width: 100%;
+    max-height: 450px;  /* Hadkan ketinggian maksimum */
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
