@@ -3,7 +3,7 @@ const classIdFromURL = params.get("id");
 
 // State variables
 let classes = JSON.parse(localStorage.getItem("classes")) || [];
-let selectedClass = classes.find(c => c.classId === classIdFromURL);
+let selectedClass = null;
 
 document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
@@ -14,23 +14,29 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function loadClassData() {
+    // Find class by class_id, classCode, or classId
+    if (classIdFromURL) {
+        selectedClass = classes.find(c => 
+            c.class_id == classIdFromURL || 
+            c.classCode === classIdFromURL || 
+            c.classId === classIdFromURL
+        );
+    }
+
     // Check if class exists
-    if (classIdFromURL && !selectedClass) {
+    if (!selectedClass) {
         alert("Class not found!");
         window.location.href = "../Student Class/StudentClass.html";
         return;
     }
 
-    // If class found, populate form
-    if (selectedClass) {
-        document.getElementById("classId").value = selectedClass.classId;
-        document.getElementById("className").value = selectedClass.className;
-    } else {
-        alert("No class ID provided");
-        window.location.href = "../Student Class/StudentClass.html";
-    }
+    // Populate form with class data
+    const classCodeDisplay = selectedClass.classCode || selectedClass.classId || 'N/A';
+    const classNameDisplay = selectedClass.class_name || selectedClass.className || 'N/A';
+    
+    document.getElementById("classId").value = classCodeDisplay;
+    document.getElementById("className").value = classNameDisplay;
 }
-
 
 function updateClass() {
     const updatedName = document.getElementById("className").value.trim();
@@ -42,7 +48,8 @@ function updateClass() {
     }
 
     if (selectedClass) {
-        // Update class data
+        // Update class data - update both formats for consistency
+        selectedClass.class_name = updatedName;
         selectedClass.className = updatedName;
 
         // Save to localStorage

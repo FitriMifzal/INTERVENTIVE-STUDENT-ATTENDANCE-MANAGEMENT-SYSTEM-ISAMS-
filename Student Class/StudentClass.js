@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
     loadClasses();
 
     // Check user role and adjust UI accordingly
-    const role = localStorage.getItem('active_role') || 'Subject Teacher';
-    if (role === 'Subject Teacher') {
+    const role = localStorage.getItem('active_role') || 'Teacher';
+    if (role === 'Teacher') {
         const createBtn = document.querySelector('.btn-create');
         if (createBtn) {
             createBtn.style.display = 'none';
@@ -36,13 +36,17 @@ function loadClasses() {
     classes.forEach((c, index) => {
         const row = document.createElement("tr");
 
+        // Use classId for display (fallback to classCode if classId doesn't exist)
+        const displayClassId = c.classId || c.classCode || 'N/A';
+        const displayClassName = c.className || c.class_name || 'N/A';
+
         row.innerHTML = `
             <td>${index + 1}</td>
-            <td>${c.classId}</td>
-            <td>${c.className}</td>
+            <td>${displayClassId}</td>
+            <td>${displayClassName}</td>
             <td>
                 <button class="btn-update" 
-                        onclick="window.location.href='../Update-Student-Class/UpdateStudentClass.html?id=${c.classId}'">
+                        onclick="window.location.href='../Update-Student-Class/UpdateStudentClass.html?id=${c.class_id || c.classId || index}'">
                     Update
                 </button>
             </td>

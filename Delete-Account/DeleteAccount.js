@@ -186,11 +186,10 @@ function escapeHtml(text) {
 }
 
 /* ────────────────────────────────────────────────────────
-   GO TO CREATE ACCOUNT PAGE
+   GO TO CREATE ACCOUNT PAGE - FIXED
 ────────────────────────────────────────────────────────── */
-function goToCreateAccount(event) {
-    event.preventDefault();
-    event.stopPropagation();
+function goToCreateAccount() {
+    // Navigate to Create Account page
     window.location.href = '../Create-Account/CreateAccount.html';
 }
 
