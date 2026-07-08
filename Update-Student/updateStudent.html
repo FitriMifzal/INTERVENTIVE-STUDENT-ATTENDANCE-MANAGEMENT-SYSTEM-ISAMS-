@@ -17,7 +17,7 @@
         <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
     </div>
  
-    <div class="role-badge">Subject Teacher</div>
+    <div class="role-badge">Teacher</div>
  
     <div class="nav-menu">
         
@@ -39,7 +39,7 @@
             <span class="arrow">▾</span>
         </button>
         <div class="submenu">
-            <!-- FOR SUBJECT TEACHER -->
+            <!-- FOR TEACHER -->
             <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">Subject Enrollment</a>
             <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
             
@@ -85,13 +85,22 @@
                     <input type="text" id="ic" required>
 
                     <label for="cls">Class</label>
-                    <input type="text" id="cls" required>
+                    <select id="cls" required>
+                        <option value="">-- Select Class --</option>
+                    </select>
+
+                    <label for="student_type">Student Type</label>
+                    <select id="student_type" required>
+                        <option value="">-- Select Type --</option>
+                        <option value="SVM">SVM</option>
+                        <option value="DVM">DVM</option>
+                    </select>
 
                     <label for="address">Home Address</label>
                     <textarea id="address" rows="3"></textarea>
 
                     <label for="No">Contact No</label>
-                    <input type="text" id="No" required>
+                    <input type="text" id="No">
 
                     <div class="actions">
                         <button type="button" class="btn-cancel" onclick="window.location.href='../Student-List/StudentList.html'">Discard Changes</button>

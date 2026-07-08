@@ -6,100 +6,110 @@
     <title>Create Student | KV Student Management</title>
     
     <link rel="stylesheet" href="../Sidebar/Sidebar.css">
-    <link rel="stylesheet" href="createStudent.css">
+    <link rel="stylesheet" href="CreateStudent.css">
 </head>
 <body>
     <div id="sidebar">
-    <div class="logo-container">
-        <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
-    </div>
- 
-    <div class="role-badge">Subject Teacher</div>
- 
-    <div class="nav-menu">
-        
-        <!-- DASHBOARD (untuk semua roles) -->
-        <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
- 
-        <!-- TEACHER ACCOUNT — Hanya untuk Penyelaras Intervensi -->
-        <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Teacher Accounts</a>
- 
-        <!-- STUDENT CLASS (untuk semua roles) -->
-        <a href="../Student Class/StudentClass.html" class="nav-item" data-role="Penyelaras Intervensi">Classroom</a>
- 
-        <!-- STUDENT PROFILE (untuk semua roles) -->
-        <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
- 
-        <!-- SUBJECT (dengan submenu berbeda per role) -->
-        <button class="nav-item" data-submenu>
-            Subject
-            <span class="arrow">▾</span>
-        </button>
-        <div class="submenu">
-            <!-- FOR SUBJECT TEACHER -->
-            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">Subject Enrollment</a>
-            <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
-            
-            <!-- FOR PENYELARAS INTERVENSI -->
-            <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
+        <div class="logo-container">
+            <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
         </div>
- 
-        <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
-        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Absent Record</a>
- 
+     
+        <div class="role-badge">Teacher</div>
+     
+        <div class="nav-menu">
+            <!-- DASHBOARD -->
+            <a href="../Dashboard/Dashboard.html" class="nav-item">Dashboard</a>
+     
+            <!-- TEACHER ACCOUNT -->
+            <a href="../delete-account/DeleteAccount.html" id="nav-account" class="nav-item" data-role="Penyelaras Intervensi">Teacher Accounts</a>
+     
+            <!-- STUDENT CLASS -->
+            <a href="../Student Class/StudentClass.html" class="nav-item" data-role="Penyelaras Intervensi">Classroom</a>
+     
+            <!-- STUDENT PROFILE -->
+            <a href="../Student-List/StudentList.html" class="nav-item">Student Profile</a>
+     
+            <!-- SUBJECT -->
+            <button class="nav-item" data-submenu>
+                Subject
+                <span class="arrow">▾</span>
+            </button>
+            <div class="submenu">
+                <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">Subject Enrollment</a>
+                <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
+                <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Penyelaras Intervensi">Subject Details</a>
+            </div>
+     
+            <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
+            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Absent Record</a>
+        </div>
+        <button onclick="logoutUser()" class="nav-item logout">Logout</button>
     </div>
-   <button onclick="logoutUser()" class="nav-item logout">Logout</button>
-</div>
 
+    <!-- MAIN CONTENT -->
     <div id="main-wrapper">
-        <!-- HEADER -->
         <header id="header">
             <button class="header-title" onclick="toggleSidebar()">
                 <span class="menu-icon">☰</span>
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
             
-            <div class="user-profile" onclick="window.location.href='../Profile/Profile.html'">
+            <div class="user-profile" onclick="toggleProfile()">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
         </header>
 
-        <!-- MAIN CONTENT -->
         <main id="content">
             <div class="form-card">
-                <h2 class="page-title">Student Profile</h2>
-                <p class="page-description">Enter the student's personal details below. All fields are required.</p>
+                <h2 class="page-title">Create Student</h2>
+                <p class="page-description">Enter the student's details below. All fields are required.</p>
                 <div class="title-underline"></div>
 
                 <form id="createForm" onsubmit="handleForm(event)">
+                    <!-- Full Name -->
                     <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" placeholder="Enter student's full name" required>
+                        <label for="stu_name">Full Name</label>
+                        <input type="text" id="stu_name" placeholder="Enter student's full name" required>
                     </div>
 
+                    <!-- IC Number -->
                     <div class="form-group">
-                        <label for="ic">IC Number</label>
-                        <input type="text" id="ic" placeholder="e.g. 031024045562" required>
+                        <label for="stu_ic">IC Number</label>
+                        <input type="text" id="stu_ic" placeholder="e.g. 900101011234" required>
                     </div>
 
+                    <!-- Address -->
                     <div class="form-group">
-                        <label for="cls">Class</label>
-                        <select id="cls" required>
+                        <label for="stu_add">Address</label>
+                        <input type="text" id="stu_add" placeholder="Enter student's address">
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group">
+                        <label for="stu_phonenum">Contact Number</label>
+                        <input type="text" id="stu_phonenum" placeholder="e.g. 0123456789">
+                    </div>
+
+                    <!-- Class ID (Dropdown) -->
+                    <div class="form-group">
+                        <label for="class_id">Class</label>
+                        <select id="class_id" required>
                             <option value="">-- Select Class --</option>
                         </select>
                     </div>
 
+                    <!-- Student Type - SVM or DVM -->
                     <div class="form-group">
-                        <label for="address">Home Address</label>
-                        <textarea id="address" placeholder="Enter residential address"></textarea>
+                        <label for="student_type">Student Type</label>
+                        <select id="student_type" required>
+                            <option value="">-- Select Type --</option>
+                            <option value="SVM">SVM</option>
+                            <option value="DVM">DVM</option>
+                        </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="No">Contact No</label>
-                        <input type="text" id="No" placeholder="e.g. 0123456789" required>
-                    </div>
-
+                    <!-- Form Actions -->
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="window.location.href='../Student-List/StudentList.html'">Cancel</button>
                         <button type="submit" class="btn-submit">Confirm</button>
@@ -109,11 +119,9 @@
         </main>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════
-         SCRIPTS
-         ════════════════════════════════════════════════════════ -->
+    <!-- SCRIPTS -->
     <script src="../Sidebar/Sidebar.js"></script>
     <script src="../Header/Header.js"></script>
-    <script src="createStudent.js"></script>
+    <script src="CreateStudent.js"></script>
 </body>
 </html>

@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function loadStudents() {
     const students = JSON.parse(localStorage.getItem("students")) || [];
+    const classes = JSON.parse(localStorage.getItem("classes")) || [];
     const tableBody = document.getElementById("studentTableBody");
     tableBody.innerHTML = "";
 
@@ -30,16 +31,32 @@ function loadStudents() {
 
     students.forEach((student, index) => {
         const row = document.createElement("tr");
+        
+        // Get student name - try both formats
+        const studentName = student.stu_name || student.name || 'N/A';
+        const studentIc = student.stu_ic || student.ic || 'N/A';
+        
+        // Find class name from class_id
+        let className = 'N/A';
+        if (student.class_id) {
+            const classObj = classes.find(c => (c.class_id || c.classId || c.classCode) == student.class_id);
+            if (classObj) {
+                className = classObj.class_name || classObj.className || classObj.classCode || 'N/A';
+            }
+        }
+
+        // Use stu_id for unique identification, fallback to index
+        const studentId = student.stu_id || index;
 
         row.innerHTML = `
             <td>${index + 1}</td>
-            <td>${student.name}</td>
-            <td>${student.ic}</td>
-            <td>${student.cls}</td>
+            <td>${studentName}</td>
+            <td>${studentIc}</td>
+            <td>${className}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn-table-action btn-view" onclick="viewStudent(${index})">View</button>
-                    <button class="btn-table-action btn-update" onclick="updateStudent(${index})">Update</button>
+                    <button class="btn-table-action btn-view" onclick="viewStudent(${studentId})">View</button>
+                    <button class="btn-table-action btn-update" onclick="updateStudent(${studentId})">Update</button>
                 </div>
             </td>
         `;
@@ -78,16 +95,16 @@ function searchTable() {
    VIEW STUDENT DETAILS - Navigate to ViewStudent page
 ────────────────────────────────────────────────────────── */
 
-function viewStudent(index) {
-    window.location.href = "../View-Student/ViewStudent.html?id=" + index;
+function viewStudent(studentId) {
+    window.location.href = "../View-Student/ViewStudent.html?id=" + studentId;
 }
 
 /* ────────────────────────────────────────────────────────
    UPDATE STUDENT - Navigate to UpdateStudent page
 ────────────────────────────────────────────────────────── */
 
-function updateStudent(index) {
-    window.location.href = "../Update-Student/UpdateStudent.html?id=" + index;
+function updateStudent(studentId) {
+    window.location.href = "../Update-Student/UpdateStudent.html?id=" + studentId;
 }
 
 /* ────────────────────────────────────────────────────────

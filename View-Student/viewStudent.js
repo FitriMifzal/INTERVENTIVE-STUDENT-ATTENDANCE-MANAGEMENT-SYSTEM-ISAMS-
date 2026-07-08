@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
     sessionStorage.setItem('profile_return_url', window.location.href);
 
-
     // Load student data
     loadStudentData();
 });
@@ -18,29 +17,63 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function loadStudentData() {
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
+    const studentId = urlParams.get("id");
     const students = JSON.parse(localStorage.getItem("students")) || [];
+    const classes = JSON.parse(localStorage.getItem("classes")) || [];
+
+    // Find student by stu_id
+    let selectedStudent = null;
+    if (studentId) {
+        // Try to find by stu_id (number)
+        selectedStudent = students.find(s => s.stu_id == studentId);
+        
+        // If not found, try by index (fallback)
+        if (!selectedStudent && !isNaN(studentId)) {
+            const index = parseInt(studentId);
+            if (index >= 0 && index < students.length) {
+                selectedStudent = students[index];
+            }
+        }
+    }
 
     // Validate student exists
-    if (id === null || id === undefined || isNaN(id) || id < 0 || id >= students.length) {
+    if (!selectedStudent) {
         alert("Student record not found!");
         window.location.href = "../Student-List/StudentList.html";
         return;
     }
 
-    const student = students[id];
-
-    if (student) {
-        // Populate view fields
-        document.getElementById("v_name").innerText = student.name || "N/A";
-        document.getElementById("v_ic").innerText = student.ic || "N/A";
-        document.getElementById("v_cls").innerText = student.cls || "N/A";
-        document.getElementById("v_address").innerText = student.address || "N/A";
-        document.getElementById("v_No").innerText = student.No || "N/A";
-    } else {
-        alert("Student record not found!");
-        window.location.href = "../Student-List/StudentList.html";
+    // Find class name from class_id
+    let className = 'N/A';
+    if (selectedStudent.class_id) {
+        const classObj = classes.find(c => (c.class_id || c.classId || c.classCode) == selectedStudent.class_id);
+        if (classObj) {
+            className = classObj.class_name || classObj.className || classObj.classCode || 'N/A';
+        }
     }
+
+    // Get student data - try both field naming conventions
+    const studentName = selectedStudent.stu_name || selectedStudent.name || 'N/A';
+    const studentIc = selectedStudent.stu_ic || selectedStudent.ic || 'N/A';
+    const studentType = selectedStudent.student_type || 'N/A';
+    const studentAddress = selectedStudent.stu_add || selectedStudent.address || 'N/A';
+    const studentPhone = selectedStudent.stu_phonenum || selectedStudent.No || selectedStudent.phone || 'N/A';
+
+    // Populate view fields
+    document.getElementById("v_name").innerText = studentName;
+    document.getElementById("v_ic").innerText = studentIc;
+    document.getElementById("v_cls").innerText = className;
+    document.getElementById("v_type").innerText = studentType;
+    document.getElementById("v_address").innerText = studentAddress;
+    document.getElementById("v_No").innerText = studentPhone;
+
+    // Debug - log to console to see what data is available
+    console.log("Student Data:", selectedStudent);
+    console.log("Student Name:", studentName);
+    console.log("Student IC:", studentIc);
+    console.log("Student Type:", studentType);
+    console.log("Student Address:", studentAddress);
+    console.log("Student Phone:", studentPhone);
 }
 
 /* ────────────────────────────────────────────────────────
