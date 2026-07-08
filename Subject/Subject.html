@@ -76,9 +76,8 @@
         <main id="content-area">
             <!-- SUBJECT LIST PAGE -->
             <div id="subjectListPage" class="content-card">
-                <h1 class="page-title">Subject</h1>
-                <p class="page-description">Manage all subjects and view their details. Click "Create" to add a new subject or "Update" to modify existing ones.</p>
-                
+                <h1 class="page-title" id="pageTitle">Subject</h1>
+                <p class="page-description" id="pageDescription">Manage all subjects and view their details. Click "Create" to add a new subject or "Update" to modify existing ones.</p>
                 <div class="orange-bar"></div>
 
                 <div class="button-row">
@@ -122,15 +121,22 @@
                 </form>
             </div>
 
-            <!-- SUCCESS PAGE -->
-            <div id="successPage" class="success-card hidden">
-                <div class="alert-success">
-                    <h4 id="resTitle">Operation Successful!</h4>
-                    <p id="resMsg">The database has been updated accordingly.</p>
-                </div>
-                <br>
-                <button class="btn-create" onclick="showList()">Back to Subject Details</button>
+            <!-- SUCCESS MODAL (like Image 2) -->
+<div class="modal fade" id="successModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Enrollment Successful!</h5>
             </div>
+            <div class="modal-body">
+                <p id="successMsg">You enrolled for Physics</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="closeSuccessModal()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
         </main>
     </div>
 

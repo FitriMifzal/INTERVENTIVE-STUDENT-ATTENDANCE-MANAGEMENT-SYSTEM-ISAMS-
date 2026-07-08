@@ -56,12 +56,34 @@ const SAMPLE_SUBJECTS = [
 ];
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('Subject page loaded - Localhost testing mode');
+    console.log('Subject page loaded - Multiple Teachers Architecture');
     
-    // Get role from localStorage (from login system)
+    // Get role from localStorage
     currentUserRole = localStorage.getItem('active_role') || 'Subject Teacher';
+    currentTeacherId = parseInt(localStorage.getItem('active_tId')) || null;
+    currentTeacherName = localStorage.getItem('active_name') || 'Unknown Teacher';
     
-    console.log('Current role:', currentUserRole);
+    console.log('=== USER INFO ===');
+    console.log('Role:', currentUserRole);
+    console.log('Teacher ID:', currentTeacherId);
+    console.log('Teacher Name:', currentTeacherName);
+    console.log('================');
+    
+    // ✅ CHANGE PAGE TITLE AND DESCRIPTION BASED ON ROLE
+    const pageTitle = document.getElementById('pageTitle');
+    const pageDescription = document.getElementById('pageDescription');
+    
+    if (currentUserRole.trim() === "Penyelaras Intervensi") {
+        // PENYELARAS: Subject Details
+        pageTitle.innerText = "Subject Details";
+        pageDescription.innerText = "View, create, and manage all subjects. Click 'Create' to add a new subject or 'Edit' to modify existing ones.";
+        console.log('✅ Title set for Penyelaras Intervensi');
+    } else {
+        // TEACHER: Subject Enrollment
+        pageTitle.innerText = "Subject Enrollment";
+        pageDescription.innerText = "Browse available subjects and enroll in the ones you wish to teach. Click 'Enroll' to register for a subject.";
+        console.log('✅ Title set for Subject Teacher');
+    }
     
     // Adjust UI based on role
     const btnCreate = document.getElementById('btnCreate');
@@ -73,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('✅ Role: Subject Teacher - Create button HIDDEN');
     }
 
-    // Load subjects (hardcoded for testing)
+    // Load subjects
     loadSubjects();
 });
 
@@ -251,11 +273,17 @@ function executeEnroll() {
         bootstrap.Modal.getInstance(document.getElementById('enrollModal')).hide();
 
         const s = subjects.find(sub => sub.subId === activeSubId);
-        document.getElementById('resTitle').innerText = "Enrollment Successful!";
-        document.getElementById('resMsg').innerText = "You enrolled for " + s.subName;
-        document.getElementById('subjectListPage').classList.add('hidden');
-        document.getElementById('successPage').classList.remove('hidden');
+        document.getElementById('successMsg').innerText = "You enrolled for " + s.subName;
+        
+        // ✅ Show success modal instead of success page
+        new bootstrap.Modal(document.getElementById('successModal')).show();
     }
+}
+
+// ✅ NEW FUNCTION: Close modal and reload page
+function closeSuccessModal() {
+    bootstrap.Modal.getInstance(document.getElementById('successModal')).hide();
+    renderTable();  // Reload table to show teacher name assigned
 }
 
 console.log('Subject.js loaded - Localhost testing mode');
