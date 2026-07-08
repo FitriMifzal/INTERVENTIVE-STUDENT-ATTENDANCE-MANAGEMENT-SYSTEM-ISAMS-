@@ -20,7 +20,7 @@ function toggleProfile(event) {
     sessionStorage.setItem('profile_return_url', window.location.href);
     
     // Navigate to profile page
-    window.location.href = '../Profile-Details/Profile-Details.html';
+    window.location.href = '../Profile/Profile.html';
 }
 
 /* ────────────────────────────────────────────────────────

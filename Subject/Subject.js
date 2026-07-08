@@ -189,7 +189,7 @@ function showForm(subId) {
         console.log('Form opened for UPDATE:', s.subName);
     } else {
         // CREATE MODE
-        document.getElementById('formTitle').innerText = "Create Subject";
+        document.getElementById('formTitle').innerText = "Subject Details";
         document.getElementById('editIdx').value = "";
         
         // ✅ ADD THESE 2 LINES:

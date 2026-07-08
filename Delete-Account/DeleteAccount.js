@@ -103,20 +103,11 @@ function toggleProfile(event) {
         event.stopPropagation();
     }
     
-    // Check if we're already on profile page
-    const currentPath = window.location.pathname;
-    if (currentPath.includes('Profile-Details')) {
-        // If already on profile, go back to previous page
-        const returnUrl = sessionStorage.getItem('profile_return_url') || '../delete-account/DeleteAccount.html';
-        window.location.href = returnUrl;
-        return;
-    }
-    
-    // Store current page URL before navigating to profile
-    sessionStorage.setItem('profile_return_url', CURRENT_PAGE_URL);
+    // Store current page URL before navigating
+    sessionStorage.setItem('profile_return_url', window.location.href);
     
     // Navigate to profile page
-    window.location.href = '../Profile-Details/Profile-Details.html';
+    window.location.href = '../Profile/Profile.html';
 }
 
 /* ════════════════════════════════════════════════════════

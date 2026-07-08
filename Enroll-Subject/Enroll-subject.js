@@ -27,7 +27,7 @@ let workingEnrolled = [];
 document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
     sessionStorage.setItem('profile_return_url', window.location.href);
-      // Initialize page
+    // Initialize page
     renderSummary();
 });
 
@@ -65,7 +65,7 @@ function renderPool() {
     pool.innerHTML = '';
 
     if (!currentSubject) {
-        pool.innerHTML = '<p style="color:#6b7a99;font-size:13px;text-align:center;padding:24px 0;">Please select a subject first.</p>';
+        pool.innerHTML = '<p style="color:#64748b;font-size:13px;text-align:center;padding:24px 0;">Please select a subject first.</p>';
         return;
     }
 
@@ -128,7 +128,7 @@ function renderSummary() {
     const subjects = Object.keys(savedEnrollments);
 
     if (subjects.length === 0) {
-        grid.innerHTML = '<div style="color:#6b7a99;font-size:13px;">No saved data available.</div>';
+        grid.innerHTML = '<div style="color:#64748b;font-size:13px;">No saved data available.</div>';
         return;
     }
 
@@ -223,18 +223,9 @@ function showToast(msg) {
 }
 
 /**
- * Toggle profile section
+ * Toggle profile - Navigate to profile page
  */
 function toggleProfile() {
-    var profileSection = document.getElementById('profile-section');
-    var welcomeCard = document.getElementById('welcome-card');
-
-    if (profileSection) {
-        var isHidden = profileSection.style.display === 'none' || profileSection.style.display === '';
-        profileSection.style.display = isHidden ? 'block' : 'none';
-    }
-    if (welcomeCard) {
-        var isHidden = welcomeCard.style.display === 'none' || welcomeCard.style.display === '';
-        welcomeCard.style.display = isHidden ? 'none' : 'block';
-    }
+    sessionStorage.setItem('profile_return_url', window.location.href);
+    window.location.href = '../Profile/Profile.html';
 }

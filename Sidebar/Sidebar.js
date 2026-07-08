@@ -31,7 +31,8 @@
 
         var roleBadgeEl = document.querySelector('.role-badge');
         if (roleBadgeEl) {
-            roleBadgeEl.textContent = (role === 'Teacher') ? 'Subject Teacher' : role;
+            // FIXED: Show "Teacher" instead of "Subject Teacher"
+            roleBadgeEl.textContent = role;
         }
 
         document.querySelectorAll('.nav-item[data-role]').forEach(function (item) {

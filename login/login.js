@@ -266,7 +266,7 @@ console.log('  Password: admin123');
 console.log('  Role: Select "Penyelaras Intervensi"');
 console.log('');
 console.log('TEACHER (Account 1):');
-console.log('  IC Number: 900101011234');
+console.log('  IC Number: c');
 console.log('  Password: teacher123');
 console.log('  Role: Select "Teacher"');
 console.log('');

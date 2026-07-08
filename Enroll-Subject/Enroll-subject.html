@@ -17,7 +17,7 @@
         <img src="../image/Logo Kolej Vokasional.jpeg" alt="KV Logo">
     </div>
  
-    <div class="role-badge">Subject Teacher</div>
+    <div class="role-badge">Teacher</div>
  
     <div class="nav-menu">
         
@@ -39,7 +39,7 @@
             <span class="arrow">▾</span>
         </button>
         <div class="submenu">
-            <!-- FOR SUBJECT TEACHER -->
+            <!-- FOR TEACHER -->
             <a class="sub-nav-item" href="../Subject/Subject.html" data-role="Teacher">Subject Enrollment</a>
             <a class="sub-nav-item" href="../Enroll-Subject/Enroll-Subject.html" data-role="Teacher">Register Students</a>
             
@@ -48,7 +48,7 @@
         </div>
  
         <a href="../Create-Student-Attendance/Create-Student-Attendance.html" class="nav-item" data-role="Teacher">Student Attendance</a>
-            <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Calculate Percentage</a>
+        <a href="../Calculate-Absent-Percentage/Calculate-Absent-Percentage.html" class="nav-item" data-role="Penyelaras Intervensi">Calculate Percentage</a>
     
     </div>
    <button onclick="logoutUser()" class="nav-item logout">Logout</button>
@@ -64,7 +64,7 @@
                 <span class="header-text">Intervention: Student Management System</span>
             </button>
             
-           <div class="user-profile" onclick="window.location.href='../Profile/Profile.html'">
+           <div class="user-profile" onclick="toggleProfile()">
                 <span id="user-fullname">User Name</span>
                 <div id="user-initial" class="user-initial-icon">?</div>
             </div>
@@ -72,14 +72,16 @@
 
         <!-- MAIN CONTENT -->
         <main id="content">
-            <div class="page-title">Register Students</div>
-            <div class="page-subtitle">Enroll students into the subjects taught by you.</div>
+            <!-- TITLE & DESCRIPTION (SAME AS CreateStudentClass) -->
+            <h2 class="page-title">Register Students</h2>
+            <p class="page-description">Enroll students into the subjects taught by you.</p>
+            <div class="title-underline"></div>
 
             <!-- Summary Card -->
             <div class="summary-card">
                 <h3>Saved Enrollment Summary</h3>
                 <div class="summary-grid" id="summary-grid">
-                    <div style="color:var(--text-secondary);font-size:13px;">No saved data available.</div>
+                    <div style="color:#64748b;font-size:13px;">No saved data available.</div>
                 </div>
             </div>
 
@@ -110,7 +112,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h2>Enrolled Students</h2>
-                        <span id="enrolled-subject-label" style="font-size:12px;color:var(--text-secondary);">—</span>
+                        <span id="enrolled-subject-label" style="font-size:12px;color:#64748b;">—</span>
                     </div>
                     <div class="card-body">
                         <div class="enrolled-list" id="enrolled-list"></div>
